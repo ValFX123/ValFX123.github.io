@@ -20,6 +20,11 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            /* Prevent text selection */
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
         }
 
         html {
@@ -31,6 +36,13 @@
             line-height: 1.6;
             background-color: var(--dark-background);
             color: var(--text-color);
+            /* Disable keyboard input */
+            pointer-events: all;
+        }
+
+        /* Disable all input fields */
+        input, textarea, select, button {
+            pointer-events: none;
         }
 
         .container {
@@ -42,7 +54,9 @@
 
         /* --- Header/Banner Section --- */
         .header-banner {
-            background-color: var(--primary-purple);
+            background: linear-gradient(rgba(26, 1, 46, 0.9), 
+                         url('https://media.discordapp.net/attachments/1315822204331757630/1390069902861402132/Particulas_fluindo_em_fundo_roxo_brilhante.jpg?ex=6866eafb&is=6865997b&hm=ed02fc06595ecc849401aa456c307a14cf0ef64bcd6b1bcad63417c9f59b12c8&=&format=webp') center/cover no-repeat,
+                         var(--primary-purple);
             padding: 80px 20px 30px; /* Reduced padding */
             display: flex;
             flex-direction: column;
@@ -50,6 +64,7 @@
             justify-content: center;
             position: relative;
             overflow: hidden;
+            min-height: 100vh;
         }
 
         .profile-image-container {
@@ -64,6 +79,7 @@
             justify-content: center;
             margin-bottom: 20px;
             box-shadow: 0 0 20px var(--border-glow), 0 0 40px var(--light-purple);
+            z-index: 2;
         }
 
         .profile-image {
@@ -80,6 +96,7 @@
             color: var(--text-color); /* White color */
             margin-bottom: 10px;
             text-shadow: 0 0 15px var(--light-purple), 0 0 30px var(--primary-purple);
+            z-index: 2;
         }
 
         .sub-description {
@@ -87,6 +104,7 @@
             color: var(--grey-text); /* Grey color */
             font-style: italic; /* Italic */
             margin-bottom: 30px;
+            z-index: 2;
         }
 
         /* --- Navigation Buttons --- */
@@ -98,6 +116,8 @@
             flex-wrap: wrap;
             gap: 15px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 2;
+            position: relative;
         }
 
         .nav-buttons a {
@@ -124,6 +144,7 @@
             padding: 50px 20px; /* Reduced padding */
             background-color: var(--dark-background);
             color: var(--text-color);
+            position: relative;
         }
 
         section h2 {
@@ -159,6 +180,8 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.4);
             border: 1px solid rgba(255,255,255,0.1);
             font-style: italic; /* Italic for description */
+            position: relative;
+            z-index: 2;
         }
 
         /* --- Recent Projects Section --- */
@@ -167,6 +190,8 @@
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
             margin-top: 40px;
+            position: relative;
+            z-index: 2;
         }
 
         .project-item {
@@ -179,6 +204,8 @@
             border: 1px solid rgba(255,255,255,0.1);
             display: flex;
             flex-direction: column;
+            position: relative;
+            z-index: 2;
         }
 
         .project-item:hover {
@@ -250,6 +277,8 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
             margin-top: 40px;
+            position: relative;
+            z-index: 2;
         }
 
         .service-item {
@@ -283,6 +312,8 @@
             justify-content: center;
             gap: 30px;
             margin-top: 30px;
+            position: relative;
+            z-index: 2;
         }
 
         .social-icons a {
@@ -322,6 +353,8 @@
             text-align: center;
             font-size: 0.9em;
             margin-top: 50px;
+            position: relative;
+            z-index: 2;
         }
 
         .vouch-counter {
@@ -332,6 +365,17 @@
             margin-top: 10px;
             font-weight: bold;
             box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
+        }
+
+        /* Background overlay for sections */
+        .background-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(26, 1, 46, 0.9) 0%, rgba(26, 1, 46, 0.7) 100%);
+            z-index: 1;
         }
 
         /* Responsive Adjustments */
@@ -381,6 +425,7 @@
 <body>
 
     <header class="header-banner">
+        <div class="background-overlay"></div>
         <div class="profile-image-container">
             <img src="https://images-ext-1.discordapp.net/external/b7dPDestOo5p9edP_zddBYSjBlAwgNYZojxg1aW1bZw/%3Fsize%3D1024/https/cdn.discordapp.com/avatars/867556448338313237/285b19be83eebc7fc1f12d35478c3a1a.png?format=webp&quality=lossless" alt="ValFX Profile" class="profile-image" />
         </div>
@@ -396,6 +441,7 @@
     </nav>
 
     <section id="about-valfx" class="container">
+        <div class="background-overlay"></div>
         <h2>About ValFX</h2>
         <div class="about-content">
             <p>
@@ -417,6 +463,7 @@
     </section>
 
     <section id="recent-projects" class="container">
+        <div class="background-overlay"></div>
         <h2>Recent Projects</h2>
         <p>Click on a project to learn more or view it!</p>
         
@@ -497,6 +544,7 @@
     </section>
 
     <section id="services" class="container">
+        <div class="background-overlay"></div>
         <h2>My Services</h2>
         <p>Here's a breakdown of the services I offer to my community and clients.</p>
         <div class="service-list">
@@ -520,6 +568,7 @@
     </section>
 
     <section id="social" class="container">
+        <div class="background-overlay"></div>
         <h2>Connect With Me</h2>
         <p>Follow me on my social media channels to stay updated with my latest content and activities!</p>
         <div class="social-icons">
@@ -542,5 +591,18 @@
         </div>
     </footer>
 
+    <script>
+        // Prevent all keyboard input
+        document.addEventListener('keydown', function(e) {
+            e.preventDefault();
+            return false;
+        });
+        
+        // Prevent all text selection
+        document.addEventListener('selectstart', function(e) {
+            e.preventDefault();
+            return false;
+        });
+    </script>
 </body>
 </html>
