@@ -177,6 +177,8 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
             border: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            flex-direction: column;
         }
 
         .project-item:hover {
@@ -184,28 +186,62 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.5), 0 0 15px var(--light-purple);
         }
 
-        .project-item img {
+        .project-image-container {
+            position: relative;
             width: 100%;
-            height: 180px;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            overflow: hidden;
+        }
+
+        .project-image-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .project-item:hover .project-image-container img {
+            transform: scale(1.05);
         }
 
         .project-item-info {
-            padding: 15px;
+            padding: 20px;
             text-align: left;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .project-item-info h3 {
-            font-size: 1.2em;
-            margin-bottom: 8px;
+            font-size: 1.3em;
+            margin-bottom: 10px;
             color: var(--text-color);
         }
 
         .project-item-info p {
-            font-size: 0.9em;
+            font-size: 0.95em;
             color: #bbb;
-            line-height: 1.4;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: auto;
+        }
+
+        .project-tag {
+            background: rgba(139, 0, 255, 0.3);
+            color: #e0c4ff;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
         }
 
         /* --- Services Section --- */
@@ -223,6 +259,12 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.4);
             border: 1px solid rgba(255,255,255,0.1);
             text-align: left;
+            transition: all 0.3s ease;
+        }
+
+        .service-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5), 0 0 15px var(--light-purple);
         }
 
         .service-item h3 {
@@ -243,16 +285,33 @@
             margin-top: 30px;
         }
 
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: rgba(106, 13, 173, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background: rgba(123, 47, 219, 0.5);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px var(--light-purple);
+        }
+
         .social-icons a img {
             width: 50px;
             height: 50px;
-            transition: transform 0.3s ease, filter 0.3s ease;
+            transition: transform 0.3s ease;
             filter: grayscale(100%) brightness(150%);
         }
 
         .social-icons a:hover img {
             transform: scale(1.1);
-            filter: grayscale(0%) brightness(100%) drop-shadow(0 0 8px var(--light-purple));
+            filter: grayscale(0%) brightness(100%);
         }
 
         /* --- Footer --- */
@@ -265,38 +324,14 @@
             margin-top: 50px;
         }
 
-        /* Image Upload Instructions */
-        .image-instructions {
-            background-color: rgba(0, 0, 0, 0.5);
-            border: 1px solid var(--light-purple);
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px auto;
-            max-width: 800px;
-            text-align: left;
-        }
-        
-        .image-instructions h3 {
-            color: var(--light-purple);
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        
-        .image-instructions ol {
-            padding-left: 20px;
-            margin-bottom: 15px;
-        }
-        
-        .image-instructions li {
-            margin-bottom: 10px;
-            line-height: 1.5;
-        }
-        
-        .image-instructions code {
-            background-color: rgba(0,0,0,0.5);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: monospace;
+        .vouch-counter {
+            display: inline-block;
+            background: linear-gradient(45deg, #8a2be2, #4b0082);
+            padding: 8px 20px;
+            border-radius: 30px;
+            margin-top: 10px;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
         }
 
         /* Responsive Adjustments */
@@ -327,6 +362,11 @@
                 gap: 20px;
             }
 
+            .social-icons a {
+                width: 60px;
+                height: 60px;
+            }
+            
             .social-icons a img {
                 width: 40px;
                 height: 40px;
@@ -342,10 +382,10 @@
 
     <header class="header-banner">
         <div class="profile-image-container">
-            <img src="https://via.placeholder.com/140" alt="ValFX Profile" class="profile-image" />
+            <img src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="ValFX Profile" class="profile-image" />
         </div>
-        <h1 class="main-title">Welcome to ValFX's Website</h1>
-        <p class="sub-description">Developer | Producer | Seller | 600+ Vouches | Trusted</p>
+        <h1 class="main-title">ValFX Services</h1>
+        <p class="sub-description">Developer | Producer | Seller | <span class="vouch-counter">600+ Vouches</span> | Trusted</p>
     </header>
 
     <nav class="nav-buttons">
@@ -359,19 +399,19 @@
         <h2>About ValFX</h2>
         <div class="about-content">
             <p>
-                Hi, I’m ValFX — a developer, producer, and entrepreneur with a strong track record of delivering quality work. I take pride in being reliable, consistent, and fully committed to every project I take on.
+                Hi, I'm ValFX — a developer, producer, and entrepreneur with a strong track record of delivering quality work. I take pride in being reliable, consistent, and fully committed to every project I take on.
             </p>
             <br>
             <p>
-                With experience in both tech and business, I focus on building, creating, and selling with purpose. Whether I’m writing code, managing production, or running sales, I approach my work with professionalism and drive.
+                With experience in both tech and business, I focus on building, creating, and selling with purpose. Whether I'm writing code, managing production, or running sales, I approach my work with professionalism and drive.
             </p>
             <br>
             <p>
-                Outside of work, I enjoy gaming, cooking, and exploring new skills. I’m always looking for ways to grow, both personally and professionally.
+                Outside of work, I enjoy gaming, cooking, and exploring new skills. I'm always looking for ways to grow, both personally and professionally.
             </p>
             <br>
             <p>
-                I believe in earning trust through action — and I’m here to get things done.
+                I believe in earning trust through action — and I'm here to get things done.
             </p>
         </div>
     </section>
@@ -382,41 +422,74 @@
         
         <div class="projects-grid">
             <div class="project-item">
-                <a href="https://discord.gg/fluxy" target="_blank">
-                    <!-- Replace the image URL below with your actual project image -->
-                    <img src="https://media.discordapp.net/attachments/1387529641706787007/1390056923335757884/how-to-make-a-discord-bot-7c0fe302b98b05b145682344b3a4ec59.png?ex=6866dee4&is=68658d64&hm=3f74083104b5f706ff62d762157b0ab8f294f6c09d5e7c3325b77a41fdc4cc34&=&format=webp&quality=lossless" alt="Discord Bot Project">
+                <a href="https://example.com/project1" target="_blank">
+                    <div class="project-image-container">
+                        <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Discord Bot Project">
+                    </div>
                     <div class="project-item-info">
-                        <h3>Discord Bot Development</h3>
-                        <p>Custom bots made by myself, even with the source codes.</p>
+                        <div>
+                            <h3>Discord Moderation Bot</h3>
+                            <p>Advanced moderation system with auto-moderation, logging, and custom commands.</p>
+                        </div>
+                        <div class="project-tags">
+                            <span class="project-tag">Discord.js</span>
+                            <span class="project-tag">Node.js</span>
+                            <span class="project-tag">MongoDB</span>
+                        </div>
                     </div>
                 </a>
             </div>
             <div class="project-item">
-                <a href="https://discord.gg/fluxy" target="_blank">
-                    <!-- Replace the image URL below with your actual project image -->
-                    <img src="https://media.discordapp.net/attachments/1387529641706787007/1390059397170073841/fluxy_f.png?ex=6866e132&is=68658fb2&hm=656fd25da332a5398b17beb7ee08efc121acfc2fe9dd66a940ee14406f873b48&=&format=webp&quality=lossless&width=1872&height=624">
-                        <h3>Selling Service</h3>
-                        <p>Fully Developed everything to sell my online stuff.</p>
+                <a href="https://example.com/project2" target="_blank">
+                    <div class="project-image-container">
+                        <img src="https://images.unsplash.com/photo-1463171379579-3fdfb86d6285?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="E-commerce Website">
+                    </div>
+                    <div class="project-item-info">
+                        <div>
+                            <h3>Premium Accounts Store</h3>
+                            <p>Custom e-commerce platform for selling premium accounts with automated delivery.</p>
+                        </div>
+                        <div class="project-tags">
+                            <span class="project-tag">React</span>
+                            <span class="project-tag">Express</span>
+                            <span class="project-tag">Stripe API</span>
+                        </div>
                     </div>
                 </a>
             </div>
             <div class="project-item">
-                <a href="https://discord.gg/squishy" target="_blank">
-                    <!-- Replace the image URL below with your actual project image -->
-                    <img src="https://media.discordapp.net/attachments/1387529641706787007/1390062449310564442/skeletal-animation.png?ex=6866e40a&is=6865928a&hm=d08355ffcd376aedc3c4ec546b12f8eb47c9362657562b879c646b5a3e6a7836&=&format=webp&quality=lossless" alt="Account Management System">
+                <a href="https://example.com/project3" target="_blank">
+                    <div class="project-image-container">
+                        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Account Management System">
+                    </div>
                     <div class="project-item-info">
-                        <h3>Animator</h3>
-                        <p>Making Animations in a lot of games.</p>
+                        <div>
+                            <h3>Account Management Dashboard</h3>
+                            <p>Centralized system for managing multiple account services and subscriptions.</p>
+                        </div>
+                        <div class="project-tags">
+                            <span class="project-tag">Vue.js</span>
+                            <span class="project-tag">Firebase</span>
+                            <span class="project-tag">REST API</span>
+                        </div>
                     </div>
                 </a>
             </div>
             <div class="project-item">
-                <a href="https://discord.gg/fluxy" target="_blank">
-                    <!-- Replace the image URL below with your actual project image -->
-                    <img src="https://cdn.discordapp.com/attachments/1387529641706787007/1390061345579204748/how_to_make_beats_in_fl_studio.png?ex=6866e302&is=68659182&hm=7250f3ececfae171fa971b209c2008733159ce67796398cc91e274554b8ee641&" alt="Nitro Dashboard">
+                <a href="https://example.com/project4" target="_blank">
+                    <div class="project-image-container">
+                        <img src="https://images.unsplash.com/photo-1558655146-d09347e92766?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Nitro Dashboard">
+                    </div>
                     <div class="project-item-info">
-                        <h3>Producer</h3>
-                        <p>Recently I have been making music which will be public asap.</p>
+                        <div>
+                            <h3>Nitro Management Portal</h3>
+                            <p>Automated system for managing Discord Nitro subscriptions and deliveries.</p>
+                        </div>
+                        <div class="project-tags">
+                            <span class="project-tag">Python</span>
+                            <span class="project-tag">Discord API</span>
+                            <span class="project-tag">Webhooks</span>
+                        </div>
                     </div>
                 </a>
             </div>
@@ -450,15 +523,22 @@
         <h2>Connect With Me</h2>
         <p>Follow me on my social media channels to stay updated with my latest content and activities!</p>
         <div class="social-icons">
-            <a href="https://discord.gg/fluxy" target="_blank" aria-label="Discord"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord"></a>
-            <a href="https://github.com/ValFX123" target="_blank" aria-label="GitHub"><img src="https://cdn-icons-png.flaticon.com/512/733/733553.png" alt="GitHub"></a>
-            <a href="https://www.paypal.me/valtypex" target="_blank" aria-label="PayPal"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111571.png" alt="PayPal"></a>
+            <a href="https://discord.gg/fluxy" target="_blank" aria-label="Discord">
+                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord">
+            </a>
+            <a href="https://github.com/ValFX123" target="_blank" aria-label="GitHub">
+                <img src="https://cdn-icons-png.flaticon.com/512/733/733553.png" alt="GitHub">
+            </a>
+            <a href="https://www.paypal.me/valtypex" target="_blank" aria-label="PayPal">
+                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111571.png" alt="PayPal">
+            </a>
         </div>
     </section>
 
     <footer>
         <div class="container">
             <p>© 2025 ValFX. All rights reserved.</p>
+            <p class="vouch-counter">Trusted by 600+ satisfied clients</p>
         </div>
     </footer>
 
