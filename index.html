@@ -265,6 +265,40 @@
             margin-top: 50px;
         }
 
+        /* Image Upload Instructions */
+        .image-instructions {
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--light-purple);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            text-align: left;
+        }
+        
+        .image-instructions h3 {
+            color: var(--light-purple);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .image-instructions ol {
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .image-instructions li {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        
+        .image-instructions code {
+            background-color: rgba(0,0,0,0.5);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
         /* Responsive Adjustments */
         @media (max-width: 768px) {
             .main-title {
@@ -345,40 +379,57 @@
     <section id="recent-projects" class="container">
         <h2>Recent Projects</h2>
         <p>Click on a project to learn more or view it!</p>
+        
+        <!-- Image Upload Instructions -->
+        <div class="image-instructions">
+            <h3>How to Set Project Images</h3>
+            <ol>
+                <li><strong>Find the project image tag</strong> - Look for the <code>&lt;img&gt;</code> tag inside each project item</li>
+                <li><strong>Replace the src attribute</strong> - Change <code>src="https://media.discordapp.net/attachments/1387529641706787007/1390056923335757884/how-to-make-a-discord-bot-7c0fe302b98b05b145682344b3a4ec59.png?ex=6866dee4&is=68658d64&hm=3f74083104b5f706ff62d762157b0ab8f294f6c09d5e7c3325b77a41fdc4cc34&=&format=webp&quality=lossless"</code> to the URL of your actual project image</li>
+                <li><strong>Update alt text</strong> - Add a description of the image in the <code>alt</code> attribute for accessibility</li>
+                <li><strong>Adjust project details</strong> - Update the project title and description as needed</li>
+            </ol>
+            <p><strong>Example:</strong> <code>&lt;img src="https://example.com/my-project.jpg" alt="Discord Bot Dashboard"&gt;</code></p>
+        </div>
+        
         <div class="projects-grid">
             <div class="project-item">
                 <a href="https://example.com/project1" target="_blank">
-                    <img src="https://via.placeholder.com/280x180/8A2BE2/FFFFFF?text=Project+1+Thumbnail" alt="Project 1 Thumbnail">
+                    <!-- Replace the image URL below with your actual project image -->
+                    <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Discord Bot Project">
                     <div class="project-item-info">
-                        <h3>Project Title One</h3>
-                        <p>A brief description of this exciting project and what it entails.</p>
+                        <h3>Discord Bot Development</h3>
+                        <p>Custom moderation and music bot with dashboard interface.</p>
                     </div>
                 </a>
             </div>
             <div class="project-item">
                 <a href="https://example.com/project2" target="_blank">
-                    <img src="https://via.placeholder.com/280x180/4B0082/FFFFFF?text=Project+2+Thumbnail" alt="Project 2 Thumbnail">
+                    <!-- Replace the image URL below with your actual project image -->
+                    <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="E-commerce Website">
                     <div class="project-item-info">
-                        <h3>Another Great Project</h3>
-                        <p>Details about the second project, highlighting its key features.</p>
+                        <h3>E-commerce Website</h3>
+                        <p>Full-stack shopping platform with payment integration.</p>
                     </div>
                 </a>
             </div>
             <div class="project-item">
                 <a href="https://example.com/project3" target="_blank">
-                    <img src="https://via.placeholder.com/280x180/DA70D6/000000?text=Project+3+Thumbnail" alt="Project 3 Thumbnail">
+                    <!-- Replace the image URL below with your actual project image -->
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Account Management System">
                     <div class="project-item-info">
-                        <h3>Innovative Design Project</h3>
-                        <p>Exploring the creative process and results of this design endeavor.</p>
+                        <h3>Account Management System</h3>
+                        <p>Secure platform for managing subscription accounts.</p>
                     </div>
                 </a>
             </div>
             <div class="project-item">
                 <a href="https://example.com/project4" target="_blank">
-                    <img src="https://via.placeholder.com/280x180/6A0DAD/FFFFFF?text=Project+4+Thumbnail" alt="Project 4 Thumbnail">
+                    <!-- Replace the image URL below with your actual project image -->
+                    <img src="https://images.unsplash.com/photo-1593642634524-b40b5baae6bb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Nitro Dashboard">
                     <div class="project-item-info">
-                        <h3>Development Showcase</h3>
-                        <p>A look into the technical aspects and achievements of this development.</p>
+                        <h3>Nitro Management Dashboard</h3>
+                        <p>Automated system for managing Discord Nitro subscriptions.</p>
                     </div>
                 </a>
             </div>
