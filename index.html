@@ -1,225 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Website Title</title>
-    <style>
-        :root {
-            --primary-color: #3498db;
-            --secondary-color: #2c3e50;
-            --accent-color: #e74c3c;
-            --text-color: #333333;
-            --light-bg: #f9f9f9;
-            --dark-bg: #222222;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ValFX</title>
+  <style>
+    :root {
+      --primary-color: #360f5a;
+      --nav-bg: #1c0333;
+    }
 
-            --header-font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            --body-font: 'Helvetica Neue', Arial, sans-serif;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-            --section-padding: 80px;
-        }
+    html {
+      scroll-behavior: smooth;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+    }
 
-        html {
-            scroll-behavior: smooth;
-        }
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: var(--nav-bg);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
 
-        body {
-            font-family: var(--body-font);
-            line-height: 1.6;
-            color: var(--text-color);
-        }
+    .nav-container {
+      display: flex;
+      justify-content: flex-end;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
 
-        section {
-            min-height: 100vh;
-            padding: var(--section-padding) 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
+    .nav-links a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: white;
+      font-weight: 500;
+    }
 
-        h1, h2, h3 {
-            font-family: var(--header-font);
-            margin-bottom: 20px;
-        }
+    section {
+      min-height: 100vh;
+      padding: 80px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
 
-        p {
-            max-width: 800px;
-            margin-bottom: 30px;
-        }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+    .glow {
+      color: var(--primary-color);
+      text-shadow: 0 0 10px #360f5a, 0 0 20px #360f5a;
+    }
 
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            z-index: 1000;
-        }
+    .home-title {
+      font-size: 3em;
+      font-weight: bold;
+      color: white;
+    }
 
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+    .home-description {
+      color: grey;
+      font-style: italic;
+      font-size: 1.2em;
+    }
 
-        .nav-links a {
-            margin: 0 15px;
-            text-decoration: none;
-            color: var(--secondary-color);
-            font-weight: 500;
-        }
+    .btn {
+      display: inline-block;
+      padding: 12px 30px;
+      background: var(--primary-color);
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+      margin-top: 20px;
+    }
 
-        #home {
-            background-color: var(--light-bg);
-        }
+    .btn:hover {
+      background: #250842;
+      transform: translateY(-2px);
+    }
 
-        #about {
-            background-color: white;
-        }
+    #home {
+      background: url('https://i.ibb.co/7tKhhdKj/deymw1u-7953fb40-9e82-42c6-84e6-02d76e18564a.png') no-repeat center center;
+      background-size: cover;
+      padding-top: 120px;
+    }
 
-        #services {
-            background-color: var(--light-bg);
-        }
+    #home img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      margin-bottom: 20px;
+    }
 
-        #contact {
-            background-color: var(--secondary-color);
-            color: white;
-        }
+    #about {
+      background: url('https://i.ibb.co/Nd7R2W3q/d2cwpai-63d70352-ca6e-4a2b-8d19-d7b042761470.png') no-repeat center center;
+      background-size: cover;
+    }
 
-        .btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background: var(--primary-color);
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
+    .about-title {
+      font-size: 2.5em;
+      font-weight: bold;
+      color: white;
+    }
 
-        .btn:hover {
-            background: var(--accent-color);
-            transform: translateY(-3px);
-        }
+    .about-description {
+      font-style: italic;
+      color: grey;
+      max-width: 800px;
+    }
 
-        /* Glow Font Style */
-        .glow {
-            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #3498db, 0 0 20px #3498db;
-        }
+    #contact {
+      background-color: #111;
+      color: white;
+      padding: 40px 20px;
+    }
 
-        /* Custom Section Titles and Texts */
-        .home-title {
-            font-size: 3rem;
-            color: white;
-            font-weight: bold;
-        }
+    .socials img {
+      width: 30px;
+      height: 30px;
+      margin: 0 10px;
+      transition: transform 0.3s ease;
+    }
 
-        .home-description {
-            font-style: italic;
-            color: gray;
-        }
+    .socials img:hover {
+      transform: scale(1.2);
+    }
 
-        .about-title {
-            font-size: 2rem;
-            color: white;
-            font-weight: bold;
-        }
+    @media (max-width: 768px) {
+      .nav-container {
+        flex-direction: column;
+        align-items: center;
+      }
 
-        .about-description {
-            font-style: italic;
-            color: gray;
-        }
+      .nav-links {
+        margin-top: 10px;
+      }
 
-        h2 {
-            font-size: 1.8rem;
-        }
+      .home-title {
+        font-size: 2em;
+      }
 
-        @media (max-width: 768px) {
-            :root {
-                --section-padding: 60px;
-            }
-
-            .nav-container {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .nav-links {
-                margin-top: 15px;
-            }
-        }
-    </style>
+      .home-description {
+        font-size: 1em;
+      }
+    }
+  </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav>
-        <div class="nav-container">
-            <div class="logo">YourLogo</div>
-            <div class="nav-links">
-                <a href="#home">Home</a>
-                <a href="#about">About</a>
-                <a href="#services">Services</a>
-                <a href="#contact">Contact</a>
-            </div>
-        </div>
-    </nav>
 
-    <!-- Home Section -->
-<section id="home" style="
-    background: url('https://i.ibb.co/7tKhhdKj/deymw1u-7953fb40-9e82-42c6-84e6-02d76e18564a.png') no-repeat center center;
-    background-size: cover;
-">
-    <div class="container">
-        <h1 class="home-title glow">Welcome to ValFX's Website</h1>
-        <p class="home-description glow">Developer | Producer | Seller | 600+ Vouches | Trusted</p>
-        <a href="#about" class="btn">Learn More</a>
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container">
+      <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
+      </div>
     </div>
-</section>
+  </nav>
 
-<!-- About Section -->
-<section id="about" style="
-    background: url('https://i.ibb.co/Nd7R2W3q/d2cwpai-63d70352-ca6e-4a2b-8d19-d7b042761470.png') no-repeat center center;
-    background-size: cover;
-">
+  <!-- Home Section -->
+  <section id="home">
     <div class="container">
-        <h2 class="about-title glow">About Me</h2>
-        <p class="about-description glow" style="color: grey; font-style: italic;">
-            Hi, I’m ValFX — a developer, producer, and entrepreneur with a strong track record of delivering quality work. I take pride in being reliable, consistent, and fully committed to every project I take on.<br><br>
-            With experience in both tech and business, I focus on building, creating, and selling with purpose. Whether I’m writing code, managing production, or running sales, I approach my work with professionalism and drive.<br><br>
-            Outside of work, I enjoy gaming, cooking, and exploring new skills. I’m always looking for ways to grow, both personally and professionally.<br><br>
-            I believe in earning trust through action — and I’m here to get things done.
-        </p>
+      <img src="https://via.placeholder.com/120" alt="Profile Image" />
+      <h1 class="home-title glow">Welcome to ValFX's Website</h1>
+      <p class="home-description glow">Developer | Producer | Seller | 600+ Vouches | Trusted</p>
+      <a href="#about" class="btn">Learn More</a>
     </div>
-</section>
+  </section>
 
-    <!-- Services Section -->
-    <section id="services">
-        <div class="container">
-            <h2>Our Services</h2>
-            <p>Describe what services you offer here. You can add more sections or elements as needed.</p>
-        </div>
-    </section>
+  <!-- About Section -->
+  <section id="about">
+    <div class="container">
+      <h2 class="about-title glow">About Me</h2>
+      <p class="about-description glow">
+        Hi, I’m ValFX — a developer, producer, and entrepreneur with a strong track record of delivering quality work. I take pride in being reliable, consistent, and fully committed to every project I take on.<br><br>
+        With experience in both tech and business, I focus on building, creating, and selling with purpose. Whether I’m writing code, managing production, or running sales, I approach my work with professionalism and drive.<br><br>
+        Outside of work, I enjoy gaming, cooking, and exploring new skills. I’m always looking for ways to grow, both personally and professionally.<br><br>
+        I believe in earning trust through action — and I’m here to get things done.
+      </p>
+    </div>
+  </section>
 
-    <!-- Contact Section -->
-    <section id="contact">
-        <div class="container">
-            <h2>Contact Us</h2>
-            <p>Include your contact information or a simple contact form here.</p>
-        </div>
-    </section>
+  <!-- Services Section -->
+  <section id="services">
+    <div class="container">
+      <h2 class="glow">Our Services</h2>
+      <p class="glow">Describe what services you offer here. You can add more sections or elements as needed.</p>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact">
+    <div class="container">
+      <h2 class="glow">Connect with Me</h2>
+      <div class="socials">
+        <a href="https://twitter.com/" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter" /></a>
+        <a href="https://discord.com/" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord" /></a>
+        <a href="https://github.com/" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/733/733553.png" alt="GitHub" /></a>
+      </div>
+    </div>
+  </section>
+
 </body>
 </html>
