@@ -20,6 +20,7 @@
             --accent-color: #9b4dff;
             --modal-bg: rgba(26, 1, 46, 0.95);
             --success-green: #00c853;
+            --processing-blue: #2196F3;
         }
 
         * {
@@ -715,11 +716,76 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             font-size: 1.1rem;
+            width: 100%;
+            text-align: center;
         }
 
         .send-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(0, 200, 83, 0.6);
+        }
+
+        /* Processing Modal */
+        .processing-header {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(90deg, var(--processing-blue), #0d47a1);
+        }
+
+        .processing-title {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 15px;
+            text-shadow: 0 0 15px var(--processing-blue);
+        }
+
+        .processing-subtitle {
+            color: #90caf9;
+            font-size: 1.3rem;
+        }
+
+        .processing-body {
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .processing-spinner {
+            border: 5px solid rgba(33, 150, 243, 0.2);
+            border-top: 5px solid var(--processing-blue);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 30px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .processing-text {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            color: var(--processing-blue);
+        }
+
+        .email-notification {
+            background: rgba(33, 150, 243, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            border: 1px solid rgba(33, 150, 243, 0.3);
+        }
+
+        .email-notification p {
+            margin-bottom: 10px;
+        }
+
+        .email-address {
+            font-weight: bold;
+            color: var(--processing-blue);
+            font-size: 1.2rem;
         }
 
         /* Order Confirmation Modal */
@@ -1000,6 +1066,28 @@
     <!-- Floating particles -->
     <div class="particles" id="particles"></div>
 
+    <!-- Processing Modal -->
+    <div class="modal-overlay" id="processing-modal">
+        <div class="modal-container">
+            <div class="processing-header">
+                <h2 class="processing-title">Processing Payment</h2>
+                <p class="processing-subtitle">Waiting for confirmation</p>
+            </div>
+            
+            <div class="processing-body">
+                <div class="processing-spinner"></div>
+                <p class="processing-text">Processing your payment...</p>
+                <p>We're verifying your transaction. This may take a moment.</p>
+                
+                <div class="email-notification">
+                    <p>An email has been sent to:</p>
+                    <p class="email-address">valentinomollenochoa@gmail.com</p>
+                    <p>for confirmation. Your order will be processed after confirmation.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <header class="header-banner">
         <div class="header-content">
             <div class="profile-image-container">
@@ -1260,20 +1348,23 @@
                 </div>
                 
                 <div class="payment-instructions">
-                    <p class="instructions-content" id="instructions-content">
-                        Please send <span id="payment-amount">€45.00</span> to the following address. Make sure to include your order ID in the payment notes.
-                    </p>
-                    
-                    <div class="payment-details" id="payment-details">
-                        PayPal: valfx@example.com
+                    <div class="instructions-content">
+                        <p>Please complete the following steps to complete your payment:</p>
+                        <ol style="text-align: left; margin: 20px 0; padding-left: 30px;">
+                            <li>Log in to your payment account</li>
+                            <li>Send <span id="payment-amount" style="font-weight: bold;">€45.00</span> to the address below</li>
+                            <li>Include your order ID in the payment notes</li>
+                            <li>Complete the transaction on your payment platform</li>
+                            <li>Click the button below after payment is sent</li>
+                        </ol>
                     </div>
                     
-                    <p class="instructions-content">
-                        Once you've sent the payment, click the button below to confirm and proceed to the next step.
-                    </p>
+                    <div class="payment-details" id="payment-details">
+                        PayPal: valentinomollenochoa@gmail.com
+                    </div>
                     
                     <button class="send-btn" id="send-payment-btn">
-                        <i class="fas fa-paper-plane"></i> I've Sent the Payment
+                        <i class="fas fa-check-circle"></i> Click me when you have paid
                     </button>
                 </div>
             </div>
@@ -1284,7 +1375,7 @@
     <div class="modal-overlay" id="confirmation-modal">
         <div class="modal-container">
             <div class="confirmation-header">
-                <h2 class="confirmation-title">Payment Received!</h2>
+                <h2 class="confirmation-title">Payment Confirmed!</h2>
                 <p class="confirmation-subtitle">Thank you for your purchase</p>
             </div>
             
@@ -1294,8 +1385,11 @@
                 </div>
                 
                 <p class="confirmation-message">
-                    We've received your payment for <strong id="confirmation-service">Discord Bot Development</strong>.
-                    Your order is now being processed.
+                    Your payment for <strong id="confirmation-service">Discord Bot Development</strong> has been confirmed.
+                </p>
+                
+                <p class="confirmation-message">
+                    Your order is now being processed and will be delivered shortly.
                 </p>
                 
                 <p class="confirmation-message">
@@ -1509,7 +1603,7 @@
             paypal: {
                 name: "PayPal",
                 icon: "fab fa-paypal",
-                details: "valfx@example.com",
+                details: "valentinomollenochoa@gmail.com",
                 instructions: "Send payment to the email address below"
             },
             litecoin: {
@@ -1529,6 +1623,7 @@
         // Modal elements
         const serviceModal = document.getElementById('service-modal');
         const instructionsModal = document.getElementById('instructions-modal');
+        const processingModal = document.getElementById('processing-modal');
         const confirmationModal = document.getElementById('confirmation-modal');
         const modalCloseBtns = document.querySelectorAll('.modal-close');
         const modalTitle = document.getElementById('modal-title');
@@ -1546,7 +1641,6 @@
         const instructionsTitle = document.getElementById('instructions-title');
         const instructionsSubtitle = document.getElementById('instructions-subtitle');
         const methodIcon = document.getElementById('method-icon');
-        const instructionsContent = document.getElementById('instructions-content');
         const paymentDetails = document.getElementById('payment-details');
         const paymentAmount = document.getElementById('payment-amount');
         const sendPaymentBtn = document.getElementById('send-payment-btn');
@@ -1610,6 +1704,12 @@
             }
         });
         
+        processingModal.addEventListener('click', (e) => {
+            if (e.target === processingModal) {
+                closeAllModals();
+            }
+        });
+        
         confirmationModal.addEventListener('click', (e) => {
             if (e.target === confirmationModal) {
                 closeAllModals();
@@ -1637,7 +1737,21 @@
         
         // Send payment button
         sendPaymentBtn.addEventListener('click', () => {
-            showConfirmationModal();
+            // Close instructions modal
+            instructionsModal.classList.remove('active');
+            
+            // Show processing modal
+            processingModal.classList.add('active');
+            
+            // Simulate email sending
+            console.log(`Email sent to valentinomollenochoa@gmail.com for order confirmation`);
+            
+            // Simulate waiting for seller confirmation (5 seconds)
+            setTimeout(() => {
+                // After seller confirmation, show confirmation modal
+                processingModal.classList.remove('active');
+                showConfirmationModal();
+            }, 5000);
         });
         
         function updateTotalPrice() {
@@ -1649,12 +1763,15 @@
         function showPaymentInstructions() {
             const method = paymentMethods[currentMethod];
             
-            // Populate payment instructions
+            // Update instructions content
             instructionsTitle.textContent = `${method.name} Payment`;
             instructionsSubtitle.textContent = method.instructions;
             methodIcon.innerHTML = `<i class="${method.icon}"></i>`;
             paymentDetails.textContent = method.details;
             paymentAmount.textContent = `€${totalAmount}`;
+            
+            // Update button text
+            sendPaymentBtn.innerHTML = '<i class="fas fa-check-circle"></i> Click me when you have paid';
             
             // Switch modals
             serviceModal.classList.remove('active');
@@ -1665,14 +1782,14 @@
             // Populate confirmation data
             confirmationService.textContent = services[currentService].title;
             
-            // Switch modals
-            instructionsModal.classList.remove('active');
+            // Show modal
             confirmationModal.classList.add('active');
         }
         
         function closeAllModals() {
             serviceModal.classList.remove('active');
             instructionsModal.classList.remove('active');
+            processingModal.classList.remove('active');
             confirmationModal.classList.remove('active');
             document.body.style.overflow = 'auto';
         }
