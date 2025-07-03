@@ -20,7 +20,8 @@
             --accent-color: #9b4dff;
             --modal-bg: rgba(26, 1, 46, 0.95);
             --success-green: #00c853;
-            --processing-blue: #2196F3;
+            --processing-yellow: #FFD600;
+            --invoice-bg: rgba(43, 0, 75, 0.5);
         }
 
         * {
@@ -716,76 +717,11 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             font-size: 1.1rem;
-            width: 100%;
-            text-align: center;
         }
 
         .send-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(0, 200, 83, 0.6);
-        }
-
-        /* Processing Modal */
-        .processing-header {
-            text-align: center;
-            padding: 20px;
-            background: linear-gradient(90deg, var(--processing-blue), #0d47a1);
-        }
-
-        .processing-title {
-            font-size: 2.5rem;
-            color: white;
-            margin-bottom: 15px;
-            text-shadow: 0 0 15px var(--processing-blue);
-        }
-
-        .processing-subtitle {
-            color: #90caf9;
-            font-size: 1.3rem;
-        }
-
-        .processing-body {
-            padding: 40px 30px;
-            text-align: center;
-        }
-
-        .processing-spinner {
-            border: 5px solid rgba(33, 150, 243, 0.2);
-            border-top: 5px solid var(--processing-blue);
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 30px;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .processing-text {
-            font-size: 1.5rem;
-            margin-bottom: 25px;
-            color: var(--processing-blue);
-        }
-
-        .email-notification {
-            background: rgba(33, 150, 243, 0.1);
-            padding: 20px;
-            border-radius: 15px;
-            margin-top: 30px;
-            border: 1px solid rgba(33, 150, 243, 0.3);
-        }
-
-        .email-notification p {
-            margin-bottom: 10px;
-        }
-
-        .email-address {
-            font-weight: bold;
-            color: var(--processing-blue);
-            font-size: 1.2rem;
         }
 
         /* Order Confirmation Modal */
@@ -841,6 +777,89 @@
         .discord-link:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(88, 101, 242, 0.6);
+        }
+
+        /* Payment Processing Modal */
+        .processing-header {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(90deg, var(--processing-yellow), #FFAB00);
+        }
+
+        .processing-title {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 15px;
+            text-shadow: 0 0 15px rgba(255, 214, 0, 0.7);
+        }
+
+        .processing-icon {
+            font-size: 5rem;
+            color: var(--processing-yellow);
+            margin: 20px 0;
+            text-shadow: 0 0 20px rgba(255, 214, 0, 0.5);
+            animation: spin 2s infinite linear;
+        }
+
+        .processing-message {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        /* Invoice Styles */
+        .invoice-container {
+            background: var(--invoice-bg);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: left;
+            border-left: 4px solid var(--light-purple);
+        }
+
+        .invoice-header {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+            text-align: center;
+        }
+
+        .invoice-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .invoice-label {
+            font-weight: bold;
+            color: var(--light-purple);
+        }
+
+        .invoice-value {
+            text-align: right;
+        }
+
+        .invoice-divider {
+            height: 2px;
+            background: linear-gradient(to right, var(--primary-purple), var(--light-purple));
+            margin: 15px 0;
+            border-radius: 2px;
+        }
+
+        /* Payment Description */
+        .payment-description {
+            background: rgba(26, 1, 46, 0.7);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .payment-description p {
+            margin-bottom: 10px;
         }
 
         /* --- Social Section --- */
@@ -928,6 +947,11 @@
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         /* Floating particles */
@@ -1065,28 +1089,6 @@
 <body>
     <!-- Floating particles -->
     <div class="particles" id="particles"></div>
-
-    <!-- Processing Modal -->
-    <div class="modal-overlay" id="processing-modal">
-        <div class="modal-container">
-            <div class="processing-header">
-                <h2 class="processing-title">Processing Payment</h2>
-                <p class="processing-subtitle">Waiting for confirmation</p>
-            </div>
-            
-            <div class="processing-body">
-                <div class="processing-spinner"></div>
-                <p class="processing-text">Processing your payment...</p>
-                <p>We're verifying your transaction. This may take a moment.</p>
-                
-                <div class="email-notification">
-                    <p>An email has been sent to:</p>
-                    <p class="email-address">valentinomollenochoa@gmail.com</p>
-                    <p>for confirmation. Your order will be processed after confirmation.</p>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <header class="header-banner">
         <div class="header-content">
@@ -1347,26 +1349,77 @@
                     <i class="fab fa-paypal"></i>
                 </div>
                 
+                <div class="invoice-container">
+                    <div class="invoice-header">Invoice</div>
+                    <div class="invoice-item">
+                        <span class="invoice-label">Service:</span>
+                        <span class="invoice-value" id="invoice-service">Discord Bot Development</span>
+                    </div>
+                    <div class="invoice-item">
+                        <span class="invoice-label">Quantity:</span>
+                        <span class="invoice-value" id="invoice-quantity">1</span>
+                    </div>
+                    <div class="invoice-item">
+                        <span class="invoice-label">Unit Price:</span>
+                        <span class="invoice-value">€<span id="invoice-unit-price">45</span></span>
+                    </div>
+                    <div class="invoice-divider"></div>
+                    <div class="invoice-item">
+                        <span class="invoice-label">Total Amount:</span>
+                        <span class="invoice-value">€<span id="invoice-total">45</span></span>
+                    </div>
+                    <div class="invoice-item">
+                        <span class="invoice-label">Payment Method:</span>
+                        <span class="invoice-value" id="invoice-method">PayPal</span>
+                    </div>
+                    <div class="invoice-item">
+                        <span class="invoice-label">Payment Details:</span>
+                        <span class="invoice-value" id="invoice-details">valfx@example.com</span>
+                    </div>
+                </div>
+                
+                <div class="payment-description" id="payment-description">
+                    <p><strong>Payment Instructions:</strong></p>
+                    <p>1. Log in to your PayPal account</p>
+                    <p>2. Select "Send & Request"</p>
+                    <p>3. Enter the payment amount exactly as shown</p>
+                    <p>4. Send to the email address provided</p>
+                    <p>5. Include your Discord username in the notes</p>
+                </div>
+                
                 <div class="payment-instructions">
-                    <div class="instructions-content">
-                        <p>Please complete the following steps to complete your payment:</p>
-                        <ol style="text-align: left; margin: 20px 0; padding-left: 30px;">
-                            <li>Log in to your payment account</li>
-                            <li>Send <span id="payment-amount" style="font-weight: bold;">€45.00</span> to the address below</li>
-                            <li>Include your order ID in the payment notes</li>
-                            <li>Complete the transaction on your payment platform</li>
-                            <li>Click the button below after payment is sent</li>
-                        </ol>
-                    </div>
-                    
-                    <div class="payment-details" id="payment-details">
-                        PayPal: valentinomollenochoa@gmail.com
-                    </div>
+                    <p class="instructions-content">
+                        Once you've sent the payment, click the button below to confirm and proceed to the next step.
+                    </p>
                     
                     <button class="send-btn" id="send-payment-btn">
-                        <i class="fas fa-check-circle"></i> Click me when you have paid
+                        <i class="fas fa-paper-plane"></i> I've Sent the Payment
                     </button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Processing Modal -->
+    <div class="modal-overlay" id="processing-modal">
+        <div class="modal-container">
+            <div class="processing-header">
+                <h2 class="processing-title">Processing Payment</h2>
+                <p class="confirmation-subtitle">Please wait while we verify your transaction</p>
+            </div>
+            
+            <div class="confirmation-body">
+                <div class="processing-icon">
+                    <i class="fas fa-circle-notch"></i>
+                </div>
+                
+                <p class="processing-message">
+                    We're verifying your payment for <strong id="processing-service">Discord Bot Development</strong>.
+                </p>
+                
+                <p class="processing-message">
+                    This usually takes less than a minute...
+                </p>
             </div>
         </div>
     </div>
@@ -1375,7 +1428,7 @@
     <div class="modal-overlay" id="confirmation-modal">
         <div class="modal-container">
             <div class="confirmation-header">
-                <h2 class="confirmation-title">Payment Confirmed!</h2>
+                <h2 class="confirmation-title">Payment Complete!</h2>
                 <p class="confirmation-subtitle">Thank you for your purchase</p>
             </div>
             
@@ -1385,11 +1438,7 @@
                 </div>
                 
                 <p class="confirmation-message">
-                    Your payment for <strong id="confirmation-service">Discord Bot Development</strong> has been confirmed.
-                </p>
-                
-                <p class="confirmation-message">
-                    Your order is now being processed and will be delivered shortly.
+                    We've successfully processed your payment for <strong id="confirmation-service">Discord Bot Development</strong>.
                 </p>
                 
                 <p class="confirmation-message">
@@ -1399,6 +1448,26 @@
                 <a href="https://discord.gg/fluxy" target="_blank" class="discord-link">
                     <i class="fab fa-discord"></i> Create Ticket on Discord
                 </a>
+                
+                <div class="invoice-container" style="margin-top: 30px;">
+                    <div class="invoice-header">Order Summary</div>
+                    <div class="invoice-item">
+                        <span class="invoice-label">Order ID:</span>
+                        <span class="invoice-value" id="order-id">ORD-73921</span>
+                    </div>
+                    <div class="invoice-item">
+                        <span class="invoice-label">Amount:</span>
+                        <span class="invoice-value">€<span id="confirmation-amount">45</span></span>
+                    </div>
+                    <div class="invoice-item">
+                        <span class="invoice-label">Payment Method:</span>
+                        <span class="invoice-value" id="confirmation-method">PayPal</span>
+                    </div>
+                    <div class="invoice-item">
+                        <span class="invoice-label">Date:</span>
+                        <span class="invoice-value" id="confirmation-date">July 4, 2025</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -1598,25 +1667,46 @@
             }
         };
         
-        // Payment details
+        // Payment details with 5-line descriptions
         const paymentMethods = {
             paypal: {
                 name: "PayPal",
                 icon: "fab fa-paypal",
-                details: "valentinomollenochoa@gmail.com",
-                instructions: "Send payment to the email address below"
+                details: "valfx@example.com",
+                instructions: "PayPal - Secure Online Payments",
+                description: [
+                    "1. Log in to your PayPal account",
+                    "2. Select 'Send & Request'",
+                    "3. Enter the payment amount exactly as shown",
+                    "4. Send to the email address provided",
+                    "5. Include your Discord username in the notes"
+                ]
             },
             litecoin: {
                 name: "Litecoin",
                 icon: "fab fa-bitcoin",
                 details: "Lb5xZhaJ7sQ5z7Pw9sXqKj8Nt3Rv2WxYzA",
-                instructions: "Send payment to the Litecoin address below"
+                instructions: "Litecoin - Fast & Low Fee Crypto",
+                description: [
+                    "1. Open your Litecoin wallet",
+                    "2. Create a new transaction",
+                    "3. Enter the Litecoin address above",
+                    "4. Send the exact amount shown",
+                    "5. Include your Discord username in the memo"
+                ]
             },
             tikkie: {
                 name: "Tikkie",
                 icon: "fas fa-mobile-alt",
                 details: "+31 6 12345678",
-                instructions: "Send payment to the mobile number below"
+                instructions: "Tikkie - Dutch Mobile Payments",
+                description: [
+                    "1. Open your banking app",
+                    "2. Select the Tikkie option",
+                    "3. Enter the mobile number above",
+                    "4. Send the exact amount shown",
+                    "5. Include your Discord username in the description"
+                ]
             }
         };
         
@@ -1641,12 +1731,24 @@
         const instructionsTitle = document.getElementById('instructions-title');
         const instructionsSubtitle = document.getElementById('instructions-subtitle');
         const methodIcon = document.getElementById('method-icon');
-        const paymentDetails = document.getElementById('payment-details');
-        const paymentAmount = document.getElementById('payment-amount');
+        const invoiceService = document.getElementById('invoice-service');
+        const invoiceQuantity = document.getElementById('invoice-quantity');
+        const invoiceUnitPrice = document.getElementById('invoice-unit-price');
+        const invoiceTotal = document.getElementById('invoice-total');
+        const invoiceMethod = document.getElementById('invoice-method');
+        const invoiceDetails = document.getElementById('invoice-details');
+        const paymentDescription = document.getElementById('payment-description');
         const sendPaymentBtn = document.getElementById('send-payment-btn');
+        
+        // Processing elements
+        const processingService = document.getElementById('processing-service');
         
         // Confirmation elements
         const confirmationService = document.getElementById('confirmation-service');
+        const confirmationAmount = document.getElementById('confirmation-amount');
+        const confirmationMethod = document.getElementById('confirmation-method');
+        const orderId = document.getElementById('order-id');
+        const confirmationDate = document.getElementById('confirmation-date');
         
         let currentService = null;
         let currentPrice = 0;
@@ -1737,21 +1839,7 @@
         
         // Send payment button
         sendPaymentBtn.addEventListener('click', () => {
-            // Close instructions modal
-            instructionsModal.classList.remove('active');
-            
-            // Show processing modal
-            processingModal.classList.add('active');
-            
-            // Simulate email sending
-            console.log(`Email sent to valentinomollenochoa@gmail.com for order confirmation`);
-            
-            // Simulate waiting for seller confirmation (5 seconds)
-            setTimeout(() => {
-                // After seller confirmation, show confirmation modal
-                processingModal.classList.remove('active');
-                showConfirmationModal();
-            }, 5000);
+            showProcessingModal();
         });
         
         function updateTotalPrice() {
@@ -1763,26 +1851,63 @@
         function showPaymentInstructions() {
             const method = paymentMethods[currentMethod];
             
-            // Update instructions content
-            instructionsTitle.textContent = `${method.name} Payment`;
-            instructionsSubtitle.textContent = method.instructions;
+            // Populate payment instructions header
+            instructionsTitle.textContent = method.instructions;
+            instructionsSubtitle.textContent = "Please send payment using the details below";
             methodIcon.innerHTML = `<i class="${method.icon}"></i>`;
-            paymentDetails.textContent = method.details;
-            paymentAmount.textContent = `€${totalAmount}`;
             
-            // Update button text
-            sendPaymentBtn.innerHTML = '<i class="fas fa-check-circle"></i> Click me when you have paid';
+            // Populate invoice
+            invoiceService.textContent = services[currentService].title;
+            invoiceQuantity.textContent = currentQuantity;
+            invoiceUnitPrice.textContent = currentPrice;
+            invoiceTotal.textContent = totalAmount;
+            invoiceMethod.textContent = method.name;
+            invoiceDetails.textContent = method.details;
+            
+            // Populate payment description
+            paymentDescription.innerHTML = `<p><strong>${method.name} Instructions:</strong></p>`;
+            method.description.forEach(line => {
+                paymentDescription.innerHTML += `<p>${line}</p>`;
+            });
             
             // Switch modals
             serviceModal.classList.remove('active');
             instructionsModal.classList.add('active');
         }
         
+        function showProcessingModal() {
+            // Populate processing data
+            processingService.textContent = services[currentService].title;
+            
+            // Switch modals
+            instructionsModal.classList.remove('active');
+            processingModal.classList.add('active');
+            
+            // Simulate payment processing
+            setTimeout(() => {
+                processingModal.classList.remove('active');
+                showConfirmationModal();
+            }, 3000);
+        }
+        
         function showConfirmationModal() {
+            // Generate random order ID
+            const orderNum = Math.floor(100000 + Math.random() * 900000);
+            const today = new Date();
+            const dateStr = today.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
             // Populate confirmation data
             confirmationService.textContent = services[currentService].title;
+            confirmationAmount.textContent = totalAmount;
+            confirmationMethod.textContent = paymentMethods[currentMethod].name;
+            orderId.textContent = `ORD-${orderNum}`;
+            confirmationDate.textContent = dateStr;
             
-            // Show modal
+            // Show confirmation modal
             confirmationModal.classList.add('active');
         }
         
