@@ -1686,60 +1686,72 @@
         }
         
         function initPayPalButtons() {
-            if (paypalButtons) {
-                paypalButtons.close();
-            }
-            
-            paypalButtons = paypal.Buttons({
-                createOrder: function(data, actions) {
-                    return actions.order.create({
-                        purchase_units: [{
-                            description: services[currentService].title,
-                            amount: {
-                                value: totalAmount.toFixed(2),
-                                currency_code: "EUR"
-                            }
-                        }]
-                    });
-                },
-                onApprove: function(data, actions) {
-                    return actions.order.capture().then(function(details) {
-                        console.log('Transaction completed by ' + details.payer.name.given_name);
-                        
+    if (paypalButtons) {
+        paypalButtons.close();
+    }
+    
+    paypalButtons = paypal.Buttons({
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    description: services[currentService].title,
+                    amount: {
+                        value: totalAmount.toFixed(2),
+                        currency_code: "EUR"
+                    }
+                }]
+            });
+        },
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+                // Send to backend
+                fetch('http://localhost:3000/process-payment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        orderID: data.orderID,
+                        serviceName: services[currentService].title,
+                        amount: totalAmount,
+                        quantity: currentQuantity
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
                         // Show confirmation modal
                         serviceModal.classList.remove('active');
                         confirmationService.textContent = services[currentService].title;
                         confirmationModal.classList.add('active');
                         
-                        // Here you would typically send the transaction details to your server
-                        // For example: 
-                        // fetch('/process-payment', {
-                        //     method: 'POST',
-                        //     headers: {
-                        //         'Content-Type': 'application/json'
-                        //     },
-                        //     body: JSON.stringify({
-                        //         orderID: data.orderID,
-                        //         clientSecret: 'EHt9MGA6DoaB6OcaXSZ9Cc1oaBgDhh1hz_plYAfgeWXfvOohbT8OkmXD6wOx9z1vlDp3L7wX14b8VnyD'
-                        //     })
-                        // })
-                    });
-                },
-                onError: function(err) {
-                    console.error(err);
-                    alert('An error occurred with the PayPal payment. Please try again or contact support.');
-                },
-                style: {
-                    layout: 'vertical',
-                    color: 'gold',
-                    shape: 'rect',
-                    label: 'paypal'
-                }
+                        // Here you can save transaction details to your database
+                        console.log('Transaction ID:', data.transactionId);
+                    } else {
+                        alert('Payment processing failed. Please contact support.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please contact support.');
+                });
             });
-            
-            paypalButtons.render('#paypal-button-container');
-            document.getElementById('paypal-button-container').style.display = 'none';
+        },
+        onError: function(err) {
+            console.error(err);
+            alert('An error occurred with PayPal. Please try again or contact support.');
+        },
+        style: {
+            layout: 'vertical',
+            color: 'gold',
+            shape: 'rect',
+            label: 'paypal'
         }
+    });
+    
+    paypalButtons.render('#paypal-button-container');
+    document.getElementById('paypal-button-container').style.display = 'none';
+}
         
         function closeAllModals() {
             serviceModal.classList.remove('active');
