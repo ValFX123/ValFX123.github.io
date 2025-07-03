@@ -31,7 +31,7 @@
 
         html {
             scroll-behavior: smooth;
-            zoom: 0.75; /* Set to 75% zoom by default */
+            zoom: 0.75;
         }
 
         body {
@@ -691,6 +691,32 @@
             margin-bottom: 20px;
         }
 
+        .instructions-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        
+        .instructions-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .step-number {
+            background: var(--light-purple);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
         .payment-details {
             background: rgba(26, 1, 46, 0.5);
             padding: 15px;
@@ -699,6 +725,9 @@
             font-family: monospace;
             font-size: 1.1rem;
             word-break: break-all;
+            text-align: center;
+            font-weight: bold;
+            letter-spacing: 1px;
         }
 
         .send-btn {
@@ -715,11 +744,30 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             font-size: 1.1rem;
+            width: 100%;
         }
 
         .send-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(0, 200, 83, 0.6);
+        }
+        
+        .send-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
         }
 
         /* Order Confirmation Modal */
@@ -863,6 +911,10 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
 
         /* Floating particles */
         .particles {
@@ -957,6 +1009,10 @@
                 width: 100%;
                 max-width: 300px;
                 justify-content: center;
+            }
+            
+            .instructions-steps {
+                padding-left: 10px;
             }
         }
 
@@ -1251,7 +1307,7 @@
         <div class="modal-container">
             <div class="instructions-header">
                 <h2 class="instructions-title" id="instructions-title">Payment Instructions</h2>
-                <p class="instructions-subtitle" id="instructions-subtitle">Please send payment to the address below</p>
+                <p class="instructions-subtitle" id="instructions-subtitle">Please follow these steps to complete your payment</p>
             </div>
             
             <div class="instructions-body">
@@ -1260,9 +1316,13 @@
                 </div>
                 
                 <div class="payment-instructions">
-                    <p class="instructions-content" id="instructions-content">
-                        Please send <span id="payment-amount">€45.00</span> to the following address. Make sure to include your order ID in the payment notes.
+                    <p class="instructions-content">
+                        Please send <span id="payment-amount">€45.00</span> using the method below:
                     </p>
+                    
+                    <div class="instructions-steps" id="instructions-steps">
+                        <!-- Steps will be populated here -->
+                    </div>
                     
                     <div class="payment-details" id="payment-details">
                         PayPal: valfx@example.com
@@ -1284,7 +1344,7 @@
     <div class="modal-overlay" id="confirmation-modal">
         <div class="modal-container">
             <div class="confirmation-header">
-                <h2 class="confirmation-title">Payment Received!</h2>
+                <h2 class="confirmation-title">Payment Complete!</h2>
                 <p class="confirmation-subtitle">Thank you for your purchase</p>
             </div>
             
@@ -1294,8 +1354,11 @@
                 </div>
                 
                 <p class="confirmation-message">
-                    We've received your payment for <strong id="confirmation-service">Discord Bot Development</strong>.
-                    Your order is now being processed.
+                    Your payment for <strong id="confirmation-service">Discord Bot Development</strong> has been successfully processed!
+                </p>
+                
+                <p class="confirmation-message">
+                    Your order is now being processed and will be delivered shortly.
                 </p>
                 
                 <p class="confirmation-message">
@@ -1504,25 +1567,40 @@
             }
         };
         
-        // Payment details
+        // Payment details with 4-step instructions
         const paymentMethods = {
             paypal: {
                 name: "PayPal",
                 icon: "fab fa-paypal",
                 details: "valfx@example.com",
-                instructions: "Send payment to the email address below"
+                instructions: [
+                    "Log in to your PayPal account",
+                    "Click on 'Send & Request'",
+                    "Enter the email address shown below",
+                    "Send the exact amount as shown above"
+                ]
             },
             litecoin: {
                 name: "Litecoin",
                 icon: "fab fa-bitcoin",
                 details: "Lb5xZhaJ7sQ5z7Pw9sXqKj8Nt3Rv2WxYzA",
-                instructions: "Send payment to the Litecoin address below"
+                instructions: [
+                    "Open your Litecoin wallet",
+                    "Select 'Send' or 'Transfer'",
+                    "Enter the wallet address shown below",
+                    "Send the exact amount as shown above"
+                ]
             },
             tikkie: {
                 name: "Tikkie",
                 icon: "fas fa-mobile-alt",
                 details: "+31 6 12345678",
-                instructions: "Send payment to the mobile number below"
+                instructions: [
+                    "Open your banking app",
+                    "Go to the Tikkie section",
+                    "Enter the mobile number shown below",
+                    "Send the exact amount as shown above"
+                ]
             }
         };
         
@@ -1547,6 +1625,7 @@
         const instructionsSubtitle = document.getElementById('instructions-subtitle');
         const methodIcon = document.getElementById('method-icon');
         const instructionsContent = document.getElementById('instructions-content');
+        const instructionsSteps = document.getElementById('instructions-steps');
         const paymentDetails = document.getElementById('payment-details');
         const paymentAmount = document.getElementById('payment-amount');
         const sendPaymentBtn = document.getElementById('send-payment-btn');
@@ -1637,7 +1716,15 @@
         
         // Send payment button
         sendPaymentBtn.addEventListener('click', () => {
-            showConfirmationModal();
+            // Disable button and show loading state
+            sendPaymentBtn.disabled = true;
+            sendPaymentBtn.innerHTML = '<span class="loading-spinner"></span> Verifying payment...';
+            
+            // Simulate payment verification process
+            setTimeout(() => {
+                // After verification, show confirmation
+                showConfirmationModal();
+            }, 3000); // 3 seconds to simulate payment processing
         });
         
         function updateTotalPrice() {
@@ -1651,10 +1738,33 @@
             
             // Populate payment instructions
             instructionsTitle.textContent = `${method.name} Payment`;
-            instructionsSubtitle.textContent = method.instructions;
+            instructionsSubtitle.textContent = `Follow these steps to complete your payment`;
             methodIcon.innerHTML = `<i class="${method.icon}"></i>`;
             paymentDetails.textContent = method.details;
             paymentAmount.textContent = `€${totalAmount}`;
+            
+            // Clear and populate instructions steps
+            instructionsSteps.innerHTML = '';
+            method.instructions.forEach((step, index) => {
+                const stepDiv = document.createElement('div');
+                stepDiv.className = 'instructions-step';
+                
+                const numberSpan = document.createElement('span');
+                numberSpan.className = 'step-number';
+                numberSpan.textContent = index + 1;
+                
+                const textSpan = document.createElement('span');
+                textSpan.className = 'step-text';
+                textSpan.textContent = step;
+                
+                stepDiv.appendChild(numberSpan);
+                stepDiv.appendChild(textSpan);
+                instructionsSteps.appendChild(stepDiv);
+            });
+            
+            // Reset send payment button
+            sendPaymentBtn.disabled = false;
+            sendPaymentBtn.innerHTML = '<i class="fas fa-paper-plane"></i> I\'ve Sent the Payment';
             
             // Switch modals
             serviceModal.classList.remove('active');
