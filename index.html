@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>ValFX - Developer & Seller</title>
     <link rel="icon" type="image/png" href="https://images-ext-1.discordapp.net/external/b7dPDestOo5p9edP_zddBYSjBlAwgNYZojxg1aW1bZw/%3Fsize%3D1024/https/cdn.discordapp.com/avatars/867556448338313237/285b19be83eebc7fc1f12d35478c3a1a.png?format=webp&quality=lossless">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://www.paypal.com/sdk/js?client-id=AT0hiVJ7UQB6Uo5oSy1OfeOI-qbQapVYJP-clLzvxYsu3Fp0VjuDmK1-HeNlTdZwoe2LU98i1PFejPJk&currency=EUR"></script>
     <style>
         :root {
             --primary-purple: #4B0082;
@@ -21,8 +20,6 @@
             --accent-color: #9b4dff;
             --modal-bg: rgba(26, 1, 46, 0.95);
             --success-green: #00c853;
-            --warning-orange: #ff9800;
-            --error-red: #f44336;
         }
 
         * {
@@ -34,7 +31,7 @@
 
         html {
             scroll-behavior: smooth;
-            zoom: 0.75;
+            zoom: 0.75; /* Set to 75% zoom by default */
         }
 
         body {
@@ -67,6 +64,7 @@
             text-align: center;
         }
 
+        /* --- Header/Banner Section --- */
         .header-banner {
             background: linear-gradient(135deg, rgba(43, 0, 75, 0.9) 0%, rgba(26, 1, 46, 0.95) 100%);
             padding: 100px 20px 50px;
@@ -165,6 +163,7 @@
             animation: vouchPulse 2s infinite alternate;
         }
 
+        /* --- Navigation Buttons --- */
         .nav-buttons {
             background: linear-gradient(to right, var(--dark-purple), #2a0a45);
             padding: 20px 0;
@@ -205,6 +204,7 @@
             font-size: 1.2rem;
         }
 
+        /* --- General Section Styling --- */
         section {
             padding: 80px 20px;
             position: relative;
@@ -241,6 +241,7 @@
             border-radius: 5px;
         }
 
+        /* --- About ValFX Section --- */
         #about-valfx .about-content {
             font-size: 1.2rem;
             line-height: 1.9;
@@ -271,6 +272,7 @@
             font-size: 1.5rem;
         }
 
+        /* --- Recent Projects Section --- */
         #recent-projects .projects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -368,6 +370,7 @@
             border: 1px solid rgba(218, 112, 214, 0.3);
         }
 
+        /* --- Services Page --- */
         #services-page {
             min-height: 100vh;
             padding: 120px 20px 80px;
@@ -427,6 +430,7 @@
             text-shadow: 0 0 10px rgba(155, 77, 255, 0.5);
         }
 
+        /* --- Modal Styling --- */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -641,6 +645,7 @@
             color: white;
         }
 
+        /* Payment Instructions Modal */
         .instructions-header {
             text-align: center;
             padding: 20px;
@@ -717,6 +722,7 @@
             box-shadow: 0 8px 25px rgba(0, 200, 83, 0.6);
         }
 
+        /* Order Confirmation Modal */
         .confirmation-header {
             text-align: center;
             padding: 20px;
@@ -771,6 +777,7 @@
             box-shadow: 0 8px 25px rgba(88, 101, 242, 0.6);
         }
 
+        /* --- Social Section --- */
         .social-icons {
             display: flex;
             justify-content: center;
@@ -809,6 +816,7 @@
             filter: grayscale(0%) brightness(100%);
         }
 
+        /* --- Footer --- */
         footer {
             background: linear-gradient(to right, var(--dark-purple), #2a0a45);
             color: #eee;
@@ -834,6 +842,7 @@
             color: transparent;
         }
 
+        /* Animations */
         @keyframes pulse {
             0% { box-shadow: 0 0 20px var(--border-glow), 0 0 40px var(--light-purple); }
             50% { box-shadow: 0 0 40px var(--border-glow), 0 0 80px var(--light-purple); }
@@ -855,6 +864,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Floating particles */
         .particles {
             position: absolute;
             top: 0;
@@ -882,149 +892,7 @@
             100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
         }
 
-        .auto-payment-container {
-            background: rgba(26, 1, 46, 0.7);
-            border-radius: 15px;
-            padding: 25px;
-            margin: 20px 0;
-            border: 1px solid var(--light-purple);
-            box-shadow: 0 0 20px rgba(138, 43, 226, 0.3);
-        }
-
-        .auto-payment-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(218, 112, 214, 0.3);
-        }
-
-        .payment-title {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: var(--accent-color);
-        }
-
-        .payment-amount {
-            font-size: 2.2rem;
-            font-weight: bold;
-            color: var(--success-green);
-        }
-
-        .payment-method {
-            background: rgba(43, 0, 75, 0.5);
-            padding: 10px 20px;
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        .payment-details-grid {
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .payment-label {
-            font-weight: bold;
-            color: var(--light-purple);
-        }
-
-        .payment-value {
-            word-break: break-all;
-            background: rgba(26, 1, 46, 0.5);
-            padding: 8px 15px;
-            border-radius: 8px;
-        }
-
-        .copy-btn {
-            background: rgba(106, 13, 173, 0.3);
-            border: 1px solid var(--light-purple);
-            color: var(--text-color);
-            padding: 5px 10px;
-            border-radius: 5px;
-            margin-left: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .copy-btn:hover {
-            background: rgba(106, 13, 173, 0.5);
-        }
-
-        .timer-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 25px 0;
-            padding: 15px;
-            background: rgba(43, 0, 75, 0.3);
-            border-radius: 10px;
-        }
-
-        .timer-label {
-            font-weight: bold;
-            color: var(--light-purple);
-        }
-
-        .timer {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: var(--warning-orange);
-        }
-
-        .expired {
-            color: var(--error-red);
-        }
-
-        .payment-notes {
-            background: rgba(26, 1, 46, 0.5);
-            padding: 15px;
-            border-radius: 10px;
-            margin: 15px 0;
-            font-style: italic;
-        }
-
-        .payment-footer {
-            text-align: center;
-            margin-top: 25px;
-            font-size: 0.9rem;
-            color: var(--grey-text);
-        }
-
-        .payment-status {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 20px 0;
-            padding: 15px;
-            border-radius: 10px;
-            background: rgba(43, 0, 75, 0.3);
-        }
-
-        .status-icon {
-            font-size: 2rem;
-            margin-right: 15px;
-        }
-
-        .processing {
-            color: var(--warning-orange);
-        }
-
-        .success {
-            color: var(--success-green);
-        }
-
-        #paypal-button-container {
-            margin-top: 20px;
-            min-height: 50px;
-        }
-
+        /* Responsive Adjustments */
         @media (max-width: 992px) {
             .main-title {
                 font-size: 3.5rem;
@@ -1072,7 +940,7 @@
                 height: 40px;
             }
 
-            .projects-grid, .services-grid {
+            .projects-grid, .service-list, .services-grid {
                 grid-template-columns: 1fr;
             }
             
@@ -1125,19 +993,11 @@
             .modal-description {
                 font-size: 1rem;
             }
-
-            .auto-payment-header {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .payment-details-grid {
-                grid-template-columns: 1fr;
-            }
         }
     </style>
 </head>
 <body>
+    <!-- Floating particles -->
     <div class="particles" id="particles"></div>
 
     <header class="header-banner">
@@ -1255,6 +1115,7 @@
         </div>
     </section>
 
+    <!-- Services Page -->
     <section id="services-page" class="container">
         <h2>My Services</h2>
         <p>Select a service to see details and make a purchase</p>
@@ -1334,6 +1195,7 @@
         </div>
     </section>
 
+    <!-- Service Modal -->
     <div class="modal-overlay" id="service-modal">
         <div class="modal-container">
             <div class="modal-header">
@@ -1379,13 +1241,46 @@
                             <i class="fas fa-money-bill-wave"></i> Pay with Tikkie
                         </button>
                     </div>
-                    
-                    <div id="paypal-button-container"></div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Payment Instructions Modal -->
+    <div class="modal-overlay" id="instructions-modal">
+        <div class="modal-container">
+            <div class="instructions-header">
+                <h2 class="instructions-title" id="instructions-title">Payment Instructions</h2>
+                <p class="instructions-subtitle" id="instructions-subtitle">Please send payment to the address below</p>
+            </div>
+            
+            <div class="instructions-body">
+                <div class="method-icon" id="method-icon">
+                    <i class="fab fa-paypal"></i>
+                </div>
+                
+                <div class="payment-instructions">
+                    <p class="instructions-content" id="instructions-content">
+                        Please send <span id="payment-amount">€45.00</span> to the following address. Make sure to include your order ID in the payment notes.
+                    </p>
+                    
+                    <div class="payment-details" id="payment-details">
+                        PayPal: valfx@example.com
+                    </div>
+                    
+                    <p class="instructions-content">
+                        Once you've sent the payment, click the button below to confirm and proceed to the next step.
+                    </p>
+                    
+                    <button class="send-btn" id="send-payment-btn">
+                        <i class="fas fa-paper-plane"></i> I've Sent the Payment
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Confirmation Modal -->
     <div class="modal-overlay" id="confirmation-modal">
         <div class="modal-container">
             <div class="confirmation-header">
@@ -1448,18 +1343,22 @@
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
                 
+                // Random position
                 const posX = Math.random() * 100;
                 const posY = Math.random() * 100;
                 particle.style.left = `${posX}%`;
                 particle.style.top = `${posY}%`;
                 
+                // Random size
                 const size = Math.random() * 4 + 1;
                 particle.style.width = `${size}px`;
                 particle.style.height = `${size}px`;
                 
+                // Random animation duration
                 const duration = Math.random() * 20 + 10;
                 particle.style.animationDuration = `${duration}s`;
                 
+                // Random delay
                 const delay = Math.random() * 5;
                 particle.style.animationDelay = `${delay}s`;
                 
@@ -1467,17 +1366,21 @@
             }
         }
         
+        // Initialize when page loads
         window.addEventListener('DOMContentLoaded', createParticles);
         
+        // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
+                
                 document.querySelector(this.getAttribute('href')).scrollIntoView({
                     behavior: 'smooth'
                 });
             });
         });
         
+        // Service data
         const services = {
             "bot-development": {
                 title: "Discord Bot Development",
@@ -1601,7 +1504,31 @@
             }
         };
         
+        // Payment details
+        const paymentMethods = {
+            paypal: {
+                name: "PayPal",
+                icon: "fab fa-paypal",
+                details: "valfx@example.com",
+                instructions: "Send payment to the email address below"
+            },
+            litecoin: {
+                name: "Litecoin",
+                icon: "fab fa-bitcoin",
+                details: "Lb5xZhaJ7sQ5z7Pw9sXqKj8Nt3Rv2WxYzA",
+                instructions: "Send payment to the Litecoin address below"
+            },
+            tikkie: {
+                name: "Tikkie",
+                icon: "fas fa-mobile-alt",
+                details: "+31 6 12345678",
+                instructions: "Send payment to the mobile number below"
+            }
+        };
+        
+        // Modal elements
         const serviceModal = document.getElementById('service-modal');
+        const instructionsModal = document.getElementById('instructions-modal');
         const confirmationModal = document.getElementById('confirmation-modal');
         const modalCloseBtns = document.querySelectorAll('.modal-close');
         const modalTitle = document.getElementById('modal-title');
@@ -1612,14 +1539,28 @@
         const quantityInput = document.getElementById('quantity-input');
         const totalPrice = document.getElementById('total-price');
         const paypalBtn = document.getElementById('paypal-btn');
+        const litecoinBtn = document.getElementById('litecoin-btn');
+        const tikkieBtn = document.getElementById('tikkie-btn');
+        
+        // Instructions elements
+        const instructionsTitle = document.getElementById('instructions-title');
+        const instructionsSubtitle = document.getElementById('instructions-subtitle');
+        const methodIcon = document.getElementById('method-icon');
+        const instructionsContent = document.getElementById('instructions-content');
+        const paymentDetails = document.getElementById('payment-details');
+        const paymentAmount = document.getElementById('payment-amount');
+        const sendPaymentBtn = document.getElementById('send-payment-btn');
+        
+        // Confirmation elements
         const confirmationService = document.getElementById('confirmation-service');
         
         let currentService = null;
         let currentPrice = 0;
+        let currentMethod = '';
         let currentQuantity = 1;
         let totalAmount = 0;
-        let paypalButtons = null;
-
+        
+        // Open service modal
         document.querySelectorAll('.service-card').forEach(card => {
             card.addEventListener('click', () => {
                 const serviceId = card.getAttribute('data-service');
@@ -1627,11 +1568,13 @@
                     currentService = serviceId;
                     currentPrice = services[serviceId].price;
                     
+                    // Populate modal with service data
                     modalTitle.textContent = services[serviceId].title;
                     modalSubtitle.textContent = services[serviceId].subtitle;
                     modalImage.src = services[serviceId].image;
                     modalDescription.textContent = services[serviceId].description;
                     
+                    // Clear and populate features list
                     modalFeatures.innerHTML = '';
                     services[serviceId].features.forEach(feature => {
                         const li = document.createElement('li');
@@ -1639,18 +1582,18 @@
                         modalFeatures.appendChild(li);
                     });
                     
+                    // Reset quantity and update price
                     quantityInput.value = 1;
                     updateTotalPrice();
                     
-                    // Initialize PayPal buttons
-                    initPayPalButtons();
-                    
+                    // Show modal
                     serviceModal.classList.add('active');
                     document.body.style.overflow = 'hidden';
                 }
             });
         });
         
+        // Close modals
         modalCloseBtns.forEach(btn => {
             btn.addEventListener('click', closeAllModals);
         });
@@ -1661,106 +1604,77 @@
             }
         });
         
+        instructionsModal.addEventListener('click', (e) => {
+            if (e.target === instructionsModal) {
+                closeAllModals();
+            }
+        });
+        
         confirmationModal.addEventListener('click', (e) => {
             if (e.target === confirmationModal) {
                 closeAllModals();
             }
         });
         
+        // Quantity input change
         quantityInput.addEventListener('input', updateTotalPrice);
         
+        // Payment buttons
         paypalBtn.addEventListener('click', () => {
-            document.getElementById('paypal-button-container').style.display = 'block';
+            currentMethod = 'paypal';
+            showPaymentInstructions();
         });
-
+        
+        litecoinBtn.addEventListener('click', () => {
+            currentMethod = 'litecoin';
+            showPaymentInstructions();
+        });
+        
+        tikkieBtn.addEventListener('click', () => {
+            currentMethod = 'tikkie';
+            showPaymentInstructions();
+        });
+        
+        // Send payment button
+        sendPaymentBtn.addEventListener('click', () => {
+            showConfirmationModal();
+        });
+        
         function updateTotalPrice() {
             currentQuantity = parseInt(quantityInput.value) || 1;
             totalAmount = currentPrice * currentQuantity;
             totalPrice.textContent = `Total: €${totalAmount}`;
-            
-            // Re-initialize PayPal buttons with updated amount
-            if (paypalButtons) {
-                paypalButtons.close();
-                initPayPalButtons();
-            }
         }
         
-        function initPayPalButtons() {
-    if (paypalButtons) {
-        paypalButtons.close();
-    }
-    
-    paypalButtons = paypal.Buttons({
-        createOrder: function(data, actions) {
-            return actions.order.create({
-                purchase_units: [{
-                    description: services[currentService].title,
-                    amount: {
-                        value: totalAmount.toFixed(2),
-                        currency_code: "EUR"
-                    }
-                }]
-            });
-        },
-        onApprove: function(data, actions) {
-            return actions.order.capture().then(function(details) {
-                // Send to backend
-                fetch('http://localhost:3000/process-payment', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        orderID: data.orderID,
-                        serviceName: services[currentService].title,
-                        amount: totalAmount,
-                        quantity: currentQuantity
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // Show confirmation modal
-                        serviceModal.classList.remove('active');
-                        confirmationService.textContent = services[currentService].title;
-                        confirmationModal.classList.add('active');
-                        
-                        // Here you can save transaction details to your database
-                        console.log('Transaction ID:', data.transactionId);
-                    } else {
-                        alert('Payment processing failed. Please contact support.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred. Please contact support.');
-                });
-            });
-        },
-        onError: function(err) {
-            console.error(err);
-            alert('An error occurred with PayPal. Please try again or contact support.');
-        },
-        style: {
-            layout: 'vertical',
-            color: 'gold',
-            shape: 'rect',
-            label: 'paypal'
+        function showPaymentInstructions() {
+            const method = paymentMethods[currentMethod];
+            
+            // Populate payment instructions
+            instructionsTitle.textContent = `${method.name} Payment`;
+            instructionsSubtitle.textContent = method.instructions;
+            methodIcon.innerHTML = `<i class="${method.icon}"></i>`;
+            paymentDetails.textContent = method.details;
+            paymentAmount.textContent = `€${totalAmount}`;
+            
+            // Switch modals
+            serviceModal.classList.remove('active');
+            instructionsModal.classList.add('active');
         }
-    });
-    
-    paypalButtons.render('#paypal-button-container');
-    document.getElementById('paypal-button-container').style.display = 'none';
-}
+        
+        function showConfirmationModal() {
+            // Populate confirmation data
+            confirmationService.textContent = services[currentService].title;
+            
+            // Switch modals
+            instructionsModal.classList.remove('active');
+            confirmationModal.classList.add('active');
+        }
         
         function closeAllModals() {
             serviceModal.classList.remove('active');
+            instructionsModal.classList.remove('active');
             confirmationModal.classList.remove('active');
             document.body.style.overflow = 'auto';
-            
-            if (paypalButtons) {
-                paypalButtons.close();
-            }
         }
     </script>
 </body>
