@@ -1,18 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>ValFX - Developer & Seller</title>
+    <link rel="icon" type="image/png" href="https://images-ext-1.discordapp.net/external/b7dPDestOo5p9edP_zddBYSjBlAwgNYZojxg1aW1bZw/%3Fsize%3D1024/https/cdn.discordapp.com/avatars/867556448338313237/285b19be83eebc7fc1f12d35478c3a1a.png?format=webp&quality=lossless">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
         :root {
             --primary-purple: #4B0082;
             --light-purple: #8A2BE2;
@@ -24,8 +18,20 @@
             --border-glow: #DA70D6;
             --grey-text: #cccccc;
             --accent-color: #9b4dff;
-            --success-green: #00c853;
             --modal-bg: rgba(26, 1, 46, 0.95);
+            --success-green: #00c853;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            zoom: 0.75; /* Set to 75% zoom by default */
         }
 
         body {
@@ -35,8 +41,8 @@
             overflow-x: hidden;
             background: radial-gradient(circle at center, #1a012e 0%, #0d0018 100%);
             position: relative;
-            min-height: 100vh;
-            padding-bottom: 100px;
+            padding: 0;
+            margin: 0;
         }
 
         body::before {
@@ -55,9 +61,10 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            text-align: center;
         }
 
-        /* Header */
+        /* --- Header/Banner Section --- */
         .header-banner {
             background: linear-gradient(135deg, rgba(43, 0, 75, 0.9) 0%, rgba(26, 1, 46, 0.95) 100%);
             padding: 100px 20px 50px;
@@ -72,11 +79,22 @@
             box-shadow: 0 10px 30px rgba(106, 13, 173, 0.3);
         }
 
+        .header-banner::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://media.discordapp.net/attachments/1315822204331757630/1390069902861402132/Particulas_fluindo_em_fundo_roxo_brilhante.jpg?ex=6866eafb&is=6865997b&hm=ed02fc06595ecc849401aa456c307a14cf0ef64bcd6b1bcad63417c9f59b12c8&=&format=webp') center/cover no-repeat;
+            opacity: 0.7;
+            z-index: -1;
+        }
+
         .header-content {
             position: relative;
             z-index: 2;
             max-width: 800px;
-            text-align: center;
         }
 
         .profile-image-container {
@@ -95,6 +113,11 @@
             animation: pulse 4s infinite ease-in-out;
         }
 
+        .profile-image-container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px var(--border-glow), 0 0 80px var(--light-purple);
+        }
+
         .profile-image {
             width: 100%;
             height: 100%;
@@ -106,6 +129,7 @@
         .main-title {
             font-size: 4.5rem;
             font-weight: 800;
+            color: var(--text-color);
             margin-bottom: 15px;
             text-shadow: 0 0 15px var(--light-purple), 0 0 30px var(--primary-purple);
             letter-spacing: 1px;
@@ -139,7 +163,7 @@
             animation: vouchPulse 2s infinite alternate;
         }
 
-        /* Navigation */
+        /* --- Navigation Buttons --- */
         .nav-buttons {
             background: linear-gradient(to right, var(--dark-purple), #2a0a45);
             padding: 20px 0;
@@ -180,10 +204,21 @@
             font-size: 1.2rem;
         }
 
-        /* Sections */
+        /* --- General Section Styling --- */
         section {
             padding: 80px 20px;
             position: relative;
+        }
+
+        section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(26, 1, 46, 0.85);
+            z-index: -1;
         }
 
         section h2 {
@@ -194,8 +229,6 @@
             position: relative;
             display: inline-block;
             text-shadow: 0 0 15px var(--light-purple);
-            text-align: center;
-            width: 100%;
         }
 
         section h2::after {
@@ -208,8 +241,8 @@
             border-radius: 5px;
         }
 
-        /* About Section */
-        .about-content {
+        /* --- About ValFX Section --- */
+        #about-valfx .about-content {
             font-size: 1.2rem;
             line-height: 1.9;
             max-width: 900px;
@@ -224,13 +257,13 @@
             z-index: 2;
         }
 
-        .about-content p {
+        #about-valfx .about-content p {
             margin-bottom: 25px;
             position: relative;
             padding-left: 30px;
         }
 
-        .about-content p::before {
+        #about-valfx .about-content p::before {
             content: "✦";
             position: absolute;
             left: 0;
@@ -239,7 +272,110 @@
             font-size: 1.5rem;
         }
 
-        /* Services Section */
+        /* --- Recent Projects Section --- */
+        #recent-projects .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 35px;
+            margin-top: 50px;
+        }
+
+        .project-item {
+            background: linear-gradient(145deg, rgba(43, 0, 75, 0.5), rgba(26, 1, 46, 0.7));
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            border: 1px solid rgba(218, 112, 214, 0.3);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 2;
+        }
+
+        .project-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6), 0 0 25px var(--light-purple);
+        }
+
+        .project-image-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            overflow: hidden;
+        }
+
+        .project-image-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.7s ease;
+        }
+
+        .project-item:hover .project-image-container img {
+            transform: scale(1.1);
+        }
+
+        .project-item-info {
+            padding: 25px;
+            text-align: left;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .project-item-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--text-color);
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .project-item-info h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--light-purple);
+        }
+
+        .project-item-info p {
+            font-size: 1.05rem;
+            color: #d0d0d0;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: auto;
+        }
+
+        .project-tag {
+            background: rgba(139, 0, 255, 0.3);
+            color: #e0c4ff;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(218, 112, 214, 0.3);
+        }
+
+        /* --- Services Page --- */
+        #services-page {
+            min-height: 100vh;
+            padding: 120px 20px 80px;
+        }
+
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -294,7 +430,7 @@
             text-shadow: 0 0 10px rgba(155, 77, 255, 0.5);
         }
 
-        /* Modal Styling */
+        /* --- Modal Styling --- */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -363,9 +499,26 @@
             text-shadow: 0 0 15px var(--light-purple);
         }
 
+        .modal-subtitle {
+            color: #d0d0d0;
+            font-size: 1.2rem;
+            max-width: 80%;
+            margin: 0 auto;
+        }
+
         .modal-content {
             padding: 30px;
             text-align: left;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(218, 112, 214, 0.3);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
         .modal-description {
@@ -373,6 +526,36 @@
             line-height: 1.8;
             margin-bottom: 30px;
             color: #e0e0e0;
+        }
+
+        .modal-features {
+            margin-bottom: 30px;
+        }
+
+        .modal-features h4 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+        }
+
+        .features-list {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+
+        .features-list li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .features-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: var(--light-purple);
+            font-size: 1.3rem;
         }
 
         .purchase-section {
@@ -462,19 +645,44 @@
             color: white;
         }
 
-        /* Payment Instructions */
-        .instructions-container {
-            background: rgba(26, 1, 46, 0.5);
-            border-radius: 15px;
-            padding: 25px;
-            margin: 25px 0;
-            border-left: 4px solid var(--light-purple);
+        /* Payment Instructions Modal */
+        .instructions-header {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(90deg, var(--dark-purple), var(--primary-purple));
+            border-bottom: 2px solid var(--light-purple);
         }
 
         .instructions-title {
-            font-size: 1.6rem;
-            color: var(--accent-color);
+            font-size: 2.5rem;
+            color: white;
             margin-bottom: 15px;
+            text-shadow: 0 0 15px var(--light-purple);
+        }
+
+        .instructions-subtitle {
+            color: var(--border-glow);
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .instructions-body {
+            padding: 30px;
+        }
+
+        .method-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: var(--light-purple);
+        }
+
+        .payment-instructions {
+            background: rgba(43, 0, 75, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            text-align: left;
+            border-left: 4px solid var(--light-purple);
         }
 
         .instructions-content {
@@ -484,34 +692,13 @@
         }
 
         .payment-details {
-            background: rgba(43, 0, 75, 0.3);
+            background: rgba(26, 1, 46, 0.5);
             padding: 15px;
             border-radius: 10px;
             margin: 15px 0;
             font-family: monospace;
             font-size: 1.1rem;
             word-break: break-all;
-        }
-
-        .important-note {
-            color: #ff6b6b;
-            font-weight: 600;
-            margin-top: 10px;
-        }
-
-        .payment-confirmation {
-            background: rgba(0, 200, 83, 0.1);
-            border: 1px solid var(--success-green);
-            border-radius: 10px;
-            padding: 15px;
-            margin: 15px 0;
-            text-align: center;
-        }
-
-        .payment-confirmation i {
-            font-size: 2.5rem;
-            color: var(--success-green);
-            margin-bottom: 15px;
         }
 
         .send-btn {
@@ -535,6 +722,43 @@
             box-shadow: 0 8px 25px rgba(0, 200, 83, 0.6);
         }
 
+        /* Order Confirmation Modal */
+        .confirmation-header {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(90deg, var(--success-green), #009624);
+        }
+
+        .confirmation-title {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 15px;
+            text-shadow: 0 0 15px rgba(0, 200, 83, 0.7);
+        }
+
+        .confirmation-subtitle {
+            color: #e0ffe0;
+            font-size: 1.3rem;
+        }
+
+        .confirmation-body {
+            padding: 30px;
+        }
+
+        .confirmation-icon {
+            font-size: 5rem;
+            color: var(--success-green);
+            margin: 20px 0;
+            text-shadow: 0 0 20px rgba(0, 200, 83, 0.5);
+        }
+
+        .confirmation-message {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
         .discord-link {
             display: inline-block;
             background: linear-gradient(135deg, #7289DA, #5865F2);
@@ -553,7 +777,46 @@
             box-shadow: 0 8px 25px rgba(88, 101, 242, 0.6);
         }
 
-        /* Footer */
+        /* --- Social Section --- */
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 35px;
+            margin-top: 50px;
+        }
+
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(106, 13, 173, 0.3), rgba(74, 0, 128, 0.5));
+            transition: all 0.4s ease;
+            border: 1px solid rgba(218, 112, 214, 0.3);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .social-icons a:hover {
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 0 0 30px var(--light-purple);
+            background: linear-gradient(135deg, rgba(123, 47, 219, 0.5), rgba(106, 13, 173, 0.7));
+        }
+
+        .social-icons a img {
+            width: 50px;
+            height: 50px;
+            transition: transform 0.4s ease;
+            filter: grayscale(100%) brightness(150%);
+        }
+
+        .social-icons a:hover img {
+            transform: scale(1.2);
+            filter: grayscale(0%) brightness(100%);
+        }
+
+        /* --- Footer --- */
         footer {
             background: linear-gradient(to right, var(--dark-purple), #2a0a45);
             color: #eee;
@@ -596,12 +859,40 @@
             100% { text-shadow: 0 0 25px var(--light-purple), 0 0 50px var(--primary-purple); }
         }
 
-        @keyframes processing {
-            0% { transform: rotate(0); }
-            100% { transform: rotate(360deg); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Responsive */
+        /* Floating particles */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--light-purple);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--light-purple), 0 0 20px var(--light-purple);
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
+        }
+
+        /* Responsive Adjustments */
         @media (max-width: 992px) {
             .main-title {
                 font-size: 3.5rem;
@@ -635,7 +926,21 @@
                 font-size: 2.3rem;
             }
 
-            .services-grid {
+            .social-icons {
+                gap: 25px;
+            }
+
+            .social-icons a {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .social-icons a img {
+                width: 40px;
+                height: 40px;
+            }
+
+            .projects-grid, .service-list, .services-grid {
                 grid-template-columns: 1fr;
             }
             
@@ -673,18 +978,28 @@
                 font-size: 2rem;
             }
             
-            .about-content {
+            #about-valfx .about-content {
                 padding: 25px 20px;
             }
             
             .modal-title {
                 font-size: 1.8rem;
             }
+            
+            .modal-subtitle {
+                font-size: 1rem;
+            }
+            
+            .modal-description {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Header Banner -->
+    <!-- Floating particles -->
+    <div class="particles" id="particles"></div>
+
     <header class="header-banner">
         <div class="header-content">
             <div class="profile-image-container">
@@ -695,76 +1010,187 @@
         </div>
     </header>
 
-    <!-- Navigation -->
     <nav class="nav-buttons">
-        <a href="#about"><i class="fas fa-user"></i> About ValFX</a>
-        <a href="#services"><i class="fas fa-cogs"></i> Services</a>
+        <a href="#about-valfx"><i class="fas fa-user"></i> About ValFX</a>
+        <a href="#recent-projects"><i class="fas fa-project-diagram"></i> Projects</a>
+        <a href="#services-page"><i class="fas fa-cogs"></i> Services</a>
         <a href="#social"><i class="fas fa-share-alt"></i> Social</a>
     </nav>
 
-    <!-- About Section -->
-    <section id="about">
-        <div class="container">
-            <h2>About ValFX</h2>
-            <div class="about-content">
-                <p>
-                    Hi, I'm ValFX — a developer, producer, and entrepreneur with a strong track record of delivering quality work. I take pride in being reliable, consistent, and fully committed to every project I take on.
-                </p>
-                <p>
-                    With experience in both tech and business, I focus on building, creating, and selling with purpose. Whether I'm writing code, managing production, or running sales, I approach my work with professionalism and drive.
-                </p>
-                <p>
-                    Outside of work, I enjoy gaming, cooking, and exploring new skills. I'm always looking for ways to grow, both personally and professionally.
-                </p>
-                <p>
-                    I believe in earning trust through action — and I'm here to get things done.
-                </p>
+    <section id="about-valfx" class="container">
+        <h2>About ValFX</h2>
+        <div class="about-content">
+            <p>
+                Hi, I'm ValFX — a developer, producer, and entrepreneur with a strong track record of delivering quality work. I take pride in being reliable, consistent, and fully committed to every project I take on.
+            </p>
+            <p>
+                With experience in both tech and business, I focus on building, creating, and selling with purpose. Whether I'm writing code, managing production, or running sales, I approach my work with professionalism and drive.
+            </p>
+            <p>
+                Outside of work, I enjoy gaming, cooking, and exploring new skills. I'm always looking for ways to grow, both personally and professionally.
+            </p>
+            <p>
+                I believe in earning trust through action — and I'm here to get things done.
+            </p>
+        </div>
+    </section>
+
+    <section id="recent-projects" class="container">
+        <h2>Recent Projects</h2>
+        <p>Click on the project to get a hyperlink to the place to see the project!</p>
+        
+        <div class="projects-grid">
+            <div class="project-item">
+                <a href="https://discord.gg/fluxy" target="_blank">
+                    <div class="project-image-container">
+                        <img src="https://media.discordapp.net/attachments/1387529641706787007/1390056923335757884/how-to-make-a-discord-bot-7c0fe302b98b05b145682344b3a4ec59.png?ex=6866dee4&is=68658d64&hm=3f74083104b5f706ff62d762157b0ab8f294f6c09d5e7c3325b77a41fdc4cc34&=&format=webp&quality=lossless" alt="Discord Bot Project">
+                    </div>
+                    <div class="project-item-info">
+                        <div>
+                            <h3>Discord Bot Development</h3>
+                            <p>Custom bots made by myself, even with the source codes.</p>
+                        </div>
+                        <div class="project-tags">
+                            <span class="project-tag">Discord.js</span>
+                            <span class="project-tag">Node.js</span>
+                            <span class="project-tag">Discord.py</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="project-item">
+                <a href="https://discord.gg/fluxy" target="_blank">
+                    <div class="project-image-container">
+                        <img src="https://media.discordapp.net/attachments/1387529641706787007/1390059397170073841/fluxy_f.png?ex=6866e132&is=68658fb2&hm=656fd25da332a5398b17beb7ee08efc121acfc2fe9dd66a940ee14406f873b48&=&format=webp&quality=lossless&width=1872&height=624" alt="E-commerce Website">
+                    </div>
+                    <div class="project-item-info">
+                        <div>
+                            <h3>Selling Service</h3>
+                            <p>Fully Developed everything to sell my online stuff.</p>
+                        </div>
+                        <div class="project-tags">
+                            <span class="project-tag">Paypal</span>
+                            <span class="project-tag">Litecoin</span>
+                            <span class="project-tag">Tikkie</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="project-item">
+                <a href="https://discord.gg/squishy" target="_blank">
+                    <div class="project-image-container">
+                        <img src="https://media.discordapp.net/attachments/1387529641706787007/1390060740987322419/Blender-animation.png?ex=6866e272&is=686590f2&hm=351b1a882ea17119c0fae7ebfb859ab3f2d75267742890cbd47fcec7796caea3&=&format=webp&quality=lossless&width=1649&height=902" alt="Account Management System">
+                    </div>
+                    <div class="project-item-info">
+                        <div>
+                            <h3>Animator</h3>
+                            <p>Making Animations in a lot of games.</p>
+                        </div>
+                        <div class="project-tags">
+                            <span class="project-tag">Blender</span>
+                            <span class="project-tag">Animations</span>
+                            <span class="project-tag">Games</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="project-item">
+                <a href="https://discord.gg/fluxy" target="_blank">
+                    <div class="project-image-container">
+                        <img src="https://media.discordapp.net/attachments/1387529641706787007/1390060977252339933/FL_Studio_520x500.png?ex=6866e2ab&is=6865912b&hm=f92e5258e14c24962cd9148dbbcd1f1a82b0f1d438e5131feae0309f4263461b&=&format=webp&quality=lossless" alt="Nitro Dashboard">
+                    </div>
+                    <div class="project-item-info">
+                        <div>
+                            <h3>Producer</h3>
+                            <p>Recently I have been making music which will be public asap.</p>
+                        </div>
+                        <div class="project-tags">
+                            <span class="project-tag">FL Studio</span>
+                            <span class="project-tag">Own Beats</span>
+                            <span class="project-tag">Samples</span>
+                        </div>
+                    </div>
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- Services Section -->
-    <section id="services">
-        <div class="container">
-            <h2>My Services</h2>
-            <p style="text-align: center; margin-bottom: 30px;">Select a service to see details and make a purchase</p>
+    <!-- Services Page -->
+    <section id="services-page" class="container">
+        <h2>My Services</h2>
+        <p>Select a service to see details and make a purchase</p>
+        
+        <div class="services-grid">
+            <div class="service-card" data-service="bot-development">
+                <div class="service-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h3>Discord Bot Development</h3>
+                <p>Custom Discord bots tailored to your needs with full source code</p>
+                <div class="service-price">€45+</div>
+            </div>
             
-            <div class="services-grid">
-                <div class="service-card" data-service="bot-development">
-                    <div class="service-icon">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <h3>Discord Bot Development</h3>
-                    <p>Custom Discord bots tailored to your needs with full source code</p>
-                    <div class="service-price">€45+</div>
+            <div class="service-card" data-service="nitro">
+                <div class="service-icon">
+                    <i class="fab fa-discord"></i>
                 </div>
-                
-                <div class="service-card" data-service="nitro">
-                    <div class="service-icon">
-                        <i class="fab fa-discord"></i>
-                    </div>
-                    <h3>Discord Nitro</h3>
-                    <p>Cheap legal Discord Nitro Basic and Boost subscriptions</p>
-                    <div class="service-price">€5-10</div>
+                <h3>Discord Nitro</h3>
+                <p>Cheap legal Discord Nitro Basic and Boost subscriptions</p>
+                <div class="service-price">€5-10</div>
+            </div>
+            
+            <div class="service-card" data-service="premium-accounts">
+                <div class="service-icon">
+                    <i class="fas fa-user-lock"></i>
                 </div>
-                
-                <div class="service-card" data-service="premium-accounts">
-                    <div class="service-icon">
-                        <i class="fas fa-user-lock"></i>
-                    </div>
-                    <h3>Premium Accounts</h3>
-                    <p>Netflix, Spotify, Crunchyroll and other premium accounts</p>
-                    <div class="service-price">€3-15</div>
+                <h3>Premium Accounts</h3>
+                <p>Netflix, Spotify, Crunchyroll and other premium accounts</p>
+                <div class="service-price">€3-15</div>
+            </div>
+            
+            <div class="service-card" data-service="middleman">
+                <div class="service-icon">
+                    <i class="fas fa-handshake"></i>
                 </div>
-                
-                <div class="service-card" data-service="middleman">
-                    <div class="service-icon">
-                        <i class="fas fa-handshake"></i>
-                    </div>
-                    <h3>Middleman Services</h3>
-                    <p>Secure transaction handling with 600+ successful vouches</p>
-                    <div class="service-price">€5-20</div>
+                <h3>Middleman Services</h3>
+                <p>Secure transaction handling with 600+ successful vouches</p>
+                <div class="service-price">€5-20</div>
+            </div>
+            
+            <div class="service-card" data-service="website-dev">
+                <div class="service-icon">
+                    <i class="fas fa-code"></i>
                 </div>
+                <h3>Website Development</h3>
+                <p>Custom websites tailored to your business needs</p>
+                <div class="service-price">€100+</div>
+            </div>
+            
+            <div class="service-card" data-service="music-production">
+                <div class="service-icon">
+                    <i class="fas fa-music"></i>
+                </div>
+                <h3>Music Production</h3>
+                <p>Custom beats, soundtracks, and audio production</p>
+                <div class="service-price">€25+</div>
+            </div>
+            
+            <div class="service-card" data-service="animation">
+                <div class="service-icon">
+                    <i class="fas fa-film"></i>
+                </div>
+                <h3>Animation Services</h3>
+                <p>Custom animations for games and digital media</p>
+                <div class="service-price">€30+</div>
+            </div>
+            
+            <div class="service-card" data-service="consulting">
+                <div class="service-icon">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <h3>Tech Consulting</h3>
+                <p>Expert advice on development, automation, and systems</p>
+                <div class="service-price">€20/h</div>
             </div>
         </div>
     </section>
@@ -775,11 +1201,26 @@
             <div class="modal-header">
                 <button class="modal-close">&times;</button>
                 <h2 class="modal-title" id="modal-title">Discord Bot Development</h2>
+                <p class="modal-subtitle" id="modal-subtitle">Custom Discord bots tailored to your needs</p>
             </div>
             <div class="modal-content">
+                <img src="https://media.discordapp.net/attachments/1387529641706787007/1390056923335757884/how-to-make-a-discord-bot-7c0fe302b98b05b145682344b3a4ec59.png?ex=6866dee4&is=68658d64&hm=3f74083104b5f706ff62d762157b0ab8f294f6c09d5e7c3325b77a41fdc4cc34&=&format=webp&quality=lossless" alt="Service Image" class="modal-image" id="modal-image">
+                
                 <p class="modal-description" id="modal-description">
                     Get a fully customized Discord bot designed specifically for your server's needs. I create bots with features like moderation tools, automated responses, custom commands, role management, and much more. All bots come with source code and documentation.
                 </p>
+                
+                <div class="modal-features">
+                    <h4>Key Features:</h4>
+                    <ul class="features-list" id="modal-features">
+                        <li>Custom commands tailored to your server</li>
+                        <li>Moderation tools (kick, ban, mute, warn)</li>
+                        <li>Role management and auto-assignment</li>
+                        <li>Automated responses and announcements</li>
+                        <li>Integration with external APIs</li>
+                        <li>Full source code and documentation</li>
+                    </ul>
+                </div>
                 
                 <div class="purchase-section">
                     <div class="quantity-selector">
@@ -808,118 +1249,82 @@
     <!-- Payment Instructions Modal -->
     <div class="modal-overlay" id="instructions-modal">
         <div class="modal-container">
-            <div class="modal-header">
-                <button class="modal-close">&times;</button>
-                <h2 class="modal-title" id="instructions-title">Payment Instructions</h2>
+            <div class="instructions-header">
+                <h2 class="instructions-title" id="instructions-title">Payment Instructions</h2>
+                <p class="instructions-subtitle" id="instructions-subtitle">Please send payment to the address below</p>
             </div>
-            <div class="modal-content">
-                <div class="instructions-container">
-                    <div id="paypal-instructions" style="display: none;">
-                        <h3 class="instructions-title">PayPal Payment</h3>
-                        <p class="instructions-content">
-                            Please send <strong id="paypal-amount">€45.00</strong> to the following PayPal address:
-                        </p>
-                        <div class="payment-details">
-                            OmadSwarte@gmail.com
-                        </div>
-                        <p class="instructions-content">
-                            <strong>Important notes:</strong>
-                        </p>
-                        <ul class="instructions-content" style="margin-left: 20px;">
-                            <li>No notes in payment description</li>
-                            <li>Family and Friends ONLY</li>
-                            <li>Balance ONLY (no credit/debit cards)</li>
-                        </ul>
-                        <p class="important-note">
-                            Your order will be processed once the payment is received and verified.
-                        </p>
+            
+            <div class="instructions-body">
+                <div class="method-icon" id="method-icon">
+                    <i class="fab fa-paypal"></i>
+                </div>
+                
+                <div class="payment-instructions">
+                    <p class="instructions-content" id="instructions-content">
+                        Please send <span id="payment-amount">€45.00</span> to the following address. Make sure to include your order ID in the payment notes.
+                    </p>
+                    
+                    <div class="payment-details" id="payment-details">
+                        PayPal: valfx@example.com
                     </div>
                     
-                    <div id="litecoin-instructions" style="display: none;">
-                        <h3 class="instructions-title">Litecoin Payment</h3>
-                        <p class="instructions-content">
-                            Please send <strong id="litecoin-amount">€45.00</strong> worth of Litecoin to the following address:
-                        </p>
-                        <div class="payment-details">
-                            LTn3fhUgP1bkagD1GuznB378SjWHQKREfn
-                        </div>
-                        <p class="instructions-content">
-                            Current exchange rate: 1 LTC = €100.00
-                        </p>
-                        <p class="important-note">
-                            Your order will be processed once the transaction has 3 confirmations on the blockchain.
-                        </p>
-                    </div>
+                    <p class="instructions-content">
+                        Once you've sent the payment, click the button below to confirm and proceed to the next step.
+                    </p>
                     
-                    <div id="tikkie-instructions" style="display: none;">
-                        <h3 class="instructions-title">Tikkie Payment</h3>
-                        <p class="instructions-content">
-                            Please pay <strong id="tikkie-amount">€45.00</strong> using the following Tikkie link:
-                        </p>
-                        <div class="payment-details">
-                            https://tikkie.me/pay/ag6l3ltaep0nofc3ba94
-                        </div>
-                        <p class="instructions-content">
-                            Click the link above or scan the QR code below:
-                        </p>
-                        <div style="text-align: center; margin: 20px 0;">
-                            <div style="display: inline-block; background: white; padding: 10px; border-radius: 10px;">
-                                <div style="width: 150px; height: 150px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; font-size: 5rem;">
-                                    <i class="fas fa-qrcode"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <p class="important-note">
-                            Your order will be processed once the payment is confirmed.
-                        </p>
-                    </div>
-                    
-                    <div class="payment-confirmation" id="processing-section" style="display: none;">
-                        <i class="fas fa-sync-alt fa-spin" style="animation: processing 2s linear infinite;"></i>
-                        <h3>Processing Payment</h3>
-                        <p>We are verifying your payment. This may take a few moments...</p>
-                    </div>
-                    
-                    <div class="payment-confirmation" id="completed-section" style="display: none;">
-                        <i class="fas fa-check-circle"></i>
-                        <h3>Payment Completed!</h3>
-                        <p>Your payment has been successfully received and verified.</p>
-                    </div>
-                    
-                    <div style="text-align: center; margin-top: 30px;">
-                        <button class="send-btn" id="send-payment-btn" style="display: none;">
-                            <i class="fas fa-paper-plane"></i> I've Sent the Payment
-                        </button>
-                        
-                        <a href="https://discord.gg/fluxy" target="_blank" class="discord-link" id="discord-link" style="display: none;">
-                            <i class="fab fa-discord"></i> Create Ticket on Discord
-                        </a>
-                    </div>
+                    <button class="send-btn" id="send-payment-btn">
+                        <i class="fas fa-paper-plane"></i> I've Sent the Payment
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Social Section -->
-    <section id="social">
-        <div class="container">
-            <h2>Connect With Me</h2>
-            <p style="text-align: center; margin-bottom: 30px;">Follow me on social media to stay updated</p>
-            <div style="display: flex; justify-content: center; gap: 30px; margin-top: 30px;">
-                <a href="https://discord.gg/fluxy" target="_blank" style="font-size: 3rem; color: #7289DA;">
-                    <i class="fab fa-discord"></i>
-                </a>
-                <a href="https://github.com/ValFX123" target="_blank" style="font-size: 3rem; color: white;">
-                    <i class="fab fa-github"></i>
-                </a>
-                <a href="https://www.paypal.me/valtypex" target="_blank" style="font-size: 3rem; color: #003087;">
-                    <i class="fab fa-paypal"></i>
+    <!-- Order Confirmation Modal -->
+    <div class="modal-overlay" id="confirmation-modal">
+        <div class="modal-container">
+            <div class="confirmation-header">
+                <h2 class="confirmation-title">Payment Received!</h2>
+                <p class="confirmation-subtitle">Thank you for your purchase</p>
+            </div>
+            
+            <div class="confirmation-body">
+                <div class="confirmation-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                
+                <p class="confirmation-message">
+                    We've received your payment for <strong id="confirmation-service">Discord Bot Development</strong>.
+                    Your order is now being processed.
+                </p>
+                
+                <p class="confirmation-message">
+                    To receive your order, please create a support ticket in our Discord server:
+                </p>
+                
+                <a href="https://discord.gg/fluxy" target="_blank" class="discord-link">
+                    <i class="fab fa-discord"></i> Create Ticket on Discord
                 </a>
             </div>
         </div>
+    </div>
+
+    <section id="social" class="container">
+        <h2>Connect With Me</h2>
+        <p>Follow me on my social media channels to stay updated about everything you need to know!</p>
+        <div class="social-icons">
+            <a href="https://discord.gg/fluxy" target="_blank" aria-label="Discord">
+                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord">
+            </a>
+            <a href="https://github.com/ValFX123" target="_blank" aria-label="GitHub">
+                <img src="https://cdn-icons-png.flaticon.com/512/733/733553.png" alt="GitHub">
+            </a>
+            <a href="https://www.paypal.me/valtypex" target="_blank" aria-label="PayPal">
+                <img src="https://media.discordapp.net/attachments/1387529641706787007/1390066073751126036/174861.png?ex=6866e76a&is=686595ea&hm=671b1ed2d0b47e70f471553b14b041922c381bdbe56c79466b31bf7d8ee205fd&=&format=webp&quality=lossless" alt="PayPal">
+            </a>
+        </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="container footer-content">
             <div class="footer-logo">ValFX</div>
@@ -929,59 +1334,231 @@
     </footer>
 
     <script>
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random position
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                
+                // Random size
+                const size = Math.random() * 4 + 1;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random animation duration
+                const duration = Math.random() * 20 + 10;
+                particle.style.animationDuration = `${duration}s`;
+                
+                // Random delay
+                const delay = Math.random() * 5;
+                particle.style.animationDelay = `${delay}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Initialize when page loads
+        window.addEventListener('DOMContentLoaded', createParticles);
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
         // Service data
         const services = {
             "bot-development": {
                 title: "Discord Bot Development",
+                subtitle: "Custom Discord bots tailored to your needs",
+                image: "https://media.discordapp.net/attachments/1387529641706787007/1390056923335757884/how-to-make-a-discord-bot-7c0fe302b98b05b145682344b3a4ec59.png?ex=6866dee4&is=68658d64&hm=3f74083104b5f706ff62d762157b0ab8f294f6c09d5e7c3325b77a41fdc4cc34&=&format=webp&quality=lossless",
                 description: "Get a fully customized Discord bot designed specifically for your server's needs. I create bots with features like moderation tools, automated responses, custom commands, role management, and much more. All bots come with source code and documentation.",
+                features: [
+                    "Custom commands tailored to your server",
+                    "Moderation tools (kick, ban, mute, warn)",
+                    "Role management and auto-assignment",
+                    "Automated responses and announcements",
+                    "Integration with external APIs",
+                    "Full source code and documentation"
+                ],
                 price: 45
             },
             "nitro": {
                 title: "Discord Nitro",
+                subtitle: "Cheap legal Discord Nitro subscriptions",
+                image: "https://media.discordapp.net/attachments/1387529641706787007/1390059397170073841/fluxy_f.png?ex=6866e132&is=68658fb2&hm=656fd25da332a5398b17beb7ee08efc121acfc2fe9dd66a940ee14406f873b48&=&format=webp&quality=lossless&width=1872&height=624",
                 description: "Purchase Discord Nitro Basic or Boost at discounted prices. All subscriptions are legally obtained and delivered instantly after payment confirmation. Perfect for enhancing your Discord experience with HD video, custom emojis, and server boosting.",
+                features: [
+                    "Instant delivery after payment",
+                    "Nitro Basic or Full Nitro available",
+                    "Legal subscriptions with warranty",
+                    "Server boosting capabilities",
+                    "Access to custom emojis globally",
+                    "HD video streaming and uploads"
+                ],
                 price: 8
             },
             "premium-accounts": {
                 title: "Premium Accounts",
+                subtitle: "Access premium services at affordable prices",
+                image: "https://media.discordapp.net/attachments/1387529641706787007/1390060977252339933/FL_Studio_520x500.png?ex=6866e2ab&is=6865912b&hm=f92e5258e14c24962cd9148dbbcd1f1a82b0f1d438e5131feae0309f4263461b&=&format=webp&quality=lossless",
                 description: "Get access to premium services like Netflix, Spotify, Disney+, Crunchyroll, and more at a fraction of the cost. All accounts come with warranty and replacement guarantee. Enjoy ad-free streaming and premium features without breaking the bank.",
+                features: [
+                    "Netflix, Spotify, Disney+ and more",
+                    "Warranty and replacement guarantee",
+                    "Private accounts (no sharing)",
+                    "Ad-free streaming experience",
+                    "Access to premium features",
+                    "Instant delivery after payment"
+                ],
                 price: 7
             },
             "middleman": {
                 title: "Middleman Services",
+                subtitle: "Secure transactions with trusted mediation",
+                image: "https://media.discordapp.net/attachments/1387529641706787007/1390060740987322419/Blender-animation.png?ex=6866e272&is=686590f2&hm=351b1a882ea17119c0fae7ebfb859ab3f2d75267742890cbd47fcec7796caea3&=&format=webp&quality=lossless&width=1649&height=902",
                 description: "With over 600 successful vouches, I provide trusted middleman services for your transactions. I act as a neutral third party to ensure both sides fulfill their obligations. Perfect for high-value trades, account transfers, or any transaction requiring trust.",
+                features: [
+                    "Over 600 successful vouches",
+                    "Secure escrow service",
+                    "Fast and reliable mediation",
+                    "Detailed transaction documentation",
+                    "Flexible fee structure",
+                    "24/7 availability for urgent deals"
+                ],
                 price: 10
+            },
+            "website-dev": {
+                title: "Website Development",
+                subtitle: "Professional websites for your business",
+                image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                description: "Get a professional website designed and developed specifically for your business needs. I create responsive, modern websites with clean code and intuitive user interfaces. Perfect for showcasing your services, products, or portfolio.",
+                features: [
+                    "Responsive design (mobile-friendly)",
+                    "Custom design based on your brand",
+                    "SEO optimized for better visibility",
+                    "Fast loading times",
+                    "Content management system",
+                    "Ongoing support and maintenance"
+                ],
+                price: 100
+            },
+            "music-production": {
+                title: "Music Production",
+                subtitle: "Custom beats and soundtracks",
+                image: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                description: "Professional music production services including custom beats, soundtracks, and audio editing. Whether you need background music for your content or a full production for your project, I deliver high-quality audio with quick turnaround times.",
+                features: [
+                    "Custom beats and instrumentals",
+                    "Soundtrack creation",
+                    "Audio mixing and mastering",
+                    "Voiceover editing",
+                    "Multiple genre expertise",
+                    "Fast delivery and revisions"
+                ],
+                price: 25
+            },
+            "animation": {
+                title: "Animation Services",
+                subtitle: "Custom animations for games and media",
+                image: "https://images.unsplash.com/photo-1633287387306-f08b4b3671e6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                description: "Professional animation services for games, digital media, and marketing. I create fluid, high-quality animations using industry-standard tools. Perfect for game developers, content creators, and businesses looking to enhance their visual content.",
+                features: [
+                    "2D and 3D animations",
+                    "Character rigging and animation",
+                    "Special effects and particle systems",
+                    "Game-ready animations",
+                    "Quick turnaround times",
+                    "Revisions until satisfaction"
+                ],
+                price: 30
+            },
+            "consulting": {
+                title: "Tech Consulting",
+                subtitle: "Expert advice on development and systems",
+                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                description: "Get expert advice on development, automation, system architecture, and more. With years of experience in tech and business, I provide actionable insights to help you optimize your workflows, solve technical challenges, and grow your digital presence.",
+                features: [
+                    "Development best practices",
+                    "System architecture design",
+                    "Workflow automation",
+                    "Performance optimization",
+                    "Security consultation",
+                    "Business tech strategies"
+                ],
+                price: 20
             }
         };
         
-        // DOM elements
+        // Payment details
+        const paymentMethods = {
+            paypal: {
+                name: "PayPal",
+                icon: "fab fa-paypal",
+                details: "valfx@example.com",
+                instructions: "Send payment to the email address below"
+            },
+            litecoin: {
+                name: "Litecoin",
+                icon: "fab fa-bitcoin",
+                details: "Lb5xZhaJ7sQ5z7Pw9sXqKj8Nt3Rv2WxYzA",
+                instructions: "Send payment to the Litecoin address below"
+            },
+            tikkie: {
+                name: "Tikkie",
+                icon: "fas fa-mobile-alt",
+                details: "+31 6 12345678",
+                instructions: "Send payment to the mobile number below"
+            }
+        };
+        
+        // Modal elements
         const serviceModal = document.getElementById('service-modal');
         const instructionsModal = document.getElementById('instructions-modal');
+        const confirmationModal = document.getElementById('confirmation-modal');
+        const modalCloseBtns = document.querySelectorAll('.modal-close');
         const modalTitle = document.getElementById('modal-title');
+        const modalSubtitle = document.getElementById('modal-subtitle');
+        const modalImage = document.getElementById('modal-image');
         const modalDescription = document.getElementById('modal-description');
-        const totalPrice = document.getElementById('total-price');
+        const modalFeatures = document.getElementById('modal-features');
         const quantityInput = document.getElementById('quantity-input');
+        const totalPrice = document.getElementById('total-price');
         const paypalBtn = document.getElementById('paypal-btn');
         const litecoinBtn = document.getElementById('litecoin-btn');
         const tikkieBtn = document.getElementById('tikkie-btn');
         
         // Instructions elements
         const instructionsTitle = document.getElementById('instructions-title');
-        const paypalInstructions = document.getElementById('paypal-instructions');
-        const litecoinInstructions = document.getElementById('litecoin-instructions');
-        const tikkieInstructions = document.getElementById('tikkie-instructions');
-        const paypalAmount = document.getElementById('paypal-amount');
-        const litecoinAmount = document.getElementById('litecoin-amount');
-        const tikkieAmount = document.getElementById('tikkie-amount');
+        const instructionsSubtitle = document.getElementById('instructions-subtitle');
+        const methodIcon = document.getElementById('method-icon');
+        const instructionsContent = document.getElementById('instructions-content');
+        const paymentDetails = document.getElementById('payment-details');
+        const paymentAmount = document.getElementById('payment-amount');
         const sendPaymentBtn = document.getElementById('send-payment-btn');
-        const processingSection = document.getElementById('processing-section');
-        const completedSection = document.getElementById('completed-section');
-        const discordLink = document.getElementById('discord-link');
         
-        // Variables
+        // Confirmation elements
+        const confirmationService = document.getElementById('confirmation-service');
+        
         let currentService = null;
         let currentPrice = 0;
         let currentMethod = '';
         let currentQuantity = 1;
+        let totalAmount = 0;
         
         // Open service modal
         document.querySelectorAll('.service-card').forEach(card => {
@@ -991,10 +1568,23 @@
                     currentService = serviceId;
                     currentPrice = services[serviceId].price;
                     
-                    // Populate modal
+                    // Populate modal with service data
                     modalTitle.textContent = services[serviceId].title;
+                    modalSubtitle.textContent = services[serviceId].subtitle;
+                    modalImage.src = services[serviceId].image;
                     modalDescription.textContent = services[serviceId].description;
-                    totalPrice.textContent = `Total: €${currentPrice}`;
+                    
+                    // Clear and populate features list
+                    modalFeatures.innerHTML = '';
+                    services[serviceId].features.forEach(feature => {
+                        const li = document.createElement('li');
+                        li.textContent = feature;
+                        modalFeatures.appendChild(li);
+                    });
+                    
+                    // Reset quantity and update price
+                    quantityInput.value = 1;
+                    updateTotalPrice();
                     
                     // Show modal
                     serviceModal.classList.add('active');
@@ -1004,29 +1594,30 @@
         });
         
         // Close modals
-        document.querySelectorAll('.modal-close').forEach(btn => {
-            btn.addEventListener('click', () => {
-                serviceModal.classList.remove('active');
-                instructionsModal.classList.remove('active');
-                document.body.style.overflow = 'auto';
-                
-                // Reset payment UI
-                paypalInstructions.style.display = 'none';
-                litecoinInstructions.style.display = 'none';
-                tikkieInstructions.style.display = 'none';
-                processingSection.style.display = 'none';
-                completedSection.style.display = 'none';
-                sendPaymentBtn.style.display = 'none';
-                discordLink.style.display = 'none';
-            });
+        modalCloseBtns.forEach(btn => {
+            btn.addEventListener('click', closeAllModals);
+        });
+        
+        serviceModal.addEventListener('click', (e) => {
+            if (e.target === serviceModal) {
+                closeAllModals();
+            }
+        });
+        
+        instructionsModal.addEventListener('click', (e) => {
+            if (e.target === instructionsModal) {
+                closeAllModals();
+            }
+        });
+        
+        confirmationModal.addEventListener('click', (e) => {
+            if (e.target === confirmationModal) {
+                closeAllModals();
+            }
         });
         
         // Quantity input change
-        quantityInput.addEventListener('input', () => {
-            currentQuantity = parseInt(quantityInput.value) || 1;
-            const total = currentPrice * currentQuantity;
-            totalPrice.textContent = `Total: €${total}`;
-        });
+        quantityInput.addEventListener('input', updateTotalPrice);
         
         // Payment buttons
         paypalBtn.addEventListener('click', () => {
@@ -1046,64 +1637,46 @@
         
         // Send payment button
         sendPaymentBtn.addEventListener('click', () => {
-            // Show processing state
-            sendPaymentBtn.style.display = 'none';
-            processingSection.style.display = 'block';
-            
-            // Simulate payment verification
-            setTimeout(() => {
-                processingSection.style.display = 'none';
-                completedSection.style.display = 'block';
-                discordLink.style.display = 'inline-block';
-            }, 3000);
+            showConfirmationModal();
         });
         
+        function updateTotalPrice() {
+            currentQuantity = parseInt(quantityInput.value) || 1;
+            totalAmount = currentPrice * currentQuantity;
+            totalPrice.textContent = `Total: €${totalAmount}`;
+        }
+        
         function showPaymentInstructions() {
-            const totalAmount = currentPrice * currentQuantity;
+            const method = paymentMethods[currentMethod];
             
-            // Hide all instructions first
-            paypalInstructions.style.display = 'none';
-            litecoinInstructions.style.display = 'none';
-            tikkieInstructions.style.display = 'none';
-            
-            // Show the appropriate instructions
-            if (currentMethod === 'paypal') {
-                instructionsTitle.textContent = "PayPal Payment Instructions";
-                paypalInstructions.style.display = 'block';
-                paypalAmount.textContent = `€${totalAmount}`;
-            } else if (currentMethod === 'litecoin') {
-                instructionsTitle.textContent = "Litecoin Payment Instructions";
-                litecoinInstructions.style.display = 'block';
-                litecoinAmount.textContent = `€${totalAmount}`;
-            } else if (currentMethod === 'tikkie') {
-                instructionsTitle.textContent = "Tikkie Payment Instructions";
-                tikkieInstructions.style.display = 'block';
-                tikkieAmount.textContent = `€${totalAmount}`;
-            }
-            
-            // Show send payment button
-            sendPaymentBtn.style.display = 'block';
-            discordLink.style.display = 'none';
-            processingSection.style.display = 'none';
-            completedSection.style.display = 'none';
+            // Populate payment instructions
+            instructionsTitle.textContent = `${method.name} Payment`;
+            instructionsSubtitle.textContent = method.instructions;
+            methodIcon.innerHTML = `<i class="${method.icon}"></i>`;
+            paymentDetails.textContent = method.details;
+            paymentAmount.textContent = `€${totalAmount}`;
             
             // Switch modals
             serviceModal.classList.remove('active');
             instructionsModal.classList.add('active');
         }
         
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            // Smooth scrolling for navigation links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    document.querySelector(this.getAttribute('href')).scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                });
-            });
-        });
+        function showConfirmationModal() {
+            // Populate confirmation data
+            confirmationService.textContent = services[currentService].title;
+            
+            // Switch modals
+            instructionsModal.classList.remove('active');
+            confirmationModal.classList.add('active');
+        }
+        
+        function closeAllModals() {
+            serviceModal.classList.remove('active');
+            instructionsModal.classList.remove('active');
+            confirmationModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
     </script>
 </body>
 </html>
+
