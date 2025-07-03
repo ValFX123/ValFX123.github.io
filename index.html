@@ -715,6 +715,8 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             font-size: 1.1rem;
+            width: 100%;
+            text-align: center;
         }
 
         .send-btn:hover {
@@ -775,6 +777,70 @@
         .discord-link:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(88, 101, 242, 0.6);
+        }
+
+        /* Processing Modal */
+        .processing-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .processing-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .processing-container {
+            background: var(--modal-bg);
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+        
+        .processing-spinner {
+            border: 5px solid rgba(218, 112, 214, 0.3);
+            border-top: 5px solid var(--light-purple);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .processing-text {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--light-purple);
+        }
+        
+        .email-notification {
+            background: rgba(43, 0, 75, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .email-notification strong {
+            color: var(--light-purple);
         }
 
         /* --- Social Section --- */
@@ -999,6 +1065,20 @@
 <body>
     <!-- Floating particles -->
     <div class="particles" id="particles"></div>
+
+    <!-- Processing Overlay -->
+    <div class="processing-overlay" id="processing-overlay">
+        <div class="processing-container">
+            <div class="processing-spinner"></div>
+            <p class="processing-text">Processing your payment...</p>
+            <p>Please wait while we verify your transaction.</p>
+            <div class="email-notification">
+                <p>An email has been sent to:</p>
+                <p><strong>valentinomollenochoa@gmail.com</strong></p>
+                <p>for confirmation</p>
+            </div>
+        </div>
+    </div>
 
     <header class="header-banner">
         <div class="header-content">
@@ -1265,7 +1345,7 @@
                     </p>
                     
                     <div class="payment-details" id="payment-details">
-                        PayPal: valfx@example.com
+                        PayPal: valentinomollenochoa@gmail.com
                     </div>
                     
                     <p class="instructions-content">
@@ -1273,7 +1353,7 @@
                     </p>
                     
                     <button class="send-btn" id="send-payment-btn">
-                        <i class="fas fa-paper-plane"></i> I've Sent the Payment
+                        <i class="fas fa-check-circle"></i> Click if you have paid
                     </button>
                 </div>
             </div>
@@ -1504,25 +1584,43 @@
             }
         };
         
-        // Payment details
+        // Payment details with 5-line instructions
         const paymentMethods = {
             paypal: {
                 name: "PayPal",
                 icon: "fab fa-paypal",
-                details: "valfx@example.com",
-                instructions: "Send payment to the email address below"
+                details: "valentinomollenochoa@gmail.com",
+                instructions: [
+                    "1. Log in to your PayPal account",
+                    "2. Click on the 'Send & Request' tab",
+                    "3. Enter the email: valentinomollenochoa@gmail.com",
+                    "4. Send the exact payment amount shown above",
+                    "5. Include your Order ID in the payment notes"
+                ]
             },
             litecoin: {
                 name: "Litecoin",
                 icon: "fab fa-bitcoin",
                 details: "Lb5xZhaJ7sQ5z7Pw9sXqKj8Nt3Rv2WxYzA",
-                instructions: "Send payment to the Litecoin address below"
+                instructions: [
+                    "1. Open your Litecoin wallet",
+                    "2. Initiate a new transaction",
+                    "3. Enter the Litecoin address above",
+                    "4. Send the exact payment amount shown",
+                    "5. Include your Order ID in the message field"
+                ]
             },
             tikkie: {
                 name: "Tikkie",
-                icon: "fas fa-mobile-alt",
+                icon: "fas fa-money-bill-wave",
                 details: "+31 6 12345678",
-                instructions: "Send payment to the mobile number below"
+                instructions: [
+                    "1. Open your banking app",
+                    "2. Initiate a Tikkie payment",
+                    "3. Enter the mobile number above",
+                    "4. Send the exact payment amount shown",
+                    "5. Include your Order ID in the reference"
+                ]
             }
         };
         
@@ -1530,6 +1628,7 @@
         const serviceModal = document.getElementById('service-modal');
         const instructionsModal = document.getElementById('instructions-modal');
         const confirmationModal = document.getElementById('confirmation-modal');
+        const processingOverlay = document.getElementById('processing-overlay');
         const modalCloseBtns = document.querySelectorAll('.modal-close');
         const modalTitle = document.getElementById('modal-title');
         const modalSubtitle = document.getElementById('modal-subtitle');
@@ -1616,6 +1715,12 @@
             }
         });
         
+        processingOverlay.addEventListener('click', (e) => {
+            if (e.target === processingOverlay) {
+                processingOverlay.classList.remove('active');
+            }
+        });
+        
         // Quantity input change
         quantityInput.addEventListener('input', updateTotalPrice);
         
@@ -1637,7 +1742,21 @@
         
         // Send payment button
         sendPaymentBtn.addEventListener('click', () => {
-            showConfirmationModal();
+            // Close instructions modal
+            instructionsModal.classList.remove('active');
+            
+            // Show processing overlay
+            processingOverlay.classList.add('active');
+            
+            // Simulate processing delay
+            setTimeout(() => {
+                processingOverlay.classList.remove('active');
+                showConfirmationModal();
+                
+                // Simulate email sending
+                console.log(`Email sent to valentinomollenochoa@gmail.com for order confirmation`);
+                alert(`An email has been sent to valentinomollenochoa@gmail.com for confirmation!`);
+            }, 3000);
         });
         
         function updateTotalPrice() {
@@ -1649,12 +1768,52 @@
         function showPaymentInstructions() {
             const method = paymentMethods[currentMethod];
             
-            // Populate payment instructions
+            // Update instructions content
             instructionsTitle.textContent = `${method.name} Payment`;
-            instructionsSubtitle.textContent = method.instructions;
+            instructionsSubtitle.textContent = "Follow the instructions below to complete your payment";
             methodIcon.innerHTML = `<i class="${method.icon}"></i>`;
+            
+            // Update payment instructions content
+            const paymentInstructions = document.querySelector('.payment-instructions');
+            paymentInstructions.innerHTML = '';
+            
+            // Add title
+            const title = document.createElement('h3');
+            title.textContent = "Payment Instructions";
+            title.style.textAlign = 'center';
+            title.style.marginBottom = '20px';
+            title.style.color = 'var(--light-purple)';
+            paymentInstructions.appendChild(title);
+            
+            // Add instruction lines
+            method.instructions.forEach(instruction => {
+                const instructionLine = document.createElement('p');
+                instructionLine.textContent = instruction;
+                instructionLine.style.padding = '8px';
+                instructionLine.style.marginBottom = '5px';
+                instructionLine.style.background = 'rgba(43, 0, 75, 0.2)';
+                instructionLine.style.borderRadius = '5px';
+                paymentInstructions.appendChild(instructionLine);
+            });
+            
+            // Add payment details
+            const detailsTitle = document.createElement('p');
+            detailsTitle.textContent = 'Payment Details:';
+            detailsTitle.style.marginTop = '20px';
+            detailsTitle.style.fontWeight = 'bold';
+            paymentInstructions.appendChild(detailsTitle);
+            
+            const paymentDetails = document.createElement('div');
+            paymentDetails.className = 'payment-details';
             paymentDetails.textContent = method.details;
+            paymentDetails.style.margin = '10px 0';
+            paymentInstructions.appendChild(paymentDetails);
+            
+            // Update payment amount
             paymentAmount.textContent = `€${totalAmount}`;
+            
+            // Update button
+            sendPaymentBtn.innerHTML = '<i class="fas fa-check-circle"></i> Click if you have paid';
             
             // Switch modals
             serviceModal.classList.remove('active');
@@ -1666,7 +1825,6 @@
             confirmationService.textContent = services[currentService].title;
             
             // Switch modals
-            instructionsModal.classList.remove('active');
             confirmationModal.classList.add('active');
         }
         
@@ -1674,6 +1832,7 @@
             serviceModal.classList.remove('active');
             instructionsModal.classList.remove('active');
             confirmationModal.classList.remove('active');
+            processingOverlay.classList.remove('active');
             document.body.style.overflow = 'auto';
         }
     </script>
