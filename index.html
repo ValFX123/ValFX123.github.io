@@ -36,15 +36,16 @@
             zoom: 0.75; /* Set to 75% zoom by default */
         }
 
+        /* Enhanced Purple Smoke Background */
         body {
-            background-color: var(--dark-background);
+            background: radial-gradient(circle at center, #0a0015 0%, #05000c 100%);
             color: var(--text-color);
             line-height: 1.6;
             overflow-x: hidden;
-            background: radial-gradient(circle at center, #1a012e 0%, #0d0018 100%);
             position: relative;
             padding: 0;
             margin: 0;
+            min-height: 100vh;
         }
 
         body::before {
@@ -54,9 +55,20 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('https://media.discordapp.net/attachments/1315822204331757630/1390069902861402132/Particulas_fluindo_em_fundo_roxo_brilhante.jpg?ex=6866eafb&is=6865997b&hm=ed02fc06595ecc849401aa456c307a14cf0ef64bcd6b1bcad63417c9f59b12c8&=&format=webp') center/cover no-repeat;
-            opacity: 0.15;
-            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(100, 0, 150, 0.2) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(150, 50, 200, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 50% 20%, rgba(120, 0, 200, 0.1) 0%, transparent 40%);
+            animation: smoke 20s infinite linear;
+            z-index: -2;
+        }
+
+        @keyframes smoke {
+            0% { background-position: 0% 0%; }
+            25% { background-position: 25% 15%; }
+            50% { background-position: 50% 30%; }
+            75% { background-position: 25% 45%; }
+            100% { background-position: 0% 60%; }
         }
 
         .container {
@@ -64,6 +76,8 @@
             margin: 0 auto;
             padding: 20px;
             text-align: center;
+            position: relative;
+            z-index: 10;
         }
 
         /* --- Header/Banner Section --- */
@@ -89,7 +103,7 @@
             width: 100%;
             height: 100%;
             background: url('https://media.discordapp.net/attachments/1315822204331757630/1390069902861402132/Particulas_fluindo_em_fundo_roxo_brilhante.jpg?ex=6866eafb&is=6865997b&hm=ed02fc06595ecc849401aa456c307a14cf0ef64bcd6b1bcad63417c9f59b12c8&=&format=webp') center/cover no-repeat;
-            opacity: 0.7;
+            opacity: 0.15;
             z-index: -1;
         }
 
@@ -210,6 +224,7 @@
         section {
             padding: 80px 20px;
             position: relative;
+            z-index: 5;
         }
 
         section::before {
@@ -922,6 +937,8 @@
             font-size: 1rem;
             margin-top: 50px;
             border-top: 1px solid rgba(218, 112, 214, 0.3);
+            position: relative;
+            z-index: 5;
         }
 
         .footer-content {
@@ -968,30 +985,38 @@
 
         /* Floating particles */
         .particles {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 1;
+            z-index: -1;
+            overflow: hidden;
         }
 
         .particle {
             position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--light-purple);
+            background: rgba(157, 78, 221, 0.5);
             border-radius: 50%;
-            box-shadow: 0 0 10px var(--light-purple), 0 0 20px var(--light-purple);
             animation: float 15s infinite linear;
         }
 
         @keyframes float {
-            0% { transform: translateY(0) translateX(0); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-1000%) translateX(1000%) rotate(720deg);
+                opacity: 0;
+            }
         }
 
         /* Responsive Adjustments */
@@ -1510,7 +1535,7 @@
 
     <script>
         // Create floating particles
-        function createParticles() {
+        document.addEventListener('DOMContentLoaded', function() {
             const particlesContainer = document.getElementById('particles');
             const particleCount = 30;
             
@@ -1518,31 +1543,39 @@
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
                 
-                // Random position
+                // Random properties
+                const size = Math.random() * 10 + 5;
                 const posX = Math.random() * 100;
                 const posY = Math.random() * 100;
-                particle.style.left = `${posX}%`;
-                particle.style.top = `${posY}%`;
+                const delay = Math.random() * 15;
+                const duration = 10 + Math.random() * 20;
+                const hue = 260 + Math.random() * 40;
                 
-                // Random size
-                const size = Math.random() * 4 + 1;
                 particle.style.width = `${size}px`;
                 particle.style.height = `${size}px`;
-                
-                // Random animation duration
-                const duration = Math.random() * 20 + 10;
-                particle.style.animationDuration = `${duration}s`;
-                
-                // Random delay
-                const delay = Math.random() * 5;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
                 particle.style.animationDelay = `${delay}s`;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.backgroundColor = `hsla(${hue}, 70%, 60%, ${0.3 + Math.random() * 0.4})`;
                 
                 particlesContainer.appendChild(particle);
             }
-        }
-        
-        // Initialize when page loads
-        window.addEventListener('DOMContentLoaded', createParticles);
+            
+            // Add subtle interactive effect
+            document.addEventListener('mousemove', function(e) {
+                const particles = document.querySelectorAll('.particle');
+                const mouseX = e.clientX / window.innerWidth;
+                const mouseY = e.clientY / window.innerHeight;
+                
+                particles.forEach(particle => {
+                    const speedX = (mouseX - 0.5) * 2;
+                    const speedY = (mouseY - 0.5) * 2;
+                    
+                    particle.style.transform = `translate(${speedX * 10}px, ${speedY * 10}px)`;
+                });
+            });
+        });
         
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
