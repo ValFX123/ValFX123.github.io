@@ -41,68 +41,22 @@
             color: var(--text-color);
             line-height: 1.6;
             overflow-x: hidden;
+            background: radial-gradient(circle at center, #1a012e 0%, #0d0018 100%);
             position: relative;
             padding: 0;
             margin: 0;
         }
 
-        /* New purple smoke background */
-        .background-container {
+        body::before {
+            content: "";
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            background: url('https://media.discordapp.net/attachments/1315822204331757630/1390069902861402132/Particulas_fluindo_em_fundo_roxo_brilhante.jpg?ex=6866eafb&is=6865997b&hm=ed02fc06595ecc849401aa456c307a14cf0ef64bcd6b1bcad63417c9f59b12c8&=&format=webp') center/cover no-repeat;
+            opacity: 0.15;
             z-index: -1;
-            display: flex;
-        }
-        
-        .side-background {
-            flex: 1;
-            background: linear-gradient(90deg, 
-                rgba(0,0,0,1) 0%, 
-                rgba(40,0,60,1) 50%, 
-                rgba(30,0,50,1) 100%);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .side-background::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 80% 50%, 
-                rgba(128, 0, 128, 0.4) 0%, 
-                rgba(64, 0, 64, 0.2) 40%, 
-                transparent 70%);
-            animation: smoke-move 20s infinite linear;
-        }
-        
-        .side-background.left::before {
-            transform: scaleX(-1);
-        }
-        
-        .side-background.right::before {
-            background: radial-gradient(circle at 20% 50%, 
-                rgba(128, 0, 128, 0.4) 0%, 
-                rgba(64, 0, 64, 0.2) 40%, 
-                transparent 70%);
-        }
-        
-        .center-panel {
-            width: 70%;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #400040, #600060);
-            box-shadow: 0 0 50px rgba(64, 0, 64, 0.7);
-        }
-        
-        @keyframes smoke-move {
-            0% { transform: translate(0, 0) scale(1); opacity: 0.7; }
-            50% { transform: translate(10px, -10px) scale(1.05); opacity: 0.9; }
-            100% { transform: translate(0, 0) scale(1); opacity: 0.7; }
         }
 
         .container {
@@ -110,8 +64,6 @@
             margin: 0 auto;
             padding: 20px;
             text-align: center;
-            position: relative;
-            z-index: 10;
         }
 
         /* --- Header/Banner Section --- */
@@ -127,6 +79,18 @@
             min-height: 100vh;
             border-bottom: 2px solid var(--light-purple);
             box-shadow: 0 10px 30px rgba(106, 13, 173, 0.3);
+        }
+
+        .header-banner::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://media.discordapp.net/attachments/1315822204331757630/1390069902861402132/Particulas_fluindo_em_fundo_roxo_brilhante.jpg?ex=6866eafb&is=6865997b&hm=ed02fc06595ecc849401aa456c307a14cf0ef64bcd6b1bcad63417c9f59b12c8&=&format=webp') center/cover no-repeat;
+            opacity: 0.7;
+            z-index: -1;
         }
 
         .header-content {
@@ -1002,6 +966,34 @@
             100% { transform: rotate(360deg); }
         }
 
+        /* Floating particles */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--light-purple);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--light-purple), 0 0 20px var(--light-purple);
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
+        }
+
         /* Responsive Adjustments */
         @media (max-width: 992px) {
             .main-title {
@@ -1107,12 +1099,8 @@
     </style>
 </head>
 <body>
-    <!-- New purple smoke background -->
-    <div class="background-container">
-        <div class="side-background left"></div>
-        <div class="center-panel"></div>
-        <div class="side-background right"></div>
-    </div>
+    <!-- Floating particles -->
+    <div class="particles" id="particles"></div>
 
     <header class="header-banner">
         <div class="header-content">
@@ -1521,6 +1509,52 @@
     </footer>
 
     <script>
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random position
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                
+                // Random size
+                const size = Math.random() * 4 + 1;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random animation duration
+                const duration = Math.random() * 20 + 10;
+                particle.style.animationDuration = `${duration}s`;
+                
+                // Random delay
+                const delay = Math.random() * 5;
+                particle.style.animationDelay = `${delay}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Initialize when page loads
+        window.addEventListener('DOMContentLoaded', createParticles);
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
         // Service data
         const services = {
             "bot-development": {
@@ -1733,17 +1767,6 @@
         let currentMethod = '';
         let currentQuantity = 1;
         let totalAmount = 0;
-        
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
         
         // Open service modal
         document.querySelectorAll('.service-card').forEach(card => {
