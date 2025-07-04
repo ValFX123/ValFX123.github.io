@@ -37,26 +37,90 @@
         }
 
         body {
-            background-color: var(--dark-background);
+            background-color: #0a0015;
             color: var(--text-color);
             line-height: 1.6;
             overflow-x: hidden;
-            background: radial-gradient(circle at center, #1a012e 0%, #0d0018 100%);
             position: relative;
             padding: 0;
             margin: 0;
+            min-height: 100vh;
         }
-
-        body::before {
-            content: "";
+        
+        /* Enhanced Purple Smoke Background */
+        .smoke-background {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('https://media.discordapp.net/attachments/1315822204331757630/1390069902861402132/Particulas_fluindo_em_fundo_roxo_brilhante.jpg?ex=6866eafb&is=6865997b&hm=ed02fc06595ecc849401aa456c307a14cf0ef64bcd6b1bcad63417c9f59b12c8&=&format=webp') center/cover no-repeat;
-            opacity: 0.15;
             z-index: -1;
+            overflow: hidden;
+        }
+        
+        .smoke-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, #1a012e 0%, #0a0015 100%);
+        }
+        
+        .smoke-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.4;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(128, 0, 128, 0.3) 0%, transparent 40%),
+                radial-gradient(circle at 80% 50%, rgba(106, 13, 173, 0.3) 0%, transparent 45%),
+                radial-gradient(circle at 40% 70%, rgba(74, 0, 128, 0.3) 0%, transparent 50%);
+            animation: smoke-drift 30s infinite linear;
+        }
+        
+        .smoke-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(to bottom, rgba(26, 1, 46, 0.8) 0%, transparent 100%),
+                radial-gradient(circle at center, transparent 0%, rgba(10, 0, 21, 0.9) 70%);
+        }
+        
+        .floating-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(138, 43, 226, 0.15);
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.3), 0 0 40px rgba(138, 43, 226, 0.2);
+            animation: float 15s infinite ease-in-out;
+        }
+        
+        @keyframes smoke-drift {
+            0% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(-10px, 15px) scale(1.02); }
+            50% { transform: translate(0px, 20px) scale(1.05); }
+            75% { transform: translate(10px, 15px) scale(1.02); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+        
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 0.3; }
+            50% { transform: translate(20px, 40px) rotate(180deg); opacity: 0.7; }
+            100% { transform: translate(0, 0) rotate(360deg); opacity: 0.3; }
         }
 
         .container {
@@ -64,11 +128,13 @@
             margin: 0 auto;
             padding: 20px;
             text-align: center;
+            position: relative;
+            z-index: 10;
         }
 
         /* --- Header/Banner Section --- */
         .header-banner {
-            background: linear-gradient(135deg, rgba(43, 0, 75, 0.9) 0%, rgba(26, 1, 46, 0.95) 100%);
+            background: linear-gradient(135deg, rgba(43, 0, 75, 0.7) 0%, rgba(26, 1, 46, 0.8) 100%);
             padding: 100px 20px 50px;
             display: flex;
             flex-direction: column;
@@ -79,24 +145,20 @@
             min-height: 100vh;
             border-bottom: 2px solid var(--light-purple);
             box-shadow: 0 10px 30px rgba(106, 13, 173, 0.3);
-        }
-
-        .header-banner::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('https://media.discordapp.net/attachments/1315822204331757630/1390069902861402132/Particulas_fluindo_em_fundo_roxo_brilhante.jpg?ex=6866eafb&is=6865997b&hm=ed02fc06595ecc849401aa456c307a14cf0ef64bcd6b1bcad63417c9f59b12c8&=&format=webp') center/cover no-repeat;
-            opacity: 0.7;
-            z-index: -1;
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(5px);
         }
 
         .header-content {
             position: relative;
             z-index: 2;
             max-width: 800px;
+            background: rgba(26, 1, 46, 0.4);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(218, 112, 214, 0.3);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
         }
 
         .profile-image-container {
@@ -178,6 +240,8 @@
             top: 0;
             z-index: 100;
             border-bottom: 1px solid rgba(218, 112, 214, 0.3);
+            backdrop-filter: blur(5px);
+            border-radius: 0 0 20px 20px;
         }
 
         .nav-buttons a {
@@ -210,17 +274,13 @@
         section {
             padding: 80px 20px;
             position: relative;
-        }
-
-        section::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(26, 1, 46, 0.85);
-            z-index: -1;
+            margin-bottom: 40px;
+            background: rgba(26, 1, 46, 0.6);
+            border-radius: 30px;
+            border: 1px solid rgba(218, 112, 214, 0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            backdrop-filter: blur(5px);
+            z-index: 2;
         }
 
         section h2 {
@@ -447,6 +507,7 @@
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
         }
 
         .modal-overlay.active {
@@ -922,6 +983,8 @@
             font-size: 1rem;
             margin-top: 50px;
             border-top: 1px solid rgba(218, 112, 214, 0.3);
+            border-radius: 30px 30px 0 0;
+            backdrop-filter: blur(5px);
         }
 
         .footer-content {
@@ -964,34 +1027,6 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
-        }
-
-        /* Floating particles */
-        .particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--light-purple);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--light-purple), 0 0 20px var(--light-purple);
-            animation: float 15s infinite linear;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0) translateX(0); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
         }
 
         /* Responsive Adjustments */
@@ -1099,8 +1134,13 @@
     </style>
 </head>
 <body>
-    <!-- Floating particles -->
-    <div class="particles" id="particles"></div>
+    <!-- Enhanced Purple Smoke Background -->
+    <div class="smoke-background">
+        <div class="smoke-layer"></div>
+        <div class="smoke-effect"></div>
+        <div class="smoke-overlay"></div>
+        <div class="floating-particles" id="particles"></div>
+    </div>
 
     <header class="header-banner">
         <div class="header-content">
@@ -1525,7 +1565,7 @@
                 particle.style.top = `${posY}%`;
                 
                 // Random size
-                const size = Math.random() * 4 + 1;
+                const size = Math.random() * 60 + 20;
                 particle.style.width = `${size}px`;
                 particle.style.height = `${size}px`;
                 
@@ -1537,23 +1577,16 @@
                 const delay = Math.random() * 5;
                 particle.style.animationDelay = `${delay}s`;
                 
+                // Random opacity
+                const opacity = Math.random() * 0.3 + 0.1;
+                particle.style.opacity = opacity;
+                
                 particlesContainer.appendChild(particle);
             }
         }
         
         // Initialize when page loads
         window.addEventListener('DOMContentLoaded', createParticles);
-        
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
         
         // Service data
         const services = {
@@ -1767,6 +1800,17 @@
         let currentMethod = '';
         let currentQuantity = 1;
         let totalAmount = 0;
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
         
         // Open service modal
         document.querySelectorAll('.service-card').forEach(card => {
