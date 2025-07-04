@@ -304,7 +304,7 @@
         .project-image-container {
             position: relative;
             width: 100%;
-            padding-top: 56.25%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
             overflow: hidden;
         }
 
@@ -678,6 +678,11 @@
             color: var(--light-purple);
         }
 
+        .method-icon img {
+            width: 64px;
+            height: 64px;
+        }
+
         .payment-instructions {
             background: rgba(43, 0, 75, 0.3);
             border-radius: 15px;
@@ -860,6 +865,13 @@
 
         .payment-description p {
             margin-bottom: 10px;
+        }
+
+        /* Litecoin icon styling */
+        .litecoin-icon {
+            width: 1.2rem;
+            height: 1.2rem;
+            margin-right: 10px;
         }
 
         /* --- Social Section --- */
@@ -1325,7 +1337,7 @@
                             <i class="fab fa-paypal"></i> Pay with PayPal
                         </button>
                         <button class="payment-btn litecoin-btn" id="litecoin-btn">
-                            <i class="fab fa-bitcoin"></i> Pay with Litecoin
+                            <img src="https://cryptologos.cc/logos/litecoin-ltc-logo.svg" alt="Litecoin" class="litecoin-icon"> Pay with Litecoin
                         </button>
                         <button class="payment-btn tikkie-btn" id="tikkie-btn">
                             <i class="fas fa-money-bill-wave"></i> Pay with Tikkie
@@ -1684,7 +1696,7 @@
             },
             litecoin: {
                 name: "Litecoin",
-                icon: "https://media.discordapp.net/attachments/1390456156295659622/1390471357975892080/avqo8rxsu.png?ex=686860dd&is=68670f5d&hm=74039e51378733361e1586fdebcf8e66a830df2dbeb183af604356268d6f4b21&=&format=webp&quality=lossless&width=350&height=350",
+                icon: "https://cryptologos.cc/logos/litecoin-ltc-logo.svg", // Litecoin SVG
                 details: "LTn3fhUgP1bkagD1GuznB378SjWHQKREfn",
                 instructions: "Litecoin - Fast & Low Fee Crypto",
                 description: [
@@ -1854,7 +1866,13 @@
             // Populate payment instructions header
             instructionsTitle.textContent = method.instructions;
             instructionsSubtitle.textContent = "Please send payment using the details below";
-            methodIcon.innerHTML = `<i class="${method.icon}"></i>`;
+            
+            // Update method icon handling to support both Font Awesome and images
+            if (method.icon.startsWith('http')) {
+                methodIcon.innerHTML = `<img src="${method.icon}" alt="${method.name}" style="width: 64px; height: 64px;">`;
+            } else {
+                methodIcon.innerHTML = `<i class="${method.icon}"></i>`;
+            }
             
             // Populate invoice
             invoiceService.textContent = services[currentService].title;
