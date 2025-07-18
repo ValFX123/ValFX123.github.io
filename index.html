@@ -359,7 +359,7 @@
     <div id="pay-popup-content"></div>
   </div>
   <script>
-    // PRODUCT LIST (edit as needed)
+    // PRODUCTS
     const products = [
       {name:"Necklaces",price:"$10",extra:"Charms are $2-$4 depending on what it is",desc:"Custom necklaces, add your favorite charms!",stock:"∞"},
       {name:"Iced Out Chain",price:"$15",desc:"Super shiny iced out chains to level up any outfit.",stock:"∞"},
@@ -373,9 +373,9 @@
     ];
     // STATS
     let stats = JSON.parse(localStorage.getItem("sourmarket_stats") || '{}');
-    stats.sold = 32; // Always start at 32
-    stats.customers = 14; // Always start at 14
-    let reviews = []; // Always start with 0 reviews
+    stats.sold = 32;
+    stats.customers = 14;
+    let reviews = [];
     let isCustomer = localStorage.getItem("sourmarket_isCustomer") === "1";
     function renderStats() {
       document.getElementById("stat-sold").innerText = stats.sold;
@@ -389,7 +389,6 @@
       }
     }
     renderStats();
-    // PRODUCTS
     function renderProducts() {
       const grid = document.getElementById("products-grid");
       grid.innerHTML = "";
@@ -444,24 +443,7 @@
             <li><b>No Notes</b></li>
             <li style="word-break:break-all;"><b>izzylazeripad@icloud.com</b></li>
           </ol>
-          <button class="btn" onclick="showPayPopupPaypal()">Pay with PayPal</button>
-        </div>
-      `;
-    }
-    function showPayPopupPaypal() {
-      // Simulate going to PayPal and force "Friends & Family"
-      document.getElementById("pay-popup-content").innerHTML = `
-        <div class="pay-popup">
-          <h2>Pay via PayPal</h2>
-          <div style="font-size:1.04em;margin:1em 0;">
-            <b>Send your payment to:</b><br>
-            <span style="color:var(--pink5);font-weight:bold;word-break:break-all;">izzylazeripad@icloud.com</span><br>
-            <br>
-            <span style="font-size:1.09em;color:var(--pink6);">Use <b>Friends & Family</b> option ONLY.<br>Do not add any notes!</span>
-          </div>
-          <a href="https://www.paypal.com/myaccount/transfer/send" class="btn" target="_blank" onclick="setTimeout(showPayPopupProcessing,1000)">Open PayPal</a>
-          <br>
-          <button class="btn" style="margin-top:1.3em;background:var(--green);" onclick="showPayPopupProcessing()">I've Paid</button>
+          <a href="https://www.paypal.com/paypalme/izzylazeripad" class="btn" target="_blank" onclick="setTimeout(showPayPopupProcessing,1200);">Pay with PayPal</a>
         </div>
       `;
     }
