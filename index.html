@@ -14,10 +14,9 @@
       --pink4: #ffa1d7;
       --pink5: #ff5ea7;
       --pink6: #c92d70;
-      --green1: #d3ffd3;
+      --green: #2fc764;
       --white: #fff;
-      --gray: #f7f7fa;
-      --shadow: 0 4px 24px 0 rgba(252, 64, 153, 0.08);
+      --shadow: 0 4px 24px 0 rgba(252, 64, 153, 0.11);
       --transition: .18s cubic-bezier(.38,1.6,.62,1);
     }
     html { scroll-behavior: smooth;}
@@ -32,7 +31,7 @@
     }
     header {
       position: sticky; top: 0; z-index: 100;
-      background: rgba(255, 244, 250, 0.94);
+      background: rgba(255, 244, 250, 0.95);
       box-shadow: var(--shadow);
       display: flex; align-items: center; justify-content: space-between;
       padding: 0.7rem 2.2rem 0.7rem 1rem;
@@ -41,10 +40,10 @@
     .logo {
       font-family: 'Orbitron', sans-serif;
       font-weight: 800;
-      font-size: 1.65rem;
+      font-size: 1.6rem;
       color: var(--pink6);
       display: flex; align-items: center;
-      letter-spacing: 2px;
+      letter-spacing: 1.5px;
       gap: 0.7em;
     }
     .logo img {
@@ -69,7 +68,7 @@
     main { padding: 3.3rem 1rem 2.5rem 1rem; max-width: 1100px; margin: 0 auto; }
     section { margin-bottom: 3.5rem;}
     h1, h2, h3 { font-family: 'Orbitron', sans-serif; color: var(--pink6); }
-    h1 { font-size: 2.5rem; margin-top: 1.4rem; letter-spacing:1px;}
+    h1 { font-size: 2.3rem; margin-top: 1.4rem; letter-spacing:1px;}
     .section-title { font-size:2rem;margin-bottom:1.7rem;text-align:center;letter-spacing:1.5px; }
     .stats {
       display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap;
@@ -82,12 +81,12 @@
       box-shadow: var(--shadow);
       padding: 1rem 2.2rem;
       min-width: 110px;
-      transform: translateY(25px);
       opacity: 0;
+      transform: translateY(25px);
       animation: statFade .7s .12s forwards;
     }
-    .stat .num { font-size: 2.15rem; font-weight: 900; color: var(--pink5);}
-    .stat .label { font-size: 1.02rem; color: #b5678b; }
+    .stat .num { font-size: 2.1rem; font-weight: 900; color: var(--pink5);}
+    .stat .label { font-size: 1.01rem; color: #b5678b; }
     .btn, button, input[type=button] {
       background: linear-gradient(92deg, var(--pink5) 45%, var(--pink4) 95%);
       color: #fff;
@@ -121,8 +120,8 @@
       transition: box-shadow .18s, transform .18s;
       position: relative;
       overflow: hidden;
-      transform: translateY(45px);
       opacity: 0;
+      transform: translateY(45px);
       animation: prodFade .8s forwards;
     }
     .product-card:hover {
@@ -135,8 +134,8 @@
       margin-bottom: 0.8em;
       filter: drop-shadow(0 2px 4px #ffa8ce50);
     }
-    .product-title { font-weight: 800; color: var(--pink6); font-size: 1.22rem; }
-    .product-price { color: var(--pink5); font-size: 1.16rem; font-weight: bold;}
+    .product-title { font-weight: 800; color: var(--pink6); font-size: 1.2rem; }
+    .product-price { color: var(--pink5); font-size: 1.13rem; font-weight: bold;}
     .old-price { text-decoration: line-through; color: #d4a3bc; font-size: 0.96em; margin-left: 6px; }
     .product-stock { color: #a971a1; font-size: 0.9em; }
     .product-card .btn {
@@ -153,16 +152,16 @@
     /* Modal */
     .modal-bg {
       position: fixed; top:0; left:0; width:100vw; height:100vh;
-      background: rgba(220, 49, 112, 0.18);
+      background: rgba(220, 49, 112, 0.16);
       display: flex; align-items: center; justify-content: center;
       z-index: 1111;
       transition: background .16s;
       animation: fadeinBg .17s;
     }
-    @keyframes fadeinBg { from {background:rgba(0,0,0,0);} to {background:rgba(220, 49, 112, 0.18);} }
+    @keyframes fadeinBg { from {background:rgba(0,0,0,0);} to {background:rgba(220, 49, 112, 0.16);} }
     .modal {
       background: var(--white);
-      border-radius: 1.45em;
+      border-radius: 1.4em;
       max-width: 410px;
       padding: 2.1rem 1.6rem 2.4rem 1.6rem;
       box-shadow: 0 8px 44px 2px #ffb6e059;
@@ -176,36 +175,26 @@
       font-size: 1.7rem; color: var(--pink5); background: none; border: none; cursor: pointer;
       line-height: 1;
     }
-    .modal-title { font-size: 1.31rem; font-weight: bold; color: var(--pink6); margin-bottom: 0.15em;}
-    .modal-desc { color: #803667; font-size: 1.02rem; margin-bottom: 0.38em;}
-    .modal .product-price { font-size: 1.19rem;}
+    .modal-title { font-size: 1.19rem; font-weight: bold; color: var(--pink6); margin-bottom: 0.15em;}
+    .modal-desc { color: #803667; font-size: 1.01rem; margin-bottom: 0.38em;}
+    .modal .product-price { font-size: 1.09rem;}
     .modal .btn {
-      font-size: 1.08em; margin-top: 1.7em;
+      font-size: 1.04em; margin-top: 1.7em;
       width: 90%;
       padding: 0.74em 0;
     }
-    /* PayPal warning popup */
-    .paypal-popup {
-      background: #fff4fa;
-      border: 2px solid var(--pink4);
-      border-radius: 1.5em;
-      padding: 2rem 1.3rem;
-      color: var(--pink6);
-      font-size: 1.09em;
-      box-shadow: 0 6px 44px 2px #ff5ea755;
-      position: fixed;
-      top: 50%; left: 50%;
-      transform: translate(-50%,-50%);
-      z-index: 2200;
-      max-width: 98vw;
-      text-align: center;
-      animation: pop .13s cubic-bezier(.5,1.4,.7,1.2) 1;
-    }
-    .paypal-popup strong { color: var(--pink5);}
-    .paypal-popup button {
-      margin-top: 1.6em;
-      width: 80%;
-      font-size: 1em;
+    /* Multi-step pay flow popups */
+    .pay-popup { background:#fff; border-radius:1.3em; max-width:400px; box-shadow:0 8px 44px 2px #ffb6e059; padding:2.1rem 1.2rem 2.3rem 1.2rem; position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2500;text-align:center; }
+    .pay-popup h2 {color:#c92d70;font-family:'Orbitron',sans-serif;font-size:1.21em;margin-bottom:.4em;}
+    .pay-popup p {color:#813a74;font-size:1.04em;line-height:1.6;}
+    .pay-popup button, .pay-popup a {margin-top:1.4em;}
+    .pay-popup .spinner {width:38px;height:38px;border:5px solid #ffb6e0;border-top:5px solid #c92d70;border-radius:50%;margin:1.1em auto 0 auto;animation:spin 1s linear infinite;}
+    @keyframes spin { to {transform:rotate(360deg);} }
+    .pay-popup .bigcheck {
+      font-size:2.6em;
+      color:var(--green);
+      margin-bottom:0.5em;
+      display:inline-block;
     }
     /* Reviews */
     .reviews-list {
@@ -308,7 +297,6 @@
     }
     @keyframes arrowPulse { to {transform:translateX(-50%) scale(1.08);} }
     .scroll-arrow.hide { opacity:0;pointer-events:none;}
-    /* Responsive */
     @media (max-width: 650px) {
       header {flex-direction:column;gap:0.7em;padding:0.8rem;}
       .stats { gap: 1.15rem;}
@@ -317,26 +305,10 @@
       .review-form { padding:0.7em 0.4em;}
       .review-card { padding:0.85em 0.7em;}
       .scroll-arrow {font-size:2.2rem; width:42px;height:42px;}
-  
-  </style>
-  <style>
-    /* Only adding these for animated spinner and extra popups */
-    .pay-popup { background:#fff; border-radius:1.4em; max-width:400px; box-shadow:0 8px 44px 2px #ffb6e059; padding:2.1rem 1.2rem 2.3rem 1.2rem; position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2500;text-align:center; }
-    .pay-popup h2 {color:#c92d70;font-family:'Orbitron',sans-serif;font-size:1.25em;margin-bottom:.4em;}
-    .pay-popup p {color:#813a74;font-size:1.04em;line-height:1.6;}
-    .pay-popup button {margin-top:1.4em;}
-    .pay-popup .spinner {width:38px;height:38px;border:5px solid #ffb6e0;border-top:5px solid #c92d70;border-radius:50%;margin:1.1em auto 0 auto;animation:spin 1s linear infinite;}
-    @keyframes spin { to {transform:rotate(360deg);} }
-    .pay-popup .bigcheck {
-      font-size:2.6em;
-      color:#3ac96d;
-      margin-bottom:0.5em;
-      display:inline-block;
     }
   </style>
 </head>
 <body>
-  
   <!-- Header -->
   <header>
     <div class="logo">
@@ -382,9 +354,7 @@
     <!-- REVIEWS -->
     <section id="reviews" style="display:none;">
       <div class="section-title">Customer Reviews</div>
-      <div class="reviews-list" id="reviews-list">
-        <!-- JS FILLS REVIEWS HERE -->
-      </div>
+      <div class="reviews-list" id="reviews-list"></div>
       <form class="review-form" id="review-form" autocomplete="off" onsubmit="return addReview(event)">
         <label for="review-name">Your Name:</label>
         <input id="review-name" name="name" type="text" maxlength="20" required placeholder="Name">
@@ -419,7 +389,7 @@
       <button class="btn" style="margin-top:2em;" onclick="startPayProcess()">Pay with PayPal</button>
     </div>
   </div>
-  <!-- Payment popups (stacked and managed in JS) -->
+  <!-- Payment popups -->
   <div id="pay-popup-bg" class="modal-bg" style="display:none;">
     <div id="pay-popup-content"></div>
   </div>
@@ -482,24 +452,18 @@
         stock: "∞"
       }
     ];
-
-    // Get initial stats from localStorage or defaults
+    // Initial stats (persistent)
     let stats = JSON.parse(localStorage.getItem("sourmarket_stats") || '{}');
     stats.sold = stats.sold || 43;
     stats.customers = stats.customers || 37;
-    stats.reviews = stats.reviews || 12;
-    stats.rating = stats.rating || 4.98;
-
-    // Customer tracking (for demo, local browser only)
-    let isCustomer = localStorage.getItem("sourmarket_isCustomer") === "1";
-
-    // Example reviews (real reviews will be stored in localStorage as well)
+    // Reviews
     let reviews = JSON.parse(localStorage.getItem("sourmarket_reviews") || "null") || [
       {name:"Ava", rating:5, text:"Absolutely loved my necklace! Fast shipping and so cute.", date:"2025-07-17"},
       {name:"Jay", rating:4, text:"The pillow is great quality. Will buy again!", date:"2025-07-13"},
       {name:"Sophie", rating:5, text:"Skateboard was amazing. Highly recommend.", date:"2025-07-12"}
     ];
-
+    // Customer tracking (per browser)
+    let isCustomer = localStorage.getItem("sourmarket_isCustomer") === "1";
     // Render stats
     function renderStats() {
       document.getElementById("stat-sold").innerText = stats.sold;
@@ -514,7 +478,6 @@
       }
     }
     renderStats();
-
     // Render products
     function renderProducts() {
       const grid = document.getElementById("products-grid");
@@ -539,7 +502,6 @@
       });
     }
     renderProducts();
-
     // Modal logic
     let selectedProductIdx = 0;
     function openModal(idx) {
@@ -556,8 +518,7 @@
       document.getElementById("product-modal-bg").style.display = "none";
       document.body.style.overflow = "";
     }
-
-    // Popups for payment process
+    // Multi-step payment process
     function showPayPopup(html) {
       document.getElementById("pay-popup-bg").style.display = "flex";
       document.getElementById("pay-popup-content").innerHTML = html;
@@ -568,7 +529,6 @@
       document.getElementById("pay-popup-content").innerHTML = "";
       document.body.style.overflow = "";
     }
-
     function startPayProcess() {
       closeModal();
       // 1st popup: Friends & Family
@@ -586,7 +546,7 @@
       const prod = products[selectedProductIdx];
       showPayPopup(`
         <h2>How to Get Your ${prod.name}</h2>
-        <ol style="text-align:left;max-width:350px;margin:0 auto 1.1em auto;padding-left:1.2em;color:#803667;font-size:1.02em;">
+        <ol style="text-align:left;max-width:350px;margin:0 auto 1.1em auto;padding-left:1.2em;color:#803667;font-size:1.01em;">
           <li>Send <b>${prod.price.replace(/[^0-9\-$]/g, '')}</b> USD via PayPal.</li>
           <li>Make sure to use <b>Friends & Family</b> as payment method.</li>
           <li><b>Do not write any notes</b> in the payment description.</li>
@@ -603,19 +563,18 @@
         <div class="spinner"></div>
         <p style="margin-top:1.4em;color:#b5678b;">Please wait while we verify your payment.</p>
       `);
-      setTimeout(nextPayPopup3, 1800); // Simulate processing
+      setTimeout(nextPayPopup3, 1700);
     }
     function nextPayPopup3() {
       // 4th popup: completed
       showPayPopup(`
         <span class="bigcheck">&#10003;</span>
         <h2>Completed Payment!</h2>
-        <p style="margin-bottom:1.4em;">Thank you for your purchase.<br>Click below to receive your product and chat with support.</p>
+        <p style="margin-bottom:1.3em;">Thank you for your purchase.<br>Click below to receive your product and chat with support.</p>
         <a href="https://discord.gg/sourmarket" class="btn" target="_blank" onclick="afterBuy()">Get your product</a>
       `);
-      afterBuy(); // Also update stats right now
+      afterBuy();
     }
-
     function afterBuy() {
       // Update stats: sold, customers
       stats.sold = Number(stats.sold || 0) + 1;
@@ -626,14 +585,10 @@
       }
       renderStats();
       localStorage.setItem("sourmarket_stats", JSON.stringify(stats));
-      // On real page, you'd also call an API here
     }
-
-    // Close popups on background click
     document.getElementById("pay-popup-bg").onclick = function(e) {
       if(e.target===this) hidePayPopup();
     };
-
     // Reviews
     function renderReviews() {
       const list = document.getElementById("reviews-list");
@@ -652,13 +607,10 @@
         `;
         list.appendChild(div);
       });
-      // Update stats (reviews count, avg rating)
       renderStats();
       localStorage.setItem("sourmarket_reviews", JSON.stringify(reviews));
     }
     renderReviews();
-
-    // Add review (client-side, persists with localStorage)
     function addReview(e) {
       e.preventDefault();
       const name = document.getElementById("review-name").value.trim();
@@ -677,14 +629,11 @@
       });
       document.getElementById("review-form").reset();
       err.innerText="Thank you for your review!";
-      setTimeout(()=>{err.innerText="";},1800);
+      setTimeout(()=>{err.innerText="";},1700);
       renderReviews();
       return false;
     }
-
-    // Escape html
     function escapeHtml(t) { return t.replace(/[&<>"']/g, s => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[s])); }
-
     // Section navigation with scroll & update nav highlight
     let sectionOrder = ["home","products","reviews"];
     function switchSection(name) {
