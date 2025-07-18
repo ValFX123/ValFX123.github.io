@@ -35,7 +35,6 @@
       box-shadow: var(--shadow);
       display: flex; align-items: center; justify-content: space-between;
       padding: 0.85rem 2.4rem 0.85rem 1.2rem;
-      transition: box-shadow .22s;
       border-bottom: 2.5px solid #ffb6e04a;
     }
     .logo {
@@ -46,11 +45,6 @@
       display: flex; align-items: center;
       letter-spacing: 2px;
       gap: 0.7em;
-      animation: logoPop .8s cubic-bezier(.4,2,.7,1) 1;
-    }
-    @keyframes logoPop {
-      0% { transform: scale(.91); opacity:.4;}
-      100%{transform:scale(1); opacity:1;}
     }
     .logo img {
       width: 44px; height: 44px; border-radius: 50%; border: 3.5px solid var(--pink4); background: #fff;
@@ -73,12 +67,6 @@
       background: var(--pink4);
       color: var(--white);
     }
-    nav a.active:after, nav a:hover:after {
-      content:"";display:block;position:absolute;left:15%;right:15%;bottom:7px;height:4px;border-radius:2px;
-      background: linear-gradient(90deg,var(--pink5),var(--pink4));
-      animation: navunderline .3s;
-    }
-    @keyframes navunderline {from{width:0;} to{width:70%;}}
     main { padding: 3.3rem 1rem 2.7rem 1rem; max-width: 1100px; margin: 0 auto; }
     section { margin-bottom: 3.8rem;}
     h1, h2, h3 { font-family: 'Orbitron', sans-serif; color: var(--pink6); }
@@ -171,20 +159,18 @@
       margin: 0.63em 0 0.09em 0;
       min-height: 2.2em;
     }
-    /* Modal */
-    .modal-bg {
+    /* Modal - solid background */
+    .modal-bg, .pay-popup-bg {
       position: fixed; top:0; left:0; width:100vw; height:100vh;
-      background: rgba(220, 49, 112, 0.13);
+      background: #fff; /* Solid background now */
       display: flex; align-items: center; justify-content: center;
       z-index: 1111;
-      transition: background .16s;
-      animation: fadeinBg .17s;
     }
-    @keyframes fadeinBg { from {background:rgba(0,0,0,0);} to {background:rgba(220, 49, 112, 0.13);} }
-    .modal {
+    .modal, .pay-popup {
       background: var(--white);
       border-radius: 1.4em;
       max-width: 430px;
+      min-width: 320px;
       padding: 2.1rem 1.7rem 2.5rem 1.7rem;
       box-shadow: 0 8px 44px 2px #ffb6e059;
       text-align: center;
@@ -200,13 +186,7 @@
     .modal-title { font-size: 1.18rem; font-weight: bold; color: var(--pink6); margin-bottom: 0.15em;}
     .modal-desc { color: #803667; font-size: 1.03rem; margin-bottom: 0.36em;}
     .modal .product-price { font-size: 1.09rem;}
-    .modal .btn {
-      font-size: 1.09em; margin-top: 1.5em;
-      width: 90%;
-      padding: 0.83em 0;
-    }
-    /* Multi-step pay flow popups */
-    .pay-popup { background:#fff; border-radius:1.3em; max-width:420px; box-shadow:0 8px 44px 2px #ffb6e059; padding:2.1rem 1.2rem 2.3rem 1.2rem; position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2500;text-align:center; }
+    .modal .btn { font-size: 1.09em; margin-top: 1.5em; width: 90%; padding: 0.83em 0;}
     .pay-popup h2 {color:#c92d70;font-family:'Orbitron',sans-serif;font-size:1.17em;margin-bottom:.4em;}
     .pay-popup p {color:#813a74;font-size:1.04em;line-height:1.6;}
     .pay-popup button, .pay-popup a {margin-top:1.4em;}
@@ -223,7 +203,6 @@
       margin: 2.2em 0 0 0;
       display: flex; flex-direction: column; gap: 1.2em;
       max-width: 650px; margin-left: auto; margin-right: auto;
-      animation: fadeinBg .38s;
     }
     .review-card {
       background: var(--white);
@@ -238,17 +217,9 @@
       transform: translateY(24px);
       animation: reviewFade .7s forwards;
     }
-    @keyframes statFade {
-      to { opacity:1; transform:translateY(0);}
-    }
-    @keyframes prodFade {
-      40% {opacity:1;transform:translateY(-10px);}
-      100% {opacity:1;transform:translateY(0);}
-    }
-    @keyframes reviewFade {
-      40% {opacity:1;transform:translateY(-8px);}
-      100% {opacity:1;transform:translateY(0);}
-    }
+    @keyframes statFade { to { opacity:1; transform:translateY(0);} }
+    @keyframes prodFade { 40% {opacity:1;transform:translateY(-10px);} 100% {opacity:1;transform:translateY(0);} }
+    @keyframes reviewFade { 40% {opacity:1;transform:translateY(-8px);} 100% {opacity:1;transform:translateY(0);} }
     .reviewer {
       font-weight: bold; color: var(--pink5);
       font-size: 1.07em;
@@ -277,7 +248,6 @@
       margin: 2.1em auto 0 auto;
       max-width: 440px;
       display: flex; flex-direction: column; gap: 0.6em;
-      animation: fadeinBg .6s;
     }
     .review-form input, .review-form textarea, .review-form select {
       font-family: inherit;
@@ -299,58 +269,6 @@
       margin-top:0.5em;align-self:flex-end;min-width:130px;
     }
     .review-form .err { color:var(--pink6); font-size:0.98em; margin:0.2em 0;}
-    /* Scroll arrows */
-    .scroll-arrow {
-      position: fixed;
-      left: 50%;
-      bottom: 32px;
-      transform: translateX(-50%);
-      font-size: 2.7rem;
-      color: var(--pink5);
-      background: #fff6fcf2;
-      border-radius: 50%;
-      box-shadow: 0 2px 18px #ffb6e04c;
-      cursor: pointer;
-      z-index:99;
-      width: 54px; height:54px;
-      display: flex;align-items:center;justify-content:center;
-      animation: arrowPulse 1.2s infinite alternate;
-      transition: opacity .16s;
-    }
-    @keyframes arrowPulse { to {transform:translateX(-50%) scale(1.08);} }
-    .scroll-arrow.hide { opacity:0;pointer-events:none;}
-    /* Admin Panel */
-    .admin-panel {
-      position:fixed;bottom:18px;right:20px;z-index:3300;
-      background:#fff6faee;
-      border:2px solid var(--pink3);
-      border-radius:1.2em;
-      padding:1.2em 1.6em 1.3em 1.6em;
-      box-shadow:0 4px 32px #ffc8df3c;
-      color:var(--pink6);
-      font-size:1.07em;
-      display:none;
-      flex-direction:column;gap:.75em;
-      min-width:230px;
-      text-align:left;
-      animation:pop .25s;
-    }
-    .admin-panel label{font-weight:bold;}
-    .admin-panel .btn{font-size:1em;padding:.48em 1.1em;}
-    .admin-toggle{
-      position:fixed;bottom:18px;right:20px;z-index:3299;
-      background:linear-gradient(90deg,var(--pink5),var(--pink4));
-      color:#fff;
-      font-size:1.3em;
-      border-radius:50%;
-      width:42px;height:42px;
-      box-shadow:0 2px 12px #ffa1d73a;
-      cursor:pointer;
-      display:flex;align-items:center;justify-content:center;
-      outline:none;border:none;
-      transition:background .17s;
-    }
-    .admin-toggle:hover{background:linear-gradient(90deg,var(--pink6),var(--pink4));}
     @media (max-width: 650px) {
       header {flex-direction:column;gap:0.7em;padding:0.8rem;}
       .stats { gap: 1.15rem;}
@@ -358,9 +276,7 @@
       .modal { padding: 1.1rem 0.6rem 1.4rem 0.6rem;}
       .review-form { padding:0.7em 0.4em;}
       .review-card { padding:0.85em 0.7em;}
-      .scroll-arrow {font-size:2.2rem; width:42px;height:42px;}
-      .admin-panel{right:6px;min-width:160px;}
-      .admin-toggle{right:6px;}
+      .pay-popup, .modal {min-width:0;max-width:96vw;}
     }
   </style>
 </head>
@@ -377,9 +293,6 @@
       <a href="#reviews" onclick="switchSection('reviews');return false;">Reviews</a>
     </nav>
   </header>
-  <div class="scroll-arrow" id="scroll-arrow" onclick="scrollToNext()">
-    &#8595;
-  </div>
   <main>
     <section id="home" style="margin-top:2em;">
       <h1>Welcome to <span style="color: var(--pink5)">SourMarket</span>!</h1>
@@ -389,10 +302,10 @@
         <span style="color: var(--pink5);font-weight:600;">Mix & Match available.</span> Surprise yourself or create a ticket for a one-of-a-kind request.
       </p>
       <div class="stats">
-        <div class="stat"><div class="num" id="stat-sold">43</div><div class="label">PRODUCTS SOLD</div></div>
-        <div class="stat"><div class="num" id="stat-customers">37</div><div class="label">TOTAL CUSTOMERS</div></div>
-        <div class="stat"><div class="num" id="stat-reviews">12</div><div class="label">REVIEWS RECEIVED</div></div>
-        <div class="stat"><div class="num" id="stat-rating">4.98</div><div class="label">AVERAGE RATING</div></div>
+        <div class="stat"><div class="num" id="stat-sold">32</div><div class="label">PRODUCTS SOLD</div></div>
+        <div class="stat"><div class="num" id="stat-customers">14</div><div class="label">TOTAL CUSTOMERS</div></div>
+        <div class="stat"><div class="num" id="stat-reviews">0</div><div class="label">REVIEWS RECEIVED</div></div>
+        <div class="stat"><div class="num" id="stat-rating">0.00</div><div class="label">AVERAGE RATING</div></div>
       </div>
       <div style="text-align:center; margin-top:2.2em;">
         <button class="btn" onclick="switchSection('products');window.scrollTo(0,0);">View Products</button>
@@ -404,7 +317,9 @@
     </section>
     <section id="reviews" style="display:none;">
       <div class="section-title">Customer Reviews</div>
-      <div class="reviews-list" id="reviews-list"></div>
+      <div class="reviews-list" id="reviews-list">
+        <div style="text-align:center; color:#a971a1; font-size:1.13em;">No reviews yet. Be the first!</div>
+      </div>
       <form class="review-form" id="review-form" autocomplete="off" onsubmit="return addReview(event)">
         <label for="review-name">Your Name:</label>
         <input id="review-name" name="name" type="text" maxlength="20" required placeholder="Name">
@@ -436,101 +351,31 @@
         <span class="product-price" id="modal-price"></span>
       </div>
       <div class="product-stock" id="modal-stock"></div>
-      <div id="modal-pay"></div>
+      <button class="btn" style="margin-top:2em;" onclick="showPayPopup()">Pay Here!</button>
     </div>
   </div>
   <!-- Payment popups -->
-  <div id="pay-popup-bg" class="modal-bg" style="display:none;">
+  <div id="pay-popup-bg" class="pay-popup-bg" style="display:none;">
     <div id="pay-popup-content"></div>
   </div>
-  <!-- Admin Panel -->
-  <button class="admin-toggle" id="admin-toggle" title="Admin/Testing" onclick="toggleAdmin()">
-    &#9881;
-  </button>
-  <div class="admin-panel" id="admin-panel">
-    <label>Admin Demo Panel</label>
-    <button class="btn" onclick="resetStats()">Reset Stats</button>
-    <button class="btn" onclick="clearReviews()">Delete All Reviews</button>
-    <div style="margin-top:.7em;font-size:.93em;color:#a971a1;">(Visible to you only. <br>For public, remove this section.)</div>
-  </div>
   <script>
-    // CHANGE THIS TO YOUR PAYPAL EMAIL!
-    const PAYPAL_EMAIL = "izzylazeripad@icloud.com";
-    // Products data (add "paypal" for those with static price)
+    // PRODUCT LIST (edit as needed)
     const products = [
-      {
-        name: "Necklaces",
-        price: "$10",
-        extra: "Charms are $2-$4 depending on what it is",
-        desc: "Custom necklaces, add your favorite charms for just $2-$4 each!",
-        stock: "∞",
-        paypal: "10"
-      },
-      {
-        name: "Iced Out Chain",
-        price: "$15",
-        desc: "Super shiny iced out chains to level up any outfit.",
-        stock: "∞",
-        paypal: "15"
-      },
-      {
-        name: "Skateboard",
-        price: "$15",
-        desc: "Fully customizable skateboard for cruising in style.",
-        stock: "∞",
-        paypal: "15"
-      },
-      {
-        name: "Mini Shoulder Pal",
-        price: "$15",
-        desc: "A mini plush pal that sits on your shoulder. So cute!",
-        stock: "∞",
-        paypal: "15"
-      },
-      {
-        name: "Mini Avatar Keychain",
-        price: "$20",
-        desc: "Take your mini avatar anywhere you go, on your keys or bag!",
-        stock: "∞",
-        paypal: "20"
-      },
-      {
-        name: "Custom pillows - Small",
-        price: "$10",
-        desc: "Small custom pillows for your room or as gifts.",
-        stock: "∞",
-        paypal: "10"
-      },
-      {
-        name: "Custom pillows - Big",
-        price: "$15",
-        desc: "Big custom pillows for extra comfort and fun.",
-        stock: "∞",
-        paypal: "15"
-      },
-      {
-        name: "Re-Textures",
-        price: "$20-$50",
-        desc: "Custom re-textures for your favorite items, prices vary.",
-        stock: "∞",
-        paypal: null // Manual payment
-      },
-      {
-        name: "Custom Orders",
-        price: "$10-$100",
-        desc: "Want something totally unique? Send your idea for a custom quote.",
-        stock: "∞",
-        paypal: null // Manual payment
-      }
+      {name:"Necklaces",price:"$10",extra:"Charms are $2-$4 depending on what it is",desc:"Custom necklaces, add your favorite charms!",stock:"∞"},
+      {name:"Iced Out Chain",price:"$15",desc:"Super shiny iced out chains to level up any outfit.",stock:"∞"},
+      {name:"Skateboard",price:"$15",desc:"Fully customizable skateboard for cruising in style.",stock:"∞"},
+      {name:"Mini Shoulder Pal",price:"$15",desc:"A mini plush pal that sits on your shoulder. So cute!",stock:"∞"},
+      {name:"Mini Avatar Keychain",price:"$20",desc:"Take your mini avatar anywhere you go, on your keys or bag!",stock:"∞"},
+      {name:"Custom pillows - Small",price:"$10",desc:"Small custom pillows for your room or as gifts.",stock:"∞"},
+      {name:"Custom pillows - Big",price:"$15",desc:"Big custom pillows for extra comfort and fun.",stock:"∞"},
+      {name:"Re-Textures",price:"$20-$50",desc:"Custom re-textures for your favorite items, prices vary.",stock:"∞"},
+      {name:"Custom Orders",price:"$10-$100",desc:"Want something totally unique? Send your idea for a custom quote.",stock:"∞"}
     ];
+    // STATS
     let stats = JSON.parse(localStorage.getItem("sourmarket_stats") || '{}');
-    stats.sold = stats.sold || 43;
-    stats.customers = stats.customers || 37;
-    let reviews = JSON.parse(localStorage.getItem("sourmarket_reviews") || "null") || [
-      {name:"Ava", rating:5, text:"Absolutely loved my necklace! Fast shipping and so cute.", date:"2025-07-17"},
-      {name:"Jay", rating:4, text:"The pillow is great quality. Will buy again!", date:"2025-07-13"},
-      {name:"Sophie", rating:5, text:"Skateboard was amazing. Highly recommend.", date:"2025-07-12"}
-    ];
+    stats.sold = 32; // Always start at 32
+    stats.customers = 14; // Always start at 14
+    let reviews = []; // Always start with 0 reviews
     let isCustomer = localStorage.getItem("sourmarket_isCustomer") === "1";
     function renderStats() {
       document.getElementById("stat-sold").innerText = stats.sold;
@@ -544,7 +389,7 @@
       }
     }
     renderStats();
-    // Render products
+    // PRODUCTS
     function renderProducts() {
       const grid = document.getElementById("products-grid");
       grid.innerHTML = "";
@@ -568,7 +413,7 @@
       });
     }
     renderProducts();
-    // Modal logic
+    // PRODUCT MODAL
     let selectedProductIdx = 0;
     function openModal(idx) {
       selectedProductIdx = idx;
@@ -577,30 +422,6 @@
       document.getElementById("modal-desc").innerText = prod.desc || "";
       document.getElementById("modal-price").innerText = prod.price + (prod.extra ? " | " + prod.extra : "");
       document.getElementById("modal-stock").innerText = `In Stock: ${prod.stock}`;
-      // Real PayPal for fixed-price
-      let payBtn = "";
-      if (prod.paypal) {
-        payBtn = `
-          <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" style="margin-top:1.6em;">
-            <input type="hidden" name="cmd" value="_xclick">
-            <input type="hidden" name="business" value="${PAYPAL_EMAIL}">
-            <input type="hidden" name="item_name" value="${prod.name}">
-            <input type="hidden" name="amount" value="${prod.paypal}">
-            <input type="hidden" name="currency_code" value="USD">
-            <button type="submit" class="btn" onclick="afterPayBtn();return true;">Pay with PayPal</button>
-          </form>
-          <div style="font-size:.97em;color:#a971a1;margin-top:.8em;">After payment, continue below!</div>
-          <button class="btn" style="margin-top:.7em;background:var(--green);color:#fff;" onclick="startPayProcess()">I've Paid</button>
-        `;
-      } else {
-        payBtn = `
-          <div style="margin:1.5em 0;">
-            <span style="font-size:1.1em;color:var(--pink5);font-weight:bold;">For this product, please message us on Discord to get your price and payment link!</span>
-          </div>
-          <button class="btn" onclick="startPayProcess()">Contact & Pay</button>
-        `;
-      }
-      document.getElementById("modal-pay").innerHTML = payBtn;
       document.getElementById("product-modal-bg").style.display = "flex";
       document.body.style.overflow = "hidden";
     }
@@ -608,59 +429,61 @@
       document.getElementById("product-modal-bg").style.display = "none";
       document.body.style.overflow = "";
     }
-    // Multi-step payment process
-    function showPayPopup(html) {
-      document.getElementById("pay-popup-bg").style.display = "flex";
-      document.getElementById("pay-popup-content").innerHTML = html;
-      document.body.style.overflow = "hidden";
-    }
-    function hidePayPopup() {
-      document.getElementById("pay-popup-bg").style.display = "none";
-      document.getElementById("pay-popup-content").innerHTML = "";
-      document.body.style.overflow = "";
-    }
-    function afterPayBtn() { setTimeout(()=>startPayProcess(), 400); }
-    function startPayProcess() {
+    // PAYMENT POPUP
+    function showPayPopup() {
       closeModal();
-      // 1st popup: Friends & Family
-      showPayPopup(`
-        <h2>PayPal Payment Notice</h2>
-        <p>
-          Please send payment via <b>Friends & Family</b> only.<br>
-          <b style="color:var(--pink5)">Do not add any notes!</b>
-        </p>
-        <button class="btn" onclick="nextPayPopup1()">Continue to Next Step</button>
-      `);
+      showPopupStep1();
     }
-    function nextPayPopup1() {
-      const prod = products[selectedProductIdx];
-      showPayPopup(`
-        <h2>How to Get Your ${prod.name}</h2>
-        <ol style="text-align:left;max-width:350px;margin:0 auto 1.1em auto;padding-left:1.2em;color:#803667;font-size:1.01em;">
-          <li>Send <b>${prod.paypal?prod.price:'your custom'}</b> USD via PayPal.</li>
-          <li>Use <b>Friends & Family</b> as payment method.</li>
-          <li><b>Do not write any notes</b> in the payment description.</li>
-          <li>Take a screenshot or note your transaction ID.</li>
-          <li>Contact us on Discord for delivery or support!</li>
-        </ol>
-        <button class="btn" onclick="nextPayPopup2()">I've Paid</button>
-      `);
+    function showPopupStep1() {
+      document.getElementById("pay-popup-bg").style.display = "flex";
+      document.getElementById("pay-popup-content").innerHTML = `
+        <div class="pay-popup">
+          <h2>Payment Instructions</h2>
+          <ol style="text-align:left;max-width:350px;margin:0 auto 1.1em auto;padding-left:1.2em;color:#803667;font-size:1.05em;">
+            <li><b>Friends and Family Only</b></li>
+            <li><b>No Notes</b></li>
+            <li style="word-break:break-all;"><b>izzylazeripad@icloud.com</b></li>
+          </ol>
+          <button class="btn" onclick="showPayPopupPaypal()">Pay with PayPal</button>
+        </div>
+      `;
     }
-    function nextPayPopup2() {
-      showPayPopup(`
-        <h2>Processing Your Payment...</h2>
-        <div class="spinner"></div>
-        <p style="margin-top:1.4em;color:#b5678b;">Please wait while we verify your payment.</p>
-      `);
-      setTimeout(nextPayPopup3, 1700);
+    function showPayPopupPaypal() {
+      // Simulate going to PayPal and force "Friends & Family"
+      document.getElementById("pay-popup-content").innerHTML = `
+        <div class="pay-popup">
+          <h2>Pay via PayPal</h2>
+          <div style="font-size:1.04em;margin:1em 0;">
+            <b>Send your payment to:</b><br>
+            <span style="color:var(--pink5);font-weight:bold;word-break:break-all;">izzylazeripad@icloud.com</span><br>
+            <br>
+            <span style="font-size:1.09em;color:var(--pink6);">Use <b>Friends & Family</b> option ONLY.<br>Do not add any notes!</span>
+          </div>
+          <a href="https://www.paypal.com/myaccount/transfer/send" class="btn" target="_blank" onclick="setTimeout(showPayPopupProcessing,1000)">Open PayPal</a>
+          <br>
+          <button class="btn" style="margin-top:1.3em;background:var(--green);" onclick="showPayPopupProcessing()">I've Paid</button>
+        </div>
+      `;
     }
-    function nextPayPopup3() {
-      showPayPopup(`
-        <span class="bigcheck">&#10003;</span>
-        <h2>Completed Payment!</h2>
-        <p style="margin-bottom:1.3em;">Thank you for your purchase.<br>Click below to receive your product and chat with support.</p>
-        <a href="https://discord.gg/sourmarket" class="btn" target="_blank" onclick="afterBuy()">Get your product</a>
-      `);
+    function showPayPopupProcessing() {
+      document.getElementById("pay-popup-content").innerHTML = `
+        <div class="pay-popup">
+          <h2>Processing Your Payment...</h2>
+          <div class="spinner"></div>
+          <p style="margin-top:1.4em;color:#b5678b;">Please wait while we verify your payment.</p>
+        </div>
+      `;
+      setTimeout(showPayPopupSuccess, 1700);
+    }
+    function showPayPopupSuccess() {
+      document.getElementById("pay-popup-content").innerHTML = `
+        <div class="pay-popup">
+          <span class="bigcheck">&#10003;</span>
+          <h2>Payment Completed!</h2>
+          <p style="margin-bottom:1.3em;">Thank you for your purchase.<br>Click below to receive your product and chat with support.</p>
+          <a href="https://discord.gg/sourmarket" class="btn" target="_blank" onclick="afterBuy()">Get your product</a>
+        </div>
+      `;
       afterBuy();
     }
     function afterBuy() {
@@ -674,26 +497,34 @@
       localStorage.setItem("sourmarket_stats", JSON.stringify(stats));
     }
     document.getElementById("pay-popup-bg").onclick = function(e) {
-      if(e.target===this) hidePayPopup();
+      if(e.target===this) {
+        document.getElementById("pay-popup-bg").style.display = "none";
+        document.getElementById("pay-popup-content").innerHTML = "";
+        document.body.style.overflow = "";
+      }
     };
-    // Reviews
+    // REVIEWS
     function renderReviews() {
       const list = document.getElementById("reviews-list");
-      list.innerHTML = "";
-      reviews.slice().reverse().forEach((r, i) => {
-        const div = document.createElement("div");
-        div.className = "review-card";
-        div.style.animationDelay = `${0.06 * i + 0.12}s`;
-        div.innerHTML = `
-          <span class="reviewer">
-            <span class="review-rating">${"★".repeat(r.rating)}${"☆".repeat(5 - r.rating)}</span>
-            ${escapeHtml(r.name)}
-          </span>
-          <div class="review-text">${escapeHtml(r.text)}</div>
-          <div class="review-date">${escapeHtml(r.date)}</div>
-        `;
-        list.appendChild(div);
-      });
+      if (reviews.length === 0) {
+        list.innerHTML = `<div style="text-align:center; color:#a971a1; font-size:1.13em;">No reviews yet. Be the first!</div>`;
+      } else {
+        list.innerHTML = "";
+        reviews.slice().reverse().forEach((r, i) => {
+          const div = document.createElement("div");
+          div.className = "review-card";
+          div.style.animationDelay = `${0.06 * i + 0.12}s`;
+          div.innerHTML = `
+            <span class="reviewer">
+              <span class="review-rating">${"★".repeat(r.rating)}${"☆".repeat(5 - r.rating)}</span>
+              ${escapeHtml(r.name)}
+            </span>
+            <div class="review-text">${escapeHtml(r.text)}</div>
+            <div class="review-date">${escapeHtml(r.date)}</div>
+          `;
+          list.appendChild(div);
+        });
+      }
       renderStats();
       localStorage.setItem("sourmarket_reviews", JSON.stringify(reviews));
     }
@@ -721,7 +552,7 @@
       return false;
     }
     function escapeHtml(t) { return t.replace(/[&<>"']/g, s => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[s])); }
-    // Section navigation with scroll & update nav highlight
+    // SECTION NAVIGATION
     let sectionOrder = ["home","products","reviews"];
     function switchSection(name) {
       sectionOrder.forEach(id => {
@@ -730,35 +561,8 @@
           a.classList.toggle("active", a.getAttribute('href') === "#" + name);
         });
       });
-      setTimeout(updateArrow, 180);
       document.getElementById(name).scrollIntoView({behavior:"smooth"});
     }
-    function scrollToNext() {
-      let curr = getCurrentSectionIndex();
-      let next = Math.min(curr+1, sectionOrder.length-1);
-      if(curr!==next) switchSection(sectionOrder[next]);
-    }
-    function getCurrentSectionIndex() {
-      let idx = sectionOrder.findIndex(id => document.getElementById(id).style.display !== "none");
-      return idx === -1 ? 0 : idx;
-    }
-    function updateArrow() {
-      let idx = getCurrentSectionIndex();
-      let arrow = document.getElementById("scroll-arrow");
-      if(idx < sectionOrder.length-1) {
-        arrow.classList.remove("hide");
-      } else {
-        arrow.classList.add("hide");
-      }
-    }
-    document.addEventListener("keydown", function(e){
-      if(e.key==="ArrowDown" || e.key==="PageDown") scrollToNext();
-      if(e.key==="ArrowUp" || e.key==="PageUp") {
-        let curr = getCurrentSectionIndex();
-        let prev = Math.max(0, curr-1);
-        if(curr!==prev) switchSection(sectionOrder[prev]);
-      }
-    });
     window.onload = function() {
       if(location.hash && ["#home","#products","#reviews"].includes(location.hash)){
         switchSection(location.hash.substring(1));
@@ -772,26 +576,6 @@
         switchSection(location.hash.substring(1));
       }
     }
-    // ADMIN PANEL
-    function toggleAdmin(){
-      const p = document.getElementById("admin-panel");
-      p.style.display = (p.style.display==="flex")?"none":"flex";
-    }
-    function resetStats(){
-      stats = {sold:43,customers:37};
-      localStorage.setItem("sourmarket_stats",JSON.stringify(stats));
-      isCustomer=false;localStorage.setItem("sourmarket_isCustomer","0");
-      renderStats();
-      alert("Stats reset!");
-    }
-    function clearReviews(){
-      reviews = [];
-      localStorage.setItem("sourmarket_reviews",JSON.stringify([]));
-      renderReviews();
-      alert("All reviews deleted!");
-    }
-    // Hide admin by default
-    document.getElementById("admin-panel").style.display="none";
   </script>
 </body>
 </html>
