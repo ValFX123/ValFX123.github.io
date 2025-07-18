@@ -317,10 +317,26 @@
       .review-form { padding:0.7em 0.4em;}
       .review-card { padding:0.85em 0.7em;}
       .scroll-arrow {font-size:2.2rem; width:42px;height:42px;}
+  
+  </style>
+  <style>
+    /* Only adding these for animated spinner and extra popups */
+    .pay-popup { background:#fff; border-radius:1.4em; max-width:400px; box-shadow:0 8px 44px 2px #ffb6e059; padding:2.1rem 1.2rem 2.3rem 1.2rem; position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2500;text-align:center; }
+    .pay-popup h2 {color:#c92d70;font-family:'Orbitron',sans-serif;font-size:1.25em;margin-bottom:.4em;}
+    .pay-popup p {color:#813a74;font-size:1.04em;line-height:1.6;}
+    .pay-popup button {margin-top:1.4em;}
+    .pay-popup .spinner {width:38px;height:38px;border:5px solid #ffb6e0;border-top:5px solid #c92d70;border-radius:50%;margin:1.1em auto 0 auto;animation:spin 1s linear infinite;}
+    @keyframes spin { to {transform:rotate(360deg);} }
+    .pay-popup .bigcheck {
+      font-size:2.6em;
+      color:#3ac96d;
+      margin-bottom:0.5em;
+      display:inline-block;
     }
   </style>
 </head>
 <body>
+  
   <!-- Header -->
   <header>
     <div class="logo">
@@ -333,7 +349,6 @@
       <a href="#reviews" onclick="switchSection('reviews');return false;">Reviews</a>
     </nav>
   </header>
-  <!-- Down Arrow for Scroll -->
   <div class="scroll-arrow" id="scroll-arrow" onclick="scrollToNext()">
     &#8595;
   </div>
@@ -348,10 +363,10 @@
         <span style="color: var(--pink5);font-weight:600;">Mix & Match available.</span> Surprise yourself or create a ticket for a one-of-a-kind request.
       </p>
       <div class="stats">
-        <div class="stat"><div class="num">43</div><div class="label">PRODUCTS SOLD</div></div>
-        <div class="stat"><div class="num">37</div><div class="label">TOTAL CUSTOMERS</div></div>
-        <div class="stat"><div class="num">12</div><div class="label">REVIEWS RECEIVED</div></div>
-        <div class="stat"><div class="num">4.98</div><div class="label">AVERAGE RATING</div></div>
+        <div class="stat"><div class="num" id="stat-sold">43</div><div class="label">PRODUCTS SOLD</div></div>
+        <div class="stat"><div class="num" id="stat-customers">37</div><div class="label">TOTAL CUSTOMERS</div></div>
+        <div class="stat"><div class="num" id="stat-reviews">12</div><div class="label">REVIEWS RECEIVED</div></div>
+        <div class="stat"><div class="num" id="stat-rating">4.98</div><div class="label">AVERAGE RATING</div></div>
       </div>
       <div style="text-align:center; margin-top:2.0em;">
         <button class="btn" onclick="switchSection('products');window.scrollTo(0,0);">View Products</button>
@@ -401,17 +416,12 @@
         <span class="product-price" id="modal-price"></span>
       </div>
       <div class="product-stock" id="modal-stock"></div>
-      <button class="btn" style="margin-top:2em;" onclick="showPaypalPopup()">Pay with PayPal</button>
+      <button class="btn" style="margin-top:2em;" onclick="startPayProcess()">Pay with PayPal</button>
     </div>
   </div>
-  <!-- PayPal warning popup -->
-  <div id="paypal-popup" class="paypal-popup" style="display:none;">
-    <div style="font-size:1.21em;font-weight:bold;margin-bottom:0.7em;">PayPal Payment Notice</div>
-    <div>
-      Please send payment via <strong>Friends &amp; Family</strong> only.<br>
-      <span style="color: var(--pink5);font-weight:bold;">Do not add any notes!</span>
-    </div>
-    <button onclick="hidePaypalPopup()">Okay, got it!</button>
+  <!-- Payment popups (stacked and managed in JS) -->
+  <div id="pay-popup-bg" class="modal-bg" style="display:none;">
+    <div id="pay-popup-content"></div>
   </div>
   <script>
     // Products data
@@ -473,12 +483,37 @@
       }
     ];
 
-    // Example reviews
-    let reviews = [
+    // Get initial stats from localStorage or defaults
+    let stats = JSON.parse(localStorage.getItem("sourmarket_stats") || '{}');
+    stats.sold = stats.sold || 43;
+    stats.customers = stats.customers || 37;
+    stats.reviews = stats.reviews || 12;
+    stats.rating = stats.rating || 4.98;
+
+    // Customer tracking (for demo, local browser only)
+    let isCustomer = localStorage.getItem("sourmarket_isCustomer") === "1";
+
+    // Example reviews (real reviews will be stored in localStorage as well)
+    let reviews = JSON.parse(localStorage.getItem("sourmarket_reviews") || "null") || [
       {name:"Ava", rating:5, text:"Absolutely loved my necklace! Fast shipping and so cute.", date:"2025-07-17"},
       {name:"Jay", rating:4, text:"The pillow is great quality. Will buy again!", date:"2025-07-13"},
       {name:"Sophie", rating:5, text:"Skateboard was amazing. Highly recommend.", date:"2025-07-12"}
     ];
+
+    // Render stats
+    function renderStats() {
+      document.getElementById("stat-sold").innerText = stats.sold;
+      document.getElementById("stat-customers").innerText = stats.customers;
+      document.getElementById("stat-reviews").innerText = reviews.length;
+      // Compute average rating:
+      if (reviews.length === 0) {
+        document.getElementById("stat-rating").innerText = "0.00";
+      } else {
+        let avg = reviews.reduce((sum, r) => sum + Number(r.rating), 0) / reviews.length;
+        document.getElementById("stat-rating").innerText = avg.toFixed(2);
+      }
+    }
+    renderStats();
 
     // Render products
     function renderProducts() {
@@ -506,7 +541,9 @@
     renderProducts();
 
     // Modal logic
+    let selectedProductIdx = 0;
     function openModal(idx) {
+      selectedProductIdx = idx;
       const prod = products[idx];
       document.getElementById("modal-title").innerText = prod.name;
       document.getElementById("modal-desc").innerText = prod.desc || "";
@@ -520,13 +557,82 @@
       document.body.style.overflow = "";
     }
 
-    // PayPal popup
-    function showPaypalPopup() {
-      document.getElementById("paypal-popup").style.display = "block";
+    // Popups for payment process
+    function showPayPopup(html) {
+      document.getElementById("pay-popup-bg").style.display = "flex";
+      document.getElementById("pay-popup-content").innerHTML = html;
+      document.body.style.overflow = "hidden";
     }
-    function hidePaypalPopup() {
-      document.getElementById("paypal-popup").style.display = "none";
+    function hidePayPopup() {
+      document.getElementById("pay-popup-bg").style.display = "none";
+      document.getElementById("pay-popup-content").innerHTML = "";
+      document.body.style.overflow = "";
     }
+
+    function startPayProcess() {
+      closeModal();
+      // 1st popup: Friends & Family
+      showPayPopup(`
+        <h2>PayPal Payment Notice</h2>
+        <p>
+          Please send payment via <b>Friends & Family</b> only.<br>
+          <b style="color:var(--pink5)">Do not add any notes!</b>
+        </p>
+        <button class="btn" onclick="nextPayPopup1()">Continue to Pay</button>
+      `);
+    }
+    function nextPayPopup1() {
+      // 2nd popup: 5 lines of description, "I've paid"
+      const prod = products[selectedProductIdx];
+      showPayPopup(`
+        <h2>How to Get Your ${prod.name}</h2>
+        <ol style="text-align:left;max-width:350px;margin:0 auto 1.1em auto;padding-left:1.2em;color:#803667;font-size:1.02em;">
+          <li>Send <b>${prod.price.replace(/[^0-9\-$]/g, '')}</b> USD via PayPal.</li>
+          <li>Make sure to use <b>Friends & Family</b> as payment method.</li>
+          <li><b>Do not write any notes</b> in the payment description.</li>
+          <li>Take a screenshot or note your transaction ID.</li>
+          <li>Contact us on Discord for delivery or support!</li>
+        </ol>
+        <button class="btn" onclick="nextPayPopup2()">I've Paid</button>
+      `);
+    }
+    function nextPayPopup2() {
+      // 3rd popup: processing
+      showPayPopup(`
+        <h2>Processing Your Payment...</h2>
+        <div class="spinner"></div>
+        <p style="margin-top:1.4em;color:#b5678b;">Please wait while we verify your payment.</p>
+      `);
+      setTimeout(nextPayPopup3, 1800); // Simulate processing
+    }
+    function nextPayPopup3() {
+      // 4th popup: completed
+      showPayPopup(`
+        <span class="bigcheck">&#10003;</span>
+        <h2>Completed Payment!</h2>
+        <p style="margin-bottom:1.4em;">Thank you for your purchase.<br>Click below to receive your product and chat with support.</p>
+        <a href="https://discord.gg/sourmarket" class="btn" target="_blank" onclick="afterBuy()">Get your product</a>
+      `);
+      afterBuy(); // Also update stats right now
+    }
+
+    function afterBuy() {
+      // Update stats: sold, customers
+      stats.sold = Number(stats.sold || 0) + 1;
+      if (!isCustomer) {
+        stats.customers = Number(stats.customers || 0) + 1;
+        isCustomer = true;
+        localStorage.setItem("sourmarket_isCustomer", "1");
+      }
+      renderStats();
+      localStorage.setItem("sourmarket_stats", JSON.stringify(stats));
+      // On real page, you'd also call an API here
+    }
+
+    // Close popups on background click
+    document.getElementById("pay-popup-bg").onclick = function(e) {
+      if(e.target===this) hidePayPopup();
+    };
 
     // Reviews
     function renderReviews() {
@@ -546,10 +652,13 @@
         `;
         list.appendChild(div);
       });
+      // Update stats (reviews count, avg rating)
+      renderStats();
+      localStorage.setItem("sourmarket_reviews", JSON.stringify(reviews));
     }
     renderReviews();
 
-    // Add review (client-side, no backend)
+    // Add review (client-side, persists with localStorage)
     function addReview(e) {
       e.preventDefault();
       const name = document.getElementById("review-name").value.trim();
@@ -566,10 +675,10 @@
         text: escapeHtml(text),
         date: (new Date()).toISOString().split("T")[0]
       });
-      renderReviews();
       document.getElementById("review-form").reset();
       err.innerText="Thank you for your review!";
       setTimeout(()=>{err.innerText="";},1800);
+      renderReviews();
       return false;
     }
 
@@ -607,7 +716,6 @@
         arrow.classList.add("hide");
       }
     }
-    // Also scroll on page scroll (if wanted)
     document.addEventListener("keydown", function(e){
       if(e.key==="ArrowDown" || e.key==="PageDown") scrollToNext();
       if(e.key==="ArrowUp" || e.key==="PageUp") {
@@ -616,13 +724,13 @@
         if(curr!==prev) switchSection(sectionOrder[prev]);
       }
     });
-    // Hash navigation on page load
     window.onload = function() {
       if(location.hash && ["#home","#products","#reviews"].includes(location.hash)){
         switchSection(location.hash.substring(1));
       } else {
         switchSection('home');
       }
+      renderStats();
     }
     window.onhashchange = function() {
       if(location.hash && ["#home","#products","#reviews"].includes(location.hash)){
