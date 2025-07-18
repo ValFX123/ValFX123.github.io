@@ -269,6 +269,38 @@
       margin-top:0.5em;align-self:flex-end;min-width:130px;
     }
     .review-form .err { color:var(--pink6); font-size:0.98em; margin:0.2em 0;}
+    /* Admin Panel */
+    .admin-panel {
+      position:fixed;bottom:18px;right:20px;z-index:3300;
+      background:#fff6faee;
+      border:2px solid var(--pink3);
+      border-radius:1.2em;
+      padding:1.2em 1.6em 1.3em 1.6em;
+      box-shadow:0 4px 32px #ffc8df3c;
+      color:var(--pink6);
+      font-size:1.07em;
+      display:none;
+      flex-direction:column;gap:.75em;
+      min-width:230px;
+      text-align:left;
+      animation:pop .25s;
+    }
+    .admin-panel label{font-weight:bold;}
+    .admin-panel .btn{font-size:1em;padding:.48em 1.1em;}
+    .admin-toggle{
+      position:fixed;bottom:18px;right:20px;z-index:3299;
+      background:linear-gradient(90deg,var(--pink5),var(--pink4));
+      color:#fff;
+      font-size:1.3em;
+      border-radius:50%;
+      width:42px;height:42px;
+      box-shadow:0 2px 12px #ffa1d73a;
+      cursor:pointer;
+      display:flex;align-items:center;justify-content:center;
+      outline:none;border:none;
+      transition:background .17s;
+    }
+    .admin-toggle:hover{background:linear-gradient(90deg,var(--pink6),var(--pink4));}
     @media (max-width: 650px) {
       header {flex-direction:column;gap:0.7em;padding:0.8rem;}
       .stats { gap: 1.15rem;}
@@ -277,6 +309,8 @@
       .review-form { padding:0.7em 0.4em;}
       .review-card { padding:0.85em 0.7em;}
       .pay-popup, .modal {min-width:0;max-width:96vw;}
+      .admin-panel{right:6px;min-width:160px;}
+      .admin-toggle{right:6px;}
     }
   </style>
 </head>
@@ -357,6 +391,16 @@
   <!-- Payment popups -->
   <div id="pay-popup-bg" class="pay-popup-bg" style="display:none;">
     <div id="pay-popup-content"></div>
+  </div>
+  <!-- Admin Panel -->
+  <button class="admin-toggle" id="admin-toggle" title="Admin/Testing" onclick="toggleAdmin()">
+    &#9881;
+  </button>
+  <div class="admin-panel" id="admin-panel">
+    <label>Admin Demo Panel</label>
+    <button class="btn" onclick="resetStats()">Reset Stats</button>
+    <button class="btn" onclick="clearReviews()">Delete All Reviews</button>
+    <div style="margin-top:.7em;font-size:.93em;color:#a971a1;">(Visible to you only. <br>For public, remove this section.)</div>
   </div>
   <script>
     // PRODUCTS
@@ -441,9 +485,9 @@
           <ol style="text-align:left;max-width:350px;margin:0 auto 1.1em auto;padding-left:1.2em;color:#803667;font-size:1.05em;">
             <li><b>Friends and Family Only</b></li>
             <li><b>No Notes</b></li>
-            <li style="word-break:break-all;"><b>izzylazeripad@icloud.com</b></li>
+            <li style="word-break:break-all;"><b>RealEKitten69</b> (PayPal.me)</li>
           </ol>
-          <a href="https://www.paypal.com/paypalme/izzylazeripad" class="btn" target="_blank" onclick="setTimeout(showPayPopupProcessing,1200);">Pay with PayPal</a>
+          <a href="https://www.paypal.me/RealEKitten69" class="btn" target="_blank" onclick="setTimeout(showPayPopupProcessing,1200);">Pay with PayPal</a>
         </div>
       `;
     }
@@ -558,6 +602,25 @@
         switchSection(location.hash.substring(1));
       }
     }
+    // ADMIN PANEL
+    function toggleAdmin(){
+      const p = document.getElementById("admin-panel");
+      p.style.display = (p.style.display==="flex")?"none":"flex";
+    }
+    function resetStats(){
+      stats = {sold:32,customers:14};
+      localStorage.setItem("sourmarket_stats",JSON.stringify(stats));
+      isCustomer=false;localStorage.setItem("sourmarket_isCustomer","0");
+      renderStats();
+      alert("Stats reset!");
+    }
+    function clearReviews(){
+      reviews = [];
+      localStorage.setItem("sourmarket_reviews",JSON.stringify([]));
+      renderReviews();
+      alert("All reviews deleted!");
+    }
+    document.getElementById("admin-panel").style.display="none";
   </script>
 </body>
 </html>
