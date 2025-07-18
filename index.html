@@ -8,7 +8,7 @@
   <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400|Orbitron:800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --pink1: #fff1fa;
+      --pink1: #fff6fa;
       --pink2: #ffe4ec;
       --pink3: #ffb6e0;
       --pink4: #ffa1d7;
@@ -16,105 +16,120 @@
       --pink6: #c92d70;
       --green: #2fc764;
       --white: #fff;
-      --shadow: 0 4px 24px 0 rgba(252, 64, 153, 0.11);
-      --transition: .18s cubic-bezier(.38,1.6,.62,1);
+      --shadow: 0 8px 32px 0 #ff5ea71c;
+      --transition: .16s cubic-bezier(.38,1.6,.62,1);
     }
     html { scroll-behavior: smooth;}
     body {
       font-family: 'Montserrat', Arial, sans-serif;
       background: linear-gradient(120deg, var(--pink1), var(--pink2) 90%);
       margin: 0;
-      color: #402548;
+      color: #3b2440;
       min-height: 100vh;
       scroll-behavior: smooth;
       overflow-x: hidden;
     }
     header {
       position: sticky; top: 0; z-index: 100;
-      background: rgba(255, 244, 250, 0.95);
+      background: rgba(255, 244, 250, 0.96);
       box-shadow: var(--shadow);
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0.7rem 2.2rem 0.7rem 1rem;
-      transition: box-shadow .2s;
+      padding: 0.85rem 2.4rem 0.85rem 1.2rem;
+      transition: box-shadow .22s;
+      border-bottom: 2.5px solid #ffb6e04a;
     }
     .logo {
       font-family: 'Orbitron', sans-serif;
       font-weight: 800;
-      font-size: 1.6rem;
+      font-size: 2rem;
       color: var(--pink6);
       display: flex; align-items: center;
-      letter-spacing: 1.5px;
+      letter-spacing: 2px;
       gap: 0.7em;
+      animation: logoPop .8s cubic-bezier(.4,2,.7,1) 1;
+    }
+    @keyframes logoPop {
+      0% { transform: scale(.91); opacity:.4;}
+      100%{transform:scale(1); opacity:1;}
     }
     .logo img {
-      width: 38px; height: 38px; border-radius: 50%; border: 2.5px solid var(--pink4); background: #fff;
-      box-shadow: 0 2px 6px #ffa8ce37;
+      width: 44px; height: 44px; border-radius: 50%; border: 3.5px solid var(--pink4); background: #fff;
+      box-shadow: 0 2px 12px #ffa8ce37;
     }
-    nav { display: flex; gap: 2rem;}
+    nav { display: flex; gap: 2rem; align-items: center;}
     nav a {
       color: var(--pink6);
       text-decoration: none;
       font-weight: 700;
       font-size: 1.1rem;
-      padding: 0.35em 0.85em;
+      padding: 0.38em 0.93em;
       border-radius: 1em;
       transition: background var(--transition), color var(--transition);
+      position: relative;
       outline: none;
+      letter-spacing:0.02em;
     }
     nav a.active, nav a:focus, nav a:hover {
       background: var(--pink4);
       color: var(--white);
     }
-    main { padding: 3.3rem 1rem 2.5rem 1rem; max-width: 1100px; margin: 0 auto; }
-    section { margin-bottom: 3.5rem;}
+    nav a.active:after, nav a:hover:after {
+      content:"";display:block;position:absolute;left:15%;right:15%;bottom:7px;height:4px;border-radius:2px;
+      background: linear-gradient(90deg,var(--pink5),var(--pink4));
+      animation: navunderline .3s;
+    }
+    @keyframes navunderline {from{width:0;} to{width:70%;}}
+    main { padding: 3.3rem 1rem 2.7rem 1rem; max-width: 1100px; margin: 0 auto; }
+    section { margin-bottom: 3.8rem;}
     h1, h2, h3 { font-family: 'Orbitron', sans-serif; color: var(--pink6); }
-    h1 { font-size: 2.3rem; margin-top: 1.4rem; letter-spacing:1px;}
-    .section-title { font-size:2rem;margin-bottom:1.7rem;text-align:center;letter-spacing:1.5px; }
+    h1 { font-size: 2.4rem; margin-top: 1.7rem; letter-spacing:1px;text-shadow:0 2px 12px #ffe4ec80;}
+    .section-title { font-size:2.05rem;margin-bottom:2rem;text-align:center;letter-spacing:1.5px;text-shadow:0 2px 10px #ffe4ec44;}
     .stats {
-      display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap;
-      margin: 2.3rem 0 1.8rem 0;
+      display: flex; justify-content: center; gap: 2.6rem; flex-wrap: wrap;
+      margin: 2.4rem 0 1.9rem 0;
     }
     .stat {
       text-align: center;
       background: var(--white);
-      border-radius: 1.2em;
+      border-radius: 1.4em;
       box-shadow: var(--shadow);
-      padding: 1rem 2.2rem;
-      min-width: 110px;
+      padding: 1.12rem 2.1rem;
+      min-width: 115px;
       opacity: 0;
       transform: translateY(25px);
       animation: statFade .7s .12s forwards;
     }
-    .stat .num { font-size: 2.1rem; font-weight: 900; color: var(--pink5);}
-    .stat .label { font-size: 1.01rem; color: #b5678b; }
+    .stat .num { font-size: 2.25rem; font-weight: 900; color: var(--pink5);}
+    .stat .label { font-size: 1.06rem; color: #a85a7c; }
     .btn, button, input[type=button] {
-      background: linear-gradient(92deg, var(--pink5) 45%, var(--pink4) 95%);
+      background: linear-gradient(92deg, var(--pink5) 42%, var(--pink4) 92%);
       color: #fff;
       border: none;
-      border-radius: 1.2em;
+      border-radius: 1.22em;
       font-weight: bold;
-      font-size: 1.09rem;
-      padding: 0.7em 2em;
+      font-size: 1.13rem;
+      padding: 0.78em 2.2em;
       cursor: pointer;
       box-shadow: 0 2px 12px 0 #ffc8df2c;
       outline:none;
-      transition: background var(--transition), transform .13s;
+      transition: background var(--transition), transform .13s, box-shadow .14s;
     }
     .btn:hover, button:hover, input[type=button]:hover {
-      background: linear-gradient(94deg, var(--pink6), var(--pink4));
-      transform: scale(1.05);
+      background: linear-gradient(92deg, var(--pink6) 33%, var(--pink4) 92%);
+      transform: scale(1.07);
+      box-shadow: 0 4px 16px 0 #ffa1d73c;
     }
     .products-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
-      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+      gap: 2.2rem;
       margin-top: 1.2rem;
     }
     .product-card {
       background: var(--white);
-      border-radius: 1.2em;
-      box-shadow: 0 4px 24px 0 #ff5ea718;
-      padding: 1.3rem 1.2rem;
+      border-radius: 1.3em;
+      box-shadow: 0 6px 28px 0 #ff5ea718;
+      padding: 1.5rem 1.2rem 1.6rem 1.2rem;
       text-align: center;
       cursor: pointer;
       transition: box-shadow .18s, transform .18s;
@@ -125,45 +140,52 @@
       animation: prodFade .8s forwards;
     }
     .product-card:hover {
-      transform: scale(1.04) translateY(-4px);
-      box-shadow: 0 10px 32px 2px #ffb6e032;
+      transform: scale(1.06) translateY(-4px);
+      box-shadow: 0 12px 38px 2px #ffb6e032;
       z-index: 2;
+      border:2.2px solid var(--pink4);
     }
     .product-card .icon {
-      width: 45px; height: 45px;
-      margin-bottom: 0.8em;
-      filter: drop-shadow(0 2px 4px #ffa8ce50);
+      width: 52px; height: 52px;
+      margin-bottom: 1em;
+      filter: drop-shadow(0 2px 7px #ffa8ce37);
+      animation: iconPulse 2.5s infinite alternate;
     }
-    .product-title { font-weight: 800; color: var(--pink6); font-size: 1.2rem; }
-    .product-price { color: var(--pink5); font-size: 1.13rem; font-weight: bold;}
-    .old-price { text-decoration: line-through; color: #d4a3bc; font-size: 0.96em; margin-left: 6px; }
-    .product-stock { color: #a971a1; font-size: 0.9em; }
+    @keyframes iconPulse {
+      0% { filter: drop-shadow(0 2px 7px #ffa8ce37);}
+      100% { filter: drop-shadow(0 7px 20px #ff5ea72c);}
+    }
+    .product-title { font-weight: 800; color: var(--pink6); font-size: 1.26rem;margin-bottom:0.1em;}
+    .product-price { color: var(--pink5); font-size: 1.19rem; font-weight: bold;}
+    .product-stock { color: #a971a1; font-size: 0.93em; }
     .product-card .btn {
-      font-size: 1em; margin-top: 1.1em;
-      width: 93%;
-      padding: 0.7em 0;
+      font-size: 1.07em; margin-top: 1.23em;
+      width: 95%;
+      padding: 0.85em 0;
+      letter-spacing:0.03em;
+      box-shadow:0 2px 12px #ff5ea71c;
     }
     .product-desc {
       color: #813a74;
-      font-size: 0.97em;
-      margin: 0.55em 0 0 0;
+      font-size: 0.99em;
+      margin: 0.63em 0 0.09em 0;
       min-height: 2.2em;
     }
     /* Modal */
     .modal-bg {
       position: fixed; top:0; left:0; width:100vw; height:100vh;
-      background: rgba(220, 49, 112, 0.16);
+      background: rgba(220, 49, 112, 0.13);
       display: flex; align-items: center; justify-content: center;
       z-index: 1111;
       transition: background .16s;
       animation: fadeinBg .17s;
     }
-    @keyframes fadeinBg { from {background:rgba(0,0,0,0);} to {background:rgba(220, 49, 112, 0.16);} }
+    @keyframes fadeinBg { from {background:rgba(0,0,0,0);} to {background:rgba(220, 49, 112, 0.13);} }
     .modal {
       background: var(--white);
       border-radius: 1.4em;
-      max-width: 410px;
-      padding: 2.1rem 1.6rem 2.4rem 1.6rem;
+      max-width: 430px;
+      padding: 2.1rem 1.7rem 2.5rem 1.7rem;
       box-shadow: 0 8px 44px 2px #ffb6e059;
       text-align: center;
       position: relative;
@@ -171,29 +193,29 @@
     }
     @keyframes pop { 0% {transform: scale(.92);} 100% {transform: scale(1);} }
     .modal-close {
-      position: absolute; right: 1.0em; top: 1.0em;
-      font-size: 1.7rem; color: var(--pink5); background: none; border: none; cursor: pointer;
+      position: absolute; right: 1.12em; top: 1.12em;
+      font-size: 1.8rem; color: var(--pink5); background: none; border: none; cursor: pointer;
       line-height: 1;
     }
-    .modal-title { font-size: 1.19rem; font-weight: bold; color: var(--pink6); margin-bottom: 0.15em;}
-    .modal-desc { color: #803667; font-size: 1.01rem; margin-bottom: 0.38em;}
+    .modal-title { font-size: 1.18rem; font-weight: bold; color: var(--pink6); margin-bottom: 0.15em;}
+    .modal-desc { color: #803667; font-size: 1.03rem; margin-bottom: 0.36em;}
     .modal .product-price { font-size: 1.09rem;}
     .modal .btn {
-      font-size: 1.04em; margin-top: 1.7em;
+      font-size: 1.09em; margin-top: 1.5em;
       width: 90%;
-      padding: 0.74em 0;
+      padding: 0.83em 0;
     }
     /* Multi-step pay flow popups */
-    .pay-popup { background:#fff; border-radius:1.3em; max-width:400px; box-shadow:0 8px 44px 2px #ffb6e059; padding:2.1rem 1.2rem 2.3rem 1.2rem; position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2500;text-align:center; }
-    .pay-popup h2 {color:#c92d70;font-family:'Orbitron',sans-serif;font-size:1.21em;margin-bottom:.4em;}
+    .pay-popup { background:#fff; border-radius:1.3em; max-width:420px; box-shadow:0 8px 44px 2px #ffb6e059; padding:2.1rem 1.2rem 2.3rem 1.2rem; position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2500;text-align:center; }
+    .pay-popup h2 {color:#c92d70;font-family:'Orbitron',sans-serif;font-size:1.17em;margin-bottom:.4em;}
     .pay-popup p {color:#813a74;font-size:1.04em;line-height:1.6;}
     .pay-popup button, .pay-popup a {margin-top:1.4em;}
     .pay-popup .spinner {width:38px;height:38px;border:5px solid #ffb6e0;border-top:5px solid #c92d70;border-radius:50%;margin:1.1em auto 0 auto;animation:spin 1s linear infinite;}
     @keyframes spin { to {transform:rotate(360deg);} }
     .pay-popup .bigcheck {
-      font-size:2.6em;
+      font-size:2.8em;
       color:var(--green);
-      margin-bottom:0.5em;
+      margin-bottom:0.48em;
       display:inline-block;
     }
     /* Reviews */
@@ -234,7 +256,7 @@
     }
     .review-rating {
       color: #ffd6f1;
-      font-size: 1.12em;
+      font-size: 1.16em;
       margin-right: 0.45em;
       letter-spacing: 0.06em;
       text-shadow: 0 2px 3px #ffa8ce55;
@@ -242,7 +264,7 @@
     }
     .review-text {
       color: #6e3171;
-      font-size: 1.01em;
+      font-size: 1.03em;
     }
     .review-date {
       font-size:0.93em; color:#d8b1c5;
@@ -283,7 +305,7 @@
       left: 50%;
       bottom: 32px;
       transform: translateX(-50%);
-      font-size: 2.6rem;
+      font-size: 2.7rem;
       color: var(--pink5);
       background: #fff6fcf2;
       border-radius: 50%;
@@ -297,6 +319,38 @@
     }
     @keyframes arrowPulse { to {transform:translateX(-50%) scale(1.08);} }
     .scroll-arrow.hide { opacity:0;pointer-events:none;}
+    /* Admin Panel */
+    .admin-panel {
+      position:fixed;bottom:18px;right:20px;z-index:3300;
+      background:#fff6faee;
+      border:2px solid var(--pink3);
+      border-radius:1.2em;
+      padding:1.2em 1.6em 1.3em 1.6em;
+      box-shadow:0 4px 32px #ffc8df3c;
+      color:var(--pink6);
+      font-size:1.07em;
+      display:none;
+      flex-direction:column;gap:.75em;
+      min-width:230px;
+      text-align:left;
+      animation:pop .25s;
+    }
+    .admin-panel label{font-weight:bold;}
+    .admin-panel .btn{font-size:1em;padding:.48em 1.1em;}
+    .admin-toggle{
+      position:fixed;bottom:18px;right:20px;z-index:3299;
+      background:linear-gradient(90deg,var(--pink5),var(--pink4));
+      color:#fff;
+      font-size:1.3em;
+      border-radius:50%;
+      width:42px;height:42px;
+      box-shadow:0 2px 12px #ffa1d73a;
+      cursor:pointer;
+      display:flex;align-items:center;justify-content:center;
+      outline:none;border:none;
+      transition:background .17s;
+    }
+    .admin-toggle:hover{background:linear-gradient(90deg,var(--pink6),var(--pink4));}
     @media (max-width: 650px) {
       header {flex-direction:column;gap:0.7em;padding:0.8rem;}
       .stats { gap: 1.15rem;}
@@ -305,6 +359,8 @@
       .review-form { padding:0.7em 0.4em;}
       .review-card { padding:0.85em 0.7em;}
       .scroll-arrow {font-size:2.2rem; width:42px;height:42px;}
+      .admin-panel{right:6px;min-width:160px;}
+      .admin-toggle{right:6px;}
     }
   </style>
 </head>
@@ -324,12 +380,10 @@
   <div class="scroll-arrow" id="scroll-arrow" onclick="scrollToNext()">
     &#8595;
   </div>
-  <!-- Main -->
   <main>
-    <!-- HOME -->
     <section id="home" style="margin-top:2em;">
       <h1>Welcome to <span style="color: var(--pink5)">SourMarket</span>!</h1>
-      <p style="max-width:580px;margin:auto;font-size:1.19rem;line-height:1.66;color:#6e2a63;margin-top:1.18em;">
+      <p style="max-width:590px;margin:auto;font-size:1.21rem;line-height:1.67;color:#6e2a63;margin-top:1.18em;">
         We specialize in unique custom items for everyone! <br>
         <b>Necklaces, chains, skateboards, pillows, keychains, re-textures, custom orders, and more!</b><br>
         <span style="color: var(--pink5);font-weight:600;">Mix & Match available.</span> Surprise yourself or create a ticket for a one-of-a-kind request.
@@ -340,18 +394,14 @@
         <div class="stat"><div class="num" id="stat-reviews">12</div><div class="label">REVIEWS RECEIVED</div></div>
         <div class="stat"><div class="num" id="stat-rating">4.98</div><div class="label">AVERAGE RATING</div></div>
       </div>
-      <div style="text-align:center; margin-top:2.0em;">
+      <div style="text-align:center; margin-top:2.2em;">
         <button class="btn" onclick="switchSection('products');window.scrollTo(0,0);">View Products</button>
       </div>
     </section>
-    <!-- PRODUCTS -->
     <section id="products" style="display:none;">
       <div class="section-title">Our Products</div>
-      <div class="products-grid" id="products-grid">
-        <!-- JS FILLS HERE -->
-      </div>
+      <div class="products-grid" id="products-grid"></div>
     </section>
-    <!-- REVIEWS -->
     <section id="reviews" style="display:none;">
       <div class="section-title">Customer Reviews</div>
       <div class="reviews-list" id="reviews-list"></div>
@@ -378,7 +428,7 @@
     <div class="modal" id="product-modal">
       <button class="modal-close" onclick="closeModal()">&times;</button>
       <div>
-        <img class="icon" src="https://i.imgur.com/KcfZIqA.png" alt="icon" style="width:54px;height:54px;margin-bottom:0.8em;">
+        <img class="icon" src="https://i.imgur.com/KcfZIqA.png" alt="icon" style="width:54px;height:54px;margin-bottom:0.9em;">
       </div>
       <div class="modal-title" id="modal-title"></div>
       <div class="modal-desc" id="modal-desc"></div>
@@ -386,90 +436,106 @@
         <span class="product-price" id="modal-price"></span>
       </div>
       <div class="product-stock" id="modal-stock"></div>
-      <button class="btn" style="margin-top:2em;" onclick="startPayProcess()">Pay with PayPal</button>
+      <div id="modal-pay"></div>
     </div>
   </div>
   <!-- Payment popups -->
   <div id="pay-popup-bg" class="modal-bg" style="display:none;">
     <div id="pay-popup-content"></div>
   </div>
+  <!-- Admin Panel -->
+  <button class="admin-toggle" id="admin-toggle" title="Admin/Testing" onclick="toggleAdmin()">
+    &#9881;
+  </button>
+  <div class="admin-panel" id="admin-panel">
+    <label>Admin Demo Panel</label>
+    <button class="btn" onclick="resetStats()">Reset Stats</button>
+    <button class="btn" onclick="clearReviews()">Delete All Reviews</button>
+    <div style="margin-top:.7em;font-size:.93em;color:#a971a1;">(Visible to you only. <br>For public, remove this section.)</div>
+  </div>
   <script>
-    // Products data
+    // CHANGE THIS TO YOUR PAYPAL EMAIL!
+    const PAYPAL_EMAIL = "izzylazeripad@icloud.com";
+    // Products data (add "paypal" for those with static price)
     const products = [
       {
         name: "Necklaces",
         price: "$10",
         extra: "Charms are $2-$4 depending on what it is",
         desc: "Custom necklaces, add your favorite charms for just $2-$4 each!",
-        stock: "∞"
+        stock: "∞",
+        paypal: "10"
       },
       {
         name: "Iced Out Chain",
         price: "$15",
         desc: "Super shiny iced out chains to level up any outfit.",
-        stock: "∞"
+        stock: "∞",
+        paypal: "15"
       },
       {
         name: "Skateboard",
         price: "$15",
         desc: "Fully customizable skateboard for cruising in style.",
-        stock: "∞"
+        stock: "∞",
+        paypal: "15"
       },
       {
         name: "Mini Shoulder Pal",
         price: "$15",
         desc: "A mini plush pal that sits on your shoulder. So cute!",
-        stock: "∞"
+        stock: "∞",
+        paypal: "15"
       },
       {
         name: "Mini Avatar Keychain",
         price: "$20",
         desc: "Take your mini avatar anywhere you go, on your keys or bag!",
-        stock: "∞"
+        stock: "∞",
+        paypal: "20"
       },
       {
         name: "Custom pillows - Small",
         price: "$10",
         desc: "Small custom pillows for your room or as gifts.",
-        stock: "∞"
+        stock: "∞",
+        paypal: "10"
       },
       {
         name: "Custom pillows - Big",
         price: "$15",
         desc: "Big custom pillows for extra comfort and fun.",
-        stock: "∞"
+        stock: "∞",
+        paypal: "15"
       },
       {
         name: "Re-Textures",
         price: "$20-$50",
         desc: "Custom re-textures for your favorite items, prices vary.",
-        stock: "∞"
+        stock: "∞",
+        paypal: null // Manual payment
       },
       {
         name: "Custom Orders",
         price: "$10-$100",
         desc: "Want something totally unique? Send your idea for a custom quote.",
-        stock: "∞"
+        stock: "∞",
+        paypal: null // Manual payment
       }
     ];
-    // Initial stats (persistent)
     let stats = JSON.parse(localStorage.getItem("sourmarket_stats") || '{}');
     stats.sold = stats.sold || 43;
     stats.customers = stats.customers || 37;
-    // Reviews
     let reviews = JSON.parse(localStorage.getItem("sourmarket_reviews") || "null") || [
       {name:"Ava", rating:5, text:"Absolutely loved my necklace! Fast shipping and so cute.", date:"2025-07-17"},
       {name:"Jay", rating:4, text:"The pillow is great quality. Will buy again!", date:"2025-07-13"},
       {name:"Sophie", rating:5, text:"Skateboard was amazing. Highly recommend.", date:"2025-07-12"}
     ];
-    // Customer tracking (per browser)
     let isCustomer = localStorage.getItem("sourmarket_isCustomer") === "1";
-    // Render stats
     function renderStats() {
       document.getElementById("stat-sold").innerText = stats.sold;
       document.getElementById("stat-customers").innerText = stats.customers;
       document.getElementById("stat-reviews").innerText = reviews.length;
-      // Compute average rating:
       if (reviews.length === 0) {
         document.getElementById("stat-rating").innerText = "0.00";
       } else {
@@ -511,6 +577,30 @@
       document.getElementById("modal-desc").innerText = prod.desc || "";
       document.getElementById("modal-price").innerText = prod.price + (prod.extra ? " | " + prod.extra : "");
       document.getElementById("modal-stock").innerText = `In Stock: ${prod.stock}`;
+      // Real PayPal for fixed-price
+      let payBtn = "";
+      if (prod.paypal) {
+        payBtn = `
+          <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" style="margin-top:1.6em;">
+            <input type="hidden" name="cmd" value="_xclick">
+            <input type="hidden" name="business" value="${PAYPAL_EMAIL}">
+            <input type="hidden" name="item_name" value="${prod.name}">
+            <input type="hidden" name="amount" value="${prod.paypal}">
+            <input type="hidden" name="currency_code" value="USD">
+            <button type="submit" class="btn" onclick="afterPayBtn();return true;">Pay with PayPal</button>
+          </form>
+          <div style="font-size:.97em;color:#a971a1;margin-top:.8em;">After payment, continue below!</div>
+          <button class="btn" style="margin-top:.7em;background:var(--green);color:#fff;" onclick="startPayProcess()">I've Paid</button>
+        `;
+      } else {
+        payBtn = `
+          <div style="margin:1.5em 0;">
+            <span style="font-size:1.1em;color:var(--pink5);font-weight:bold;">For this product, please message us on Discord to get your price and payment link!</span>
+          </div>
+          <button class="btn" onclick="startPayProcess()">Contact & Pay</button>
+        `;
+      }
+      document.getElementById("modal-pay").innerHTML = payBtn;
       document.getElementById("product-modal-bg").style.display = "flex";
       document.body.style.overflow = "hidden";
     }
@@ -529,6 +619,7 @@
       document.getElementById("pay-popup-content").innerHTML = "";
       document.body.style.overflow = "";
     }
+    function afterPayBtn() { setTimeout(()=>startPayProcess(), 400); }
     function startPayProcess() {
       closeModal();
       // 1st popup: Friends & Family
@@ -538,17 +629,16 @@
           Please send payment via <b>Friends & Family</b> only.<br>
           <b style="color:var(--pink5)">Do not add any notes!</b>
         </p>
-        <button class="btn" onclick="nextPayPopup1()">Continue to Pay</button>
+        <button class="btn" onclick="nextPayPopup1()">Continue to Next Step</button>
       `);
     }
     function nextPayPopup1() {
-      // 2nd popup: 5 lines of description, "I've paid"
       const prod = products[selectedProductIdx];
       showPayPopup(`
         <h2>How to Get Your ${prod.name}</h2>
         <ol style="text-align:left;max-width:350px;margin:0 auto 1.1em auto;padding-left:1.2em;color:#803667;font-size:1.01em;">
-          <li>Send <b>${prod.price.replace(/[^0-9\-$]/g, '')}</b> USD via PayPal.</li>
-          <li>Make sure to use <b>Friends & Family</b> as payment method.</li>
+          <li>Send <b>${prod.paypal?prod.price:'your custom'}</b> USD via PayPal.</li>
+          <li>Use <b>Friends & Family</b> as payment method.</li>
           <li><b>Do not write any notes</b> in the payment description.</li>
           <li>Take a screenshot or note your transaction ID.</li>
           <li>Contact us on Discord for delivery or support!</li>
@@ -557,7 +647,6 @@
       `);
     }
     function nextPayPopup2() {
-      // 3rd popup: processing
       showPayPopup(`
         <h2>Processing Your Payment...</h2>
         <div class="spinner"></div>
@@ -566,7 +655,6 @@
       setTimeout(nextPayPopup3, 1700);
     }
     function nextPayPopup3() {
-      // 4th popup: completed
       showPayPopup(`
         <span class="bigcheck">&#10003;</span>
         <h2>Completed Payment!</h2>
@@ -576,7 +664,6 @@
       afterBuy();
     }
     function afterBuy() {
-      // Update stats: sold, customers
       stats.sold = Number(stats.sold || 0) + 1;
       if (!isCustomer) {
         stats.customers = Number(stats.customers || 0) + 1;
@@ -646,7 +733,6 @@
       setTimeout(updateArrow, 180);
       document.getElementById(name).scrollIntoView({behavior:"smooth"});
     }
-    // Scroll arrow logic
     function scrollToNext() {
       let curr = getCurrentSectionIndex();
       let next = Math.min(curr+1, sectionOrder.length-1);
@@ -686,6 +772,26 @@
         switchSection(location.hash.substring(1));
       }
     }
+    // ADMIN PANEL
+    function toggleAdmin(){
+      const p = document.getElementById("admin-panel");
+      p.style.display = (p.style.display==="flex")?"none":"flex";
+    }
+    function resetStats(){
+      stats = {sold:43,customers:37};
+      localStorage.setItem("sourmarket_stats",JSON.stringify(stats));
+      isCustomer=false;localStorage.setItem("sourmarket_isCustomer","0");
+      renderStats();
+      alert("Stats reset!");
+    }
+    function clearReviews(){
+      reviews = [];
+      localStorage.setItem("sourmarket_reviews",JSON.stringify([]));
+      renderReviews();
+      alert("All reviews deleted!");
+    }
+    // Hide admin by default
+    document.getElementById("admin-panel").style.display="none";
   </script>
 </body>
 </html>
