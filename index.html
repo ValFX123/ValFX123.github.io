@@ -450,11 +450,7 @@
       100% {transform:translateY(0);}
     }
   </style>
-<script type="module">
-    import emailjs from 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
-    window.emailjs = emailjs;
-  </script>
-  <!-- Firebase (unchanged) -->
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 </head>
@@ -583,7 +579,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// EmailJS user ID (leave after v4 module)
+// EmailJS user ID
 emailjs.init("INRPByuAfnhpnww8h");
 
 /* --------- PRODUCTS --------- */
@@ -658,7 +654,7 @@ document.getElementById("product-modal-bg").onclick = function(e) {
   if(e.target===this) closeModal();
 };
 
-// Example for payment email sending (updated service ID)
+/* --------- PAYMENT EMAILJS + WEBHOOK --------- */
 function showPayPopup() {
   closeModal();
   document.getElementById("pay-popup-bg").style.display = "flex";
@@ -680,13 +676,13 @@ function showPayPopup() {
     if(!email || !email.includes('@')) { err.innerText = "Please enter a valid email."; return; }
 
     // 1. Email to BUYER
-    emailjs.send('service_8bo4gc9', 'template_ty0bmr7', {
+    emailjs.send('service_xjjwjcj', 'template_ty0bmr7', {
       name: name,
       email: email,
       product: products[selectedProductIdx]?.name || ""
     }).then(function() {
       // 2. Email to OWNER
-      emailjs.send('service_8bo4gc9', 'template_udf2du7', {
+      emailjs.send('service_xjjwjcj', 'template_udf2du7', {
         name: name,
         email: email,
         product: products[selectedProductIdx]?.name || ""
