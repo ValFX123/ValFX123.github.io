@@ -481,6 +481,9 @@
       .stat {padding:1.1rem 1.2rem;}
     }
   </style>
+  <!-- Firebase SDKs: -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 </head>
 <body>
   <header>
@@ -536,7 +539,8 @@
     <section id="reviews" style="display:none;">
       <div class="section-title">Customer Reviews</div>
       <div style="text-align:center;color:#a85a7c;font-size:.97em;margin-bottom:0.6em;">
-        <b>Note:</b> Reviews are stored in your browser for privacy. To leave a public review or get support, email us at <a href="mailto:SourMarketBusiness@gmail.com" style="color:#c92d70;text-decoration:underline;">SourMarketBusiness@gmail.com</a>.
+        <b>Note:</b> Reviews are public and visible to all visitors.<br>
+        Contact support: <a href="mailto:SourMarketBusiness@gmail.com" style="color:#c92d70;text-decoration:underline;">SourMarketBusiness@gmail.com</a>
       </div>
       <div class="reviews-list" id="reviews-list"></div>
       <form class="review-form" id="review-form" autocomplete="off" onsubmit="return addReview(event)">
@@ -592,6 +596,20 @@
   <canvas class="confetti" id="confetti-canvas" style="display:none;position:fixed;pointer-events:none;top:0;left:0;z-index:20000;"></canvas>
   <button id="top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="display:none;position:fixed;right:23px;bottom:26px;background:linear-gradient(90deg,#ff5ea7,#ffa1d7);color:#fff;border:none;border-radius:50%;width:46px;height:46px;box-shadow:0 4px 18px #ffb6e05a;font-size:2.1em;z-index:2222;cursor:pointer;">&#8679;</button>
   <script>
+    // ---- FIREBASE CONFIG ----
+    // Your config (from the code you provided)
+    const firebaseConfig = {
+      apiKey: "AIzaSyDsDLGEphX_fn3JSMoVCB5zJsf1EfpsPKQ",
+      authDomain: "sourmarket-15308.firebaseapp.com",
+      projectId: "sourmarket-15308",
+      storageBucket: "sourmarket-15308.firebasestorage.app",
+      messagingSenderId: "764920258385",
+      appId: "1:764920258385:web:61f6eb1031ef531788bd70",
+      measurementId: "G-TV2K7XSM7E"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
     // THEME TOGGLE
     const themeToggle = document.getElementById('theme-toggle');
     const themeIcon = document.getElementById('theme-icon');
@@ -673,7 +691,6 @@
 
     // FAQ Accordion - Only 1 open at a time
     function toggleFaq(el){
-      // close all
       document.querySelectorAll('.faq-q').forEach(q=>{
         if(q!==el){
           q.classList.remove('active');
@@ -683,7 +700,6 @@
           }
         }
       });
-      // toggle clicked
       let isActive = el.classList.toggle('active');
       el.setAttribute('aria-expanded', isActive ? 'true' : 'false');
       let nxt = el.nextElementSibling;
@@ -710,11 +726,52 @@
       {name:"Custom Orders",price:"$10-$100",desc:"Want something totally unique? Send your idea for a custom quote.",stock:"∞"}
     ];
     // STATS
-    let stats = JSON.parse(localStorage.getItem("sourmarket_stats") || '{}');
-    stats.sold = stats.sold || 32;
-    stats.customers = stats.customers || 14;
-    let reviews = JSON.parse(localStorage.getItem("sourmarket_reviews") || '[]');
-    let isCustomer = localStorage.getItem("sourmarket_isCustomer") === "1";
+    let stats = {sold:32,customers:14};
+    let reviews = [];
+    let isCustomer = false;
+
+    // FIRESTORE REVIEWS (Realtime!)
+    function fetchReviews() {
+      db.collection('reviews').orderBy('date', 'desc')
+        .onSnapshot((querySnapshot) => {
+          reviews = [];
+          querySnapshot.forEach((doc) => {
+            reviews.push(doc.data());
+          });
+          renderReviews();
+          renderStats();
+        });
+    }
+    fetchReviews();
+
+    // Add new review
+    async function addReview(e) {
+      e.preventDefault();
+      const name = document.getElementById("review-name").value.trim();
+      const rating = +document.getElementById("review-rating").value;
+      const text = document.getElementById("review-text").value.trim();
+      const err = document.getElementById("review-error");
+      err.innerText = "";
+      if(name.length < 2) {err.innerText="Name must be at least 2 characters.";return false;}
+      if(text.length < 8) {err.innerText="Review must be at least 8 characters.";return false;}
+      if(text.length > 300) {err.innerText="Keep your review under 300 characters.";return false;}
+      const review = {
+        name: escapeHtml(name),
+        rating: rating,
+        text: escapeHtml(text),
+        date: (new Date()).toISOString().split("T")[0],
+        verified: false,
+        hidden: false
+      };
+      await db.collection('reviews').add(review);
+      document.getElementById("review-form").reset();
+      err.innerText="Thank you for your review!";
+      confetti();
+      setTimeout(()=>{err.innerText="";},1700);
+      return false;
+    }
+
+    // STATS (uses all reviews now!)
     function renderStats() {
       document.getElementById("stat-sold").innerText = stats.sold;
       document.getElementById("stat-customers").innerText = stats.customers;
@@ -726,7 +783,7 @@
         document.getElementById("stat-rating").innerText = avg.toFixed(2);
       }
     }
-    renderStats();
+
     function renderProducts() {
       const grid = document.getElementById("products-grid");
       grid.innerHTML = "";
@@ -781,7 +838,7 @@
       if(e.target===this) closeModal();
     };
 
-    // PAYMENT POPUP with all steps, fixed
+    // PAYMENT POPUP
     function showPayPopup() {
       closeModal();
       showPopupStep1();
@@ -832,10 +889,8 @@
       if (!isCustomer) {
         stats.customers = Number(stats.customers || 0) + 1;
         isCustomer = true;
-        localStorage.setItem("sourmarket_isCustomer", "1");
       }
       renderStats();
-      localStorage.setItem("sourmarket_stats", JSON.stringify(stats));
     }
     document.getElementById("pay-popup-bg").onclick = function(e) {
       if(e.target===this) {
@@ -891,7 +946,7 @@
         list.innerHTML = `<div style="text-align:center; color:#a971a1; font-size:1.13em;">No reviews yet. Be the first!</div>`;
       } else {
         list.innerHTML = "";
-        shown.slice().reverse().forEach((r, i) => {
+        shown.forEach((r, i) => {
           const div = document.createElement("div");
           div.className = "review-card";
           div.style.animationDelay = (0.06 * i + 0.12) + "s";
@@ -908,39 +963,12 @@
         });
       }
       renderStats();
-      localStorage.setItem("sourmarket_reviews", JSON.stringify(reviews));
     }
     function starRating(n){
       let s="";
       for(let i=1;i<=5;i++)
         s+=i<=n?`<svg class="star-full" viewBox="0 0 20 20" style="width:1.15em;height:1.15em;fill:#FFD600;vertical-align:middle;"><polygon points="10,1 13,7 19,7.3 14.5,11.7 16,18 10,14.2 4,18 5.5,11.7 1,7.3 7,7"/></svg>`:`<svg class="star-empty" viewBox="0 0 20 20" style="width:1.15em;height:1.15em;fill:#ffe1e6;stroke:#ffb6e0;stroke-width:1.3;vertical-align:middle;"><polygon points="10,1 13,7 19,7.3 14.5,11.7 16,18 10,14.2 4,18 5.5,11.7 1,7.3 7,7"/></svg>`;
       return s;
-    }
-    renderReviews();
-    function addReview(e) {
-      e.preventDefault();
-      const name = document.getElementById("review-name").value.trim();
-      const rating = +document.getElementById("review-rating").value;
-      const text = document.getElementById("review-text").value.trim();
-      const err = document.getElementById("review-error");
-      err.innerText = "";
-      if(name.length < 2) {err.innerText="Name must be at least 2 characters.";return false;}
-      if(text.length < 8) {err.innerText="Review must be at least 8 characters.";return false;}
-      if(text.length > 300) {err.innerText="Keep your review under 300 characters.";return false;}
-      reviews.push({
-        name: escapeHtml(name),
-        rating: rating,
-        text: escapeHtml(text),
-        date: (new Date()).toISOString().split("T")[0],
-        verified: false,
-        hidden: false
-      });
-      document.getElementById("review-form").reset();
-      err.innerText="Thank you for your review!";
-      confetti();
-      setTimeout(()=>{err.innerText="";},1700);
-      renderReviews();
-      return false;
     }
     function escapeHtml(t) { return t.replace(/[&<>"']/g, s => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[s])); }
     function handleTopBtn() {
