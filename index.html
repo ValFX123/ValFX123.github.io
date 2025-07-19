@@ -222,9 +222,7 @@
       margin-bottom:0.48em;
       display:inline-block;
     }
-    /* Confetti */
     .confetti {position:fixed;pointer-events:none;left:0;top:0;width:100vw;height:100vh;z-index:9999;}
-    /* Reviews */
     .reviews-list {
       margin: 2.2em 0 0 0;
       display: flex; flex-direction: column; gap: 1.2em;
@@ -287,7 +285,6 @@
       margin-top:0.5em;align-self:flex-end;min-width:130px;
     }
     .review-form .err { color:var(--pink6); font-size:0.98em; margin:0.2em 0;}
-    /* Back to Top Button */
     #top-btn {
       display: none;
       position: fixed;
@@ -306,7 +303,6 @@
       transition: background .14s, transform .13s;
     }
     #top-btn:hover { background: linear-gradient(92deg, var(--pink6) 33%, var(--pink4) 92%); transform:scale(1.10);}
-    /* FAQ */
     .faq-box {
       max-width: 630px;
       margin: 2.8em auto 1.3em auto;
@@ -319,7 +315,6 @@
     .faq-q {color:var(--pink6);font-weight:bold;cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:.6em 0;}
     .faq-a {display:none;color:#6e2a63;font-size:1.03em;padding:0 0 .8em 0;}
     .faq-q.active + .faq-a{display:block;}
-    /* Admin Panel */
     .admin-panel {
       position:fixed;bottom:18px;right:20px;z-index:3300;
       background:#fff6faee;
@@ -432,7 +427,6 @@
       <div class="faq-a">Yes! Choose “Custom Orders” in Products or message us on Discord for a quote and design chat.</div>
     </div>
   </main>
-  <!-- Modal for product details -->
   <div id="product-modal-bg" class="modal-bg" style="display:none;">
     <div class="modal" id="product-modal">
       <button class="modal-close" onclick="closeModal()">&times;</button>
@@ -448,13 +442,10 @@
       <button class="btn" style="margin-top:2em;" onclick="showPayPopup()">Pay Here!</button>
     </div>
   </div>
-  <!-- Payment popups -->
   <div id="pay-popup-bg" class="pay-popup-bg" style="display:none;">
     <div id="pay-popup-content"></div>
   </div>
-  <!-- Confetti -->
   <canvas class="confetti" id="confetti-canvas" style="display:none"></canvas>
-  <!-- Admin Panel -->
   <button class="admin-toggle" id="admin-toggle" title="Admin/Testing" onclick="toggleAdmin()">
     &#9881;
   </button>
@@ -464,7 +455,6 @@
     <button class="btn" onclick="clearReviews()">Delete All Reviews</button>
     <div style="margin-top:.7em;font-size:.93em;color:#a971a1;">(Visible to you only. <br>For public, remove this section.)</div>
   </div>
-  <!-- Back to Top Button -->
   <button id="top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8679;</button>
   <script>
     // Product images for each (add your own links if desired)
@@ -708,12 +698,13 @@
       return false;
     }
     function escapeHtml(t) { return t.replace(/[&<>"']/g, s => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[s])); }
-    // Section nav + animated transitions
+
+    // Section navigation - always load at least home section visible!
     let sectionOrder = ["home","products","reviews"];
     function switchSection(name) {
       sectionOrder.forEach(id => {
         const sec = document.getElementById(id);
-        if(id === name) {
+        if (id === name) {
           sec.style.display = "block";
           setTimeout(()=>sec.classList.add("visible"),20);
         } else {
@@ -726,20 +717,37 @@
       });
       document.getElementById(name).scrollIntoView({behavior:"smooth"});
     }
+    function ensureInitialSection() {
+      // Show home section by default and mark it as visible
+      sectionOrder.forEach(id => {
+        const sec = document.getElementById(id);
+        if (id === "home") {
+          sec.style.display = "block";
+          sec.classList.add("visible");
+        } else {
+          sec.style.display = "none";
+          sec.classList.remove("visible");
+        }
+      });
+      document.querySelectorAll('nav a').forEach(a => {
+        a.classList.toggle("active", a.getAttribute('href') === "#home");
+      });
+    }
     window.onload = function() {
+      ensureInitialSection();
+      // If there's a hash, switch to that section
       if(location.hash && ["#home","#products","#reviews"].includes(location.hash)){
         switchSection(location.hash.substring(1));
-      } else {
-        switchSection('home');
       }
       renderStats();
-      window.addEventListener("scroll", handleTopBtn);
-    }
+      window.addEventListener("scroll", handleTopBtn); // for back to top, if you have it
+    };
     window.onhashchange = function() {
       if(location.hash && ["#home","#products","#reviews"].includes(location.hash)){
         switchSection(location.hash.substring(1));
       }
-    }
+    };
+
     // Admin panel
     function toggleAdmin(){
       const p = document.getElementById("admin-panel");
