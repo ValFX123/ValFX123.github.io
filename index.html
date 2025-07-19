@@ -450,11 +450,11 @@
       100% {transform:translateY(0);}
     }
   </style>
-  <script type="module">
-  import emailjs from 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
-
-  window.emailjs = emailjs;
-</script>
+<script type="module">
+    import emailjs from 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
+    window.emailjs = emailjs;
+  </script>
+  <!-- Firebase (unchanged) -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 </head>
@@ -583,7 +583,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// EmailJS user ID
+// EmailJS user ID (leave after v4 module)
 emailjs.init("INRPByuAfnhpnww8h");
 
 /* --------- PRODUCTS --------- */
@@ -658,7 +658,7 @@ document.getElementById("product-modal-bg").onclick = function(e) {
   if(e.target===this) closeModal();
 };
 
-/* --------- PAYMENT EMAILJS + WEBHOOK --------- */
+// Example for payment email sending (updated service ID)
 function showPayPopup() {
   closeModal();
   document.getElementById("pay-popup-bg").style.display = "flex";
