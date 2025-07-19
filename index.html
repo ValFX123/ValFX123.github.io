@@ -501,6 +501,7 @@
     </button>
   </header>
   <main>
+    <!-- All site sections: Home, Products, Reviews, FAQ, Support -->
     <section id="home" style="margin-top:2em;">
       <h1>Welcome to <span style="color: var(--pink5)">SourMarket</span>!</h1>
       <div style="display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:3em 2em;">
@@ -596,6 +597,8 @@
   </div>
   <canvas class="confetti" id="confetti-canvas" style="display:none;position:fixed;pointer-events:none;top:0;left:0;z-index:20000;"></canvas>
   <button id="top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="display:none;position:fixed;right:23px;bottom:26px;background:linear-gradient(90deg,#ff5ea7,#ffa1d7);color:#fff;border:none;border-radius:50%;width:46px;height:46px;box-shadow:0 4px 18px #ffb6e05a;font-size:2.1em;z-index:2222;cursor:pointer;">&#8679;</button>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
   <script>
     // ---- FIREBASE CONFIG ----
     const firebaseConfig = {
@@ -612,7 +615,7 @@
 
     // ---- DISCORD OAUTH2 INTEGRATION ----
     const DISCORD_CLIENT_ID = "1396258291184697444";
-    const DISCORD_REDIRECT_URI = "https://valfx.nl" window.location.origin;
+    const DISCORD_REDIRECT_URI = "https://valfx.nl";
     const DISCORD_SCOPE = "identify";
 
     function connectDiscord() {
