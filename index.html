@@ -384,7 +384,7 @@
     .faq-q.active + .faq-a {display:block;}
     @keyframes faqOpen {
       0% {opacity:0; transform:translateY(-10px);}
-      100% {opacity:1; transform:translateY(0);}
+       100% {opacity:1; transform:translateY(0);}
     }
     .review-form {
       background: var(--pink2);
@@ -597,7 +597,6 @@
   <button id="top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="display:none;position:fixed;right:23px;bottom:26px;background:linear-gradient(90deg,#ff5ea7,#ffa1d7);color:#fff;border:none;border-radius:50%;width:46px;height:46px;box-shadow:0 4px 18px #ffb6e05a;font-size:2.1em;z-index:2222;cursor:pointer;">&#8679;</button>
   <script>
     // ---- FIREBASE CONFIG ----
-    // Your config (from the code you provided)
     const firebaseConfig = {
       apiKey: "AIzaSyDsDLGEphX_fn3JSMoVCB5zJsf1EfpsPKQ",
       authDomain: "sourmarket-15308.firebaseapp.com",
@@ -609,6 +608,17 @@
     };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
+
+    // ---- DISCORD WEBHOOK ----
+    function sendDiscordWebhook(productName) {
+      fetch('https://discord.com/api/webhooks/1396113760036589609/PlOCj4od5mPIMwrMo59NNrZOzKh6YEVP-iXiNaMEVtcmtad9jhy79zsHE7FK6KTax3V0', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          content: `A user clicked 'Pay with PayPal' for: **${productName || "unknown"}**`
+        })
+      });
+    }
 
     // THEME TOGGLE
     const themeToggle = document.getElementById('theme-toggle');
@@ -657,7 +667,6 @@
       } else {
         switchSection('home');
       }
-      renderStats();
       window.addEventListener("scroll", handleTopBtn);
     }
     window.onhashchange = function() {
@@ -725,12 +734,33 @@
       {name:"Re-Textures",price:"$20-$50",desc:"Custom re-textures for your favorite items, prices vary.",stock:"∞"},
       {name:"Custom Orders",price:"$10-$100",desc:"Want something totally unique? Send your idea for a custom quote.",stock:"∞"}
     ];
-    // STATS
-    let stats = {sold:32,customers:14};
-    let reviews = [];
-    let isCustomer = false;
 
-    // FIRESTORE REVIEWS (Realtime!)
+    // ---- FIRESTORE SHARED STATS ----
+    const statsDoc = db.collection('stats').doc('global');
+    let stats = {sold:32,customers:14};
+    function listenStats() {
+      statsDoc.onSnapshot((doc) => {
+        if(doc.exists) {
+          const data = doc.data();
+          stats.sold = data.sold || 32;
+          stats.customers = data.customers || 14;
+          renderStats();
+        }
+      });
+    }
+    listenStats();
+
+    // On first run, initialize stats doc if missing
+    async function initStats() {
+      const snap = await statsDoc.get();
+      if (!snap.exists) {
+        await statsDoc.set({ sold: 32, customers: 14 });
+      }
+    }
+    initStats();
+
+    // Add new review (public)
+    let reviews = [];
     function fetchReviews() {
       db.collection('reviews').orderBy('date', 'desc')
         .onSnapshot((querySnapshot) => {
@@ -771,7 +801,7 @@
       return false;
     }
 
-    // STATS (uses all reviews now!)
+    // Shared stats in UI
     function renderStats() {
       document.getElementById("stat-sold").innerText = stats.sold;
       document.getElementById("stat-customers").innerText = stats.customers;
@@ -857,6 +887,7 @@
         </div>
       `;
       document.getElementById("pay-with-paypal").onclick = function(){
+        sendDiscordWebhook(products[selectedProductIdx]?.name || "");
         setTimeout(showPayPopupProcessing,1200);
       }
     }
@@ -884,13 +915,24 @@
       `;
       afterBuy();
     }
-    function afterBuy() {
-      stats.sold = Number(stats.sold || 0) + 1;
-      if (!isCustomer) {
-        stats.customers = Number(stats.customers || 0) + 1;
-        isCustomer = true;
+    // SHARED afterBuy updates stats in Firestore, counts customer ONCE per browser
+    async function afterBuy() {
+      try {
+        const doc = await statsDoc.get();
+        let sold = doc.exists && doc.data().sold ? doc.data().sold : 32;
+        let customers = doc.exists && doc.data().customers ? doc.data().customers : 14;
+
+        sold = sold + 1;
+        if (!localStorage.getItem("sourmarket_isCustomer")) {
+          customers = customers + 1;
+          localStorage.setItem("sourmarket_isCustomer", "1");
+        }
+        await statsDoc.set({ sold, customers }, { merge: true });
+      } catch (e) {
+        stats.sold += 1;
+        stats.customers += 1;
+        renderStats();
       }
-      renderStats();
     }
     document.getElementById("pay-popup-bg").onclick = function(e) {
       if(e.target===this) {
