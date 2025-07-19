@@ -1,3 +1,4 @@
+window.onload = function() {
 // --- FIREBASE CONFIG ---
 const firebaseConfig = {
   apiKey: "AIzaSyDsDLGEphX_fn3JSMoVCB5zJsf1EfpsPKQ",
@@ -80,7 +81,6 @@ function closeModal() {
 document.getElementById("product-modal-bg").onclick = function(e) {
   if(e.target===this) closeModal();
 }
-
 // --- PAYMENT POPUP + EMAILJS + DISCORD WEBHOOK ---
 function showPayPopup() {
   closeModal();
