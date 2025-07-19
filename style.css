@@ -168,6 +168,9 @@ body.darkmode .stat .num { color: var(--dm-pink);}
   animation: statFade .6s .12s both;
   cursor:pointer;
   min-height:340px;
+  width: 100%;
+  max-width: 340px;
+  margin: 0 auto;
 }
 .product-card:hover {
   transform: scale(1.035) translateY(-2px);
