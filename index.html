@@ -221,9 +221,7 @@
       margin-bottom:0.48em;
       display:inline-block;
     }
-    /* Confetti */
     .confetti {position:fixed;pointer-events:none;left:0;top:0;width:100vw;height:100vh;z-index:9999;}
-    /* Reviews */
     .reviews-list {
       margin: 2.2em 0 0 0;
       display: flex; flex-direction: column; gap: 1.2em;
@@ -288,7 +286,6 @@
       margin-top:0.5em;align-self:flex-end;min-width:130px;
     }
     .review-form .err { color:var(--pink6); font-size:0.98em; margin:0.2em 0;}
-    /* Back to Top Button */
     #top-btn {
       display: none;
       position: fixed;
@@ -353,6 +350,53 @@
       opacity:0.5;
     }
     .admin-toggle:hover{background:linear-gradient(90deg,var(--pink6),var(--pink4));opacity:1;}
+    .section-links {
+      display: flex;
+      justify-content: center;
+      gap: 2.1em;
+      margin: 2.4em 0 0.4em 0;
+      padding-bottom: 0.8em;
+    }
+    .section-link {
+      display: flex;
+      align-items: center;
+      gap: 0.52em;
+      background: #fff;
+      color: #7a31a3;
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 1.09em;
+      border-radius: 2em;
+      box-shadow: 0 2px 10px #ffb6e02e;
+      padding: 0.63em 1.55em 0.63em 1.1em;
+      transition: background .16s, box-shadow .16s, color .14s;
+      border: 2.2px solid #ffb6e070;
+    }
+    .section-link svg {
+      width: 1.32em;
+      height: 1.32em;
+      vertical-align: middle;
+      display: inline-block;
+      margin-right: 0.13em;
+    }
+    .section-link.discord {
+      color: #5662f6;
+      border-color: #7c82f6;
+    }
+    .section-link.paypal {
+      color: #1e68cc;
+      border-color: #9dc9fa;
+    }
+    .section-link:hover {
+      background: #ffeffc;
+      color: #ff5ea7;
+      box-shadow: 0 6px 18px #ffb6e045;
+    }
+    .section-link.discord:hover { color: #5662f6; background:#f2f4ff;}
+    .section-link.paypal:hover { color: #1e68cc; background:#f3f8fd;}
+    @media (max-width:600px) {
+      .section-links { gap:1em;flex-direction:column;align-items:center;}
+    }
     @media (max-width: 650px) {
       header {flex-direction:column;gap:0.7em;padding:0.8rem;}
       .stats { gap: 1.15rem;}
@@ -396,10 +440,30 @@
       <div style="text-align:center; margin-top:2.2em;">
         <button class="btn" onclick="switchSection('products');window.scrollTo(0,0);">View Products</button>
       </div>
+      <div class="section-links">
+        <a class="section-link discord" href="https://discord.gg/sourmarket" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.369a19.791 19.791 0 0 0-4.885-1.515.07.07 0 0 0-.073.035c-.211.375-.445.864-.608 1.249a19.837 19.837 0 0 0-5.896 0c-.163-.385-.397-.874-.608-1.249a.07.07 0 0 0-.073-.035 19.736 19.736 0 0 0-4.885 1.515.064.064 0 0 0-.03.027C.533 7.157-.32 9.866.099 12.52c.003.021.019.045.038.058a19.936 19.936 0 0 0 5.993 3.058.07.07 0 0 0 .076-.027c.462-.635.875-1.306 1.226-2.01a.07.07 0 0 0-.038-.097 13.181 13.181 0 0 1-1.885-.915.07.07 0 0 1-.008-.116c.127-.096.253-.195.372-.291a.07.07 0 0 1 .073-.01c3.927 1.79 8.18 1.79 12.061 0a.07.07 0 0 1 .073.009c.12.097.245.195.372.291a.07.07 0 0 1-.008.116c-.597.348-1.236.663-1.885.915a.07.07 0 0 0-.038.097c.36.704.774 1.375 1.227 2.01a.07.07 0 0 0 .075.027 19.888 19.888 0 0 0 6.003-3.058.07.07 0 0 0 .037-.058c.5-3.202-.838-5.907-2.548-8.124a.061.061 0 0 0-.031-.027zM8.02 13.682c-1.183 0-2.157-1.085-2.157-2.419 0-1.334.955-2.418 2.157-2.418 1.213 0 2.177 1.094 2.157 2.418 0 1.334-.955 2.419-2.157 2.419zm7.974 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.334.955-2.418 2.157-2.418 1.213 0 2.177 1.094 2.157 2.418 0 1.334-.944 2.419-2.157 2.419z"/></svg>
+          Discord
+        </a>
+        <a class="section-link paypal" href="https://www.paypal.me/RealEKitten69" target="_blank" rel="noopener">
+          <svg viewBox="0 0 32 32" fill="currentColor"><path d="M26.422 6.808C25.33 4.601 23.011 3.053 20.059 3.053h-8.427c-.749 0-1.397.543-1.508 1.283L5.033 27.339c-.062.425.26.82.692.82h4.049l1.133-7.453v-.002c.023-.156.158-.272.316-.272h2.287c6.496 0 11.561-2.633 13.001-10.236.047-.254.031-.545-.088-.767zm-1.324 4.964c-1.104 5.942-6.011 8.058-12.172 8.058h-1.757c-.157 0-.293.116-.316.272l-1.106 7.271H6.463L9.929 5.337c.016-.106.107-.185.214-.185h8.42c2.222 0 4.242 1.15 5.259 3.078.111.223.134.493.08.748z"/></svg>
+          PayPal
+        </a>
+      </div>
     </section>
     <section id="products" style="display:none;">
       <div class="section-title">Our Products</div>
       <div class="products-grid" id="products-grid"></div>
+      <div class="section-links">
+        <a class="section-link discord" href="https://discord.gg/sourmarket" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.369a19.791 19.791 0 0 0-4.885-1.515.07.07 0 0 0-.073.035c-.211.375-.445.864-.608 1.249a19.837 19.837 0 0 0-5.896 0c-.163-.385-.397-.874-.608-1.249a.07.07 0 0 0-.073-.035 19.736 19.736 0 0 0-4.885 1.515.064.064 0 0 0-.03.027C.533 7.157-.32 9.866.099 12.52c.003.021.019.045.038.058a19.936 19.936 0 0 0 5.993 3.058.07.07 0 0 0 .076-.027c.462-.635.875-1.306 1.226-2.01a.07.07 0 0 0-.038-.097 13.181 13.181 0 0 1-1.885-.915.07.07 0 0 1-.008-.116c.127-.096.253-.195.372-.291a.07.07 0 0 1 .073-.01c3.927 1.79 8.18 1.79 12.061 0a.07.07 0 0 1 .073.009c.12.097.245.195.372.291a.07.07 0 0 1-.008.116c-.597.348-1.236.663-1.885.915a.07.07 0 0 0-.038.097c.36.704.774 1.375 1.227 2.01a.07.07 0 0 0 .075.027 19.888 19.888 0 0 0 6.003-3.058.07.07 0 0 0 .037-.058c.5-3.202-.838-5.907-2.548-8.124a.061.061 0 0 0-.031-.027zM8.02 13.682c-1.183 0-2.157-1.085-2.157-2.419 0-1.334.955-2.418 2.157-2.418 1.213 0 2.177 1.094 2.157 2.418 0 1.334-.955 2.419-2.157 2.419zm7.974 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.334.955-2.418 2.157-2.418 1.213 0 2.177 1.094 2.157 2.418 0 1.334-.944 2.419-2.157 2.419z"/></svg>
+          Discord
+        </a>
+        <a class="section-link paypal" href="https://www.paypal.me/RealEKitten69" target="_blank" rel="noopener">
+          <svg viewBox="0 0 32 32" fill="currentColor"><path d="M26.422 6.808C25.33 4.601 23.011 3.053 20.059 3.053h-8.427c-.749 0-1.397.543-1.508 1.283L5.033 27.339c-.062.425.26.82.692.82h4.049l1.133-7.453v-.002c.023-.156.158-.272.316-.272h2.287c6.496 0 11.561-2.633 13.001-10.236.047-.254.031-.545-.088-.767zm-1.324 4.964c-1.104 5.942-6.011 8.058-12.172 8.058h-1.757c-.157 0-.293.116-.316.272l-1.106 7.271H6.463L9.929 5.337c.016-.106.107-.185.214-.185h8.42c2.222 0 4.242 1.15 5.259 3.078.111.223.134.493.08.748z"/></svg>
+          PayPal
+        </a>
+      </div>
     </section>
     <section id="reviews" style="display:none;">
       <div class="section-title">Customer Reviews</div>
@@ -422,6 +486,16 @@
         <div class="err" id="review-error"></div>
         <button type="submit" class="btn">Submit Review</button>
       </form>
+      <div class="section-links">
+        <a class="section-link discord" href="https://discord.gg/sourmarket" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.369a19.791 19.791 0 0 0-4.885-1.515.07.07 0 0 0-.073.035c-.211.375-.445.864-.608 1.249a19.837 19.837 0 0 0-5.896 0c-.163-.385-.397-.874-.608-1.249a.07.07 0 0 0-.073-.035 19.736 19.736 0 0 0-4.885 1.515.064.064 0 0 0-.03.027C.533 7.157-.32 9.866.099 12.52c.003.021.019.045.038.058a19.936 19.936 0 0 0 5.993 3.058.07.07 0 0 0 .076-.027c.462-.635.875-1.306 1.226-2.01a.07.07 0 0 0-.038-.097 13.181 13.181 0 0 1-1.885-.915.07.07 0 0 1-.008-.116c.127-.096.253-.195.372-.291a.07.07 0 0 1 .073-.01c3.927 1.79 8.18 1.79 12.061 0a.07.07 0 0 1 .073.009c.12.097.245.195.372.291a.07.07 0 0 1-.008.116c-.597.348-1.236.663-1.885.915a.07.07 0 0 0-.038.097c.36.704.774 1.375 1.227 2.01a.07.07 0 0 0 .075.027 19.888 19.888 0 0 0 6.003-3.058.07.07 0 0 0 .037-.058c.5-3.202-.838-5.907-2.548-8.124a.061.061 0 0 0-.031-.027zM8.02 13.682c-1.183 0-2.157-1.085-2.157-2.419 0-1.334.955-2.418 2.157-2.418 1.213 0 2.177 1.094 2.157 2.418 0 1.334-.955 2.419-2.157 2.419zm7.974 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.334.955-2.418 2.157-2.418 1.213 0 2.177 1.094 2.157 2.418 0 1.334-.944 2.419-2.157 2.419z"/></svg>
+          Discord
+        </a>
+        <a class="section-link paypal" href="https://www.paypal.me/RealEKitten69" target="_blank" rel="noopener">
+          <svg viewBox="0 0 32 32" fill="currentColor"><path d="M26.422 6.808C25.33 4.601 23.011 3.053 20.059 3.053h-8.427c-.749 0-1.397.543-1.508 1.283L5.033 27.339c-.062.425.26.82.692.82h4.049l1.133-7.453v-.002c.023-.156.158-.272.316-.272h2.287c6.496 0 11.561-2.633 13.001-10.236.047-.254.031-.545-.088-.767zm-1.324 4.964c-1.104 5.942-6.011 8.058-12.172 8.058h-1.757c-.157 0-.293.116-.316.272l-1.106 7.271H6.463L9.929 5.337c.016-.106.107-.185.214-.185h8.42c2.222 0 4.242 1.15 5.259 3.078.111.223.134.493.08.748z"/></svg>
+          PayPal
+        </a>
+      </div>
     </section>
     <div class="faq-box" id="faq">
       <div class="faq-title">FAQ</div>
@@ -449,13 +523,10 @@
       <button class="btn" style="margin-top:2em;" onclick="showPayPopup()">Pay Here!</button>
     </div>
   </div>
-  <!-- Payment popups -->
   <div id="pay-popup-bg" class="pay-popup-bg" style="display:none;">
     <div id="pay-popup-content"></div>
   </div>
-  <!-- Confetti -->
   <canvas class="confetti" id="confetti-canvas" style="display:none"></canvas>
-  <!-- Admin Panel -->
   <button class="admin-toggle" id="admin-toggle" title="Admin/Testing" onclick="toggleAdmin()">
     &#9881;
   </button>
@@ -465,9 +536,9 @@
     <button class="btn" onclick="clearReviews()">Delete All Reviews</button>
     <div style="margin-top:.7em;font-size:.93em;color:#a971a1;">(Visible to you only. <br>For public, remove this section.)</div>
   </div>
-  <!-- Back to Top Button -->
   <button id="top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8679;</button>
   <script>
+    // [Same as previous: All JS remains unchanged – products, section switching, modals, popups, reviews, confetti, admin, FAQ, etc.]
     // PRODUCTS
     const products = [
       {name:"Necklaces",price:"$10",extra:"Charms are $2-$4 depending on what it is",desc:"Custom necklaces, add your favorite charms!",stock:"∞"},
@@ -597,7 +668,6 @@
         document.body.style.overflow = "";
       }
     };
-    // Confetti animation
     function confetti() {
       const canvas = document.getElementById("confetti-canvas");
       canvas.style.display = "block";
@@ -637,7 +707,6 @@
       }
       drawConfetti();
     }
-    // REVIEWS
     function renderReviews() {
       const list = document.getElementById("reviews-list");
       if (reviews.length === 0) {
@@ -693,7 +762,6 @@
       return false;
     }
     function escapeHtml(t) { return t.replace(/[&<>"']/g, s => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[s])); }
-    // Section nav + animated transitions
     let sectionOrder = ["home","products","reviews"];
     function switchSection(name) {
       sectionOrder.forEach(id => {
@@ -735,7 +803,6 @@
         switchSection(location.hash.substring(1));
       }
     }
-    // Admin panel
     function toggleAdmin(){
       const p = document.getElementById("admin-panel");
       p.style.display = (p.style.display==="flex")?"none":"flex";
@@ -754,7 +821,6 @@
       alert("All reviews deleted!");
     }
     document.getElementById("admin-panel").style.display="none";
-    // FAQ
     function toggleFaq(el){
       el.classList.toggle("active");
       let nxt = el.nextElementSibling;
@@ -763,7 +829,6 @@
         else {nxt.style.display="block";}
       }
     }
-    // Back to Top Button
     function handleTopBtn() {
       document.getElementById("top-btn").style.display = (window.scrollY > 240) ? "block" : "none";
     }
