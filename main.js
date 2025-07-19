@@ -57,6 +57,7 @@ function renderProducts() {
 }
 renderProducts();
 
+let selectedProductIdx = 0;
 function openModal(idx) {
   selectedProductIdx = idx;
   const prod = products[idx];
@@ -66,11 +67,12 @@ function openModal(idx) {
   document.getElementById("modal-stock").innerText = "In Stock: " + prod.stock;
   document.getElementById("product-modal-bg").style.display = "flex";
   document.body.style.overflow = "hidden";
+  // FIX: Always set the pay button handler inside openModal!
+  document.getElementById("modal-pay-btn").onclick = function(e){
+    e.stopPropagation();
+    showPayPopup();
+  };
 }
-document.getElementById("modal-pay-btn").onclick = function(e){
-  e.stopPropagation();
-  showPayPopup();
-};
 function closeModal() {
   document.getElementById("product-modal-bg").style.display = "none";
   document.body.style.overflow = "";
