@@ -676,7 +676,7 @@ function showPayPopup() {
     if(!email || !email.includes('@')) { err.innerText = "Please enter a valid email."; return; }
 
     // 1. Email to BUYER
-    emailjs.send('service_xjjwjcj', 'template_ty0bmr7', {
+    emailjs.send('service_8bo4gc9', 'template_ty0bmr7', {
       name: name,
       email: email,
       product: products[selectedProductIdx]?.name || ""
