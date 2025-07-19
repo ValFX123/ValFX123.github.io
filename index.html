@@ -132,106 +132,6 @@
     body.darkmode h1, body.darkmode h2, body.darkmode h3 { color: var(--dm-pink2);}
     h1 { font-size: 2.4rem; margin-top: 1.7rem; letter-spacing:1px;text-shadow:0 2px 12px #ffe4ec80;}
     .section-title { font-size:2.05rem;margin-bottom:2rem;text-align:center;letter-spacing:1.5px;text-shadow:0 2px 10px #ffe4ec44;}
-
-    /* --- PRODUCTS GRID --- */
-    .products-grid {
-      display: flex;
-      flex-wrap: nowrap;
-      gap: 2.1em;
-      overflow-x: auto;
-      padding-bottom: 0.5em;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      margin-bottom: 2.2em;
-      margin-top: 1.4em;
-    }
-    .product-card {
-      background: var(--white);
-      border-radius: 1.3em;
-      box-shadow: 0 8px 24px #ffb6e033;
-      min-width: 270px;
-      max-width: 305px;
-      flex: 0 0 270px;
-      margin: 0 0.25em;
-      padding: 2em 1.3em 1.4em 1.3em;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transition: box-shadow .16s, transform .15s;
-      scroll-snap-align: start;
-      position: relative;
-      animation: cardFade .72s cubic-bezier(.42,2,.54,.97) both;
-      cursor: pointer;
-    }
-    .product-card:hover {
-      box-shadow: 0 12px 32px #ffb6e05a;
-      transform: translateY(-8px) scale(1.035);
-    }
-    body.darkmode .product-card {background:var(--dm-card);}
-    .product-card .icon {
-      width: 54px; height: 54px; border-radius: 50%;
-      border: 3px solid var(--pink4); background: #fff;
-      margin-bottom: 1.1em;
-      box-shadow: 0 2px 12px #ffa8ce27;
-    }
-    .product-title {
-      font-family: 'Orbitron',sans-serif;
-      color: var(--pink6);
-      font-size: 1.23em;
-      font-weight: 800;
-      margin-bottom: 0.42em;
-      text-align:center;
-      letter-spacing:0.7px;
-    }
-    .product-desc {
-      color: #7e3794;
-      font-size: 1.07em;
-      text-align:center;
-      margin-bottom: 0.7em;
-      min-height: 40px;
-    }
-    .product-price {
-      font-weight: bold;
-      color: var(--pink5);
-      font-size: 1.11em;
-      margin-bottom: 0.25em;
-      display: inline-block;
-    }
-    .product-stock {
-      font-size: .97em;
-      color: #a85a7c;
-      margin-bottom: 0.8em;
-      text-align:center;
-    }
-    .product-card .btn {
-      margin-top: 0.6em;
-      font-size: 1em;
-      width: 100%;
-      padding: .67em 0;
-    }
-    @media (max-width: 900px) {
-      .products-grid {
-        gap: 1.1em;
-        padding-left:0.3em;padding-right:0.3em;
-      }
-      .product-card {
-        min-width: 200px; max-width: 235px; padding:1.2em .6em 1em .6em;
-      }
-    }
-    @media (max-width: 600px) {
-      .products-grid {
-        gap: 0.7em;
-      }
-      .product-card {
-        min-width: 150px; max-width: 170px; padding:.8em .3em .8em .3em;
-      }
-      .product-title {font-size:.97em;}
-      .product-desc {font-size:.93em;}
-    }
-    @keyframes cardFade { from { opacity:0;transform:translateY(32px);} to {opacity:1;transform:translateY(0);} }
-    /* END PRODUCTS GRID */
-
-    /* ... Keep all your original styles for stats, buttons, reviews, etc ... */
     .stats {
       display: flex; justify-content: center; gap: 2.6rem; flex-wrap: wrap;
       margin: 2.4rem 0 1.9rem 0;
@@ -350,7 +250,148 @@
       85% {transform:translateY(0);}
       100% {transform:translateY(0);}
     }
-    /* ...rest of your CSS... */
+    /* --- PRODUCT GRID FIX --- */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.2em 2em;
+      margin-bottom: 2.2em;
+      padding: 0 0.5em;
+      justify-items: center;
+      align-items: stretch;
+    }
+    .product-card {
+      background: #fff;
+      border-radius: 1.25em;
+      box-shadow: 0 4px 24px #ffb6e023;
+      padding: 1.5em 1.2em 1.2em 1.2em;
+      text-align: center;
+      min-width: 0;
+      width: 100%;
+      max-width: 290px;
+      transition: transform .18s, box-shadow .16s;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      opacity: 0;
+      transform: translateY(24px);
+      animation: prodFade .65s forwards;
+      animation-fill-mode: forwards;
+    }
+    @keyframes prodFade { 50% {opacity:1;transform:translateY(-6px);} 100% {opacity:1;transform:translateY(0);} }
+    .product-card:hover {
+      transform: scale(1.04) translateY(-4px);
+      box-shadow: 0 6px 28px #ffa1d73a;
+    }
+    .product-title {
+      font-family: 'Orbitron',sans-serif;
+      color: var(--pink6);
+      font-weight: bold;
+      font-size: 1.17em;
+      margin: 0.5em 0 0.2em 0;
+      letter-spacing: 0.5px;
+    }
+    .product-desc {
+      color: #8d398c;
+      font-size: 1.04em;
+      margin-bottom: 0.7em;
+    }
+    .product-price {
+      font-size: 1.18em;
+      color: var(--pink5);
+      font-weight: 700;
+      margin-bottom: 0.2em;
+      display: block;
+    }
+    .product-stock {
+      font-size: 1em;
+      color: #b66ca3;
+      margin-bottom: 0.7em;
+    }
+    .product-card .icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 1em;
+      box-shadow: 0 2px 9px #ff5ea730;
+      margin-bottom: 0.5em;
+      background: #fff;
+      border: 3px solid var(--pink4);
+    }
+    @media (max-width: 980px) {
+      .products-grid { grid-template-columns: repeat(2, 1fr);}
+    }
+    @media (max-width: 650px) {
+      .products-grid { grid-template-columns: 1fr;}
+      .product-card {max-width: 98vw;}
+    }
+    /* -- FAQ Accordion IMPROVED -- */
+    .faq-box {
+      background: none;
+      max-width: 740px;
+      margin: 2.7em auto 2.3em auto;
+      font-size: 1.08em;
+      color: #a24780;
+      border-radius: 1.4em;
+      padding: 0.9em 0.8em 1.1em 0.8em;
+    }
+    .faq-title {
+      font-size: 1.25em;
+      font-family: 'Orbitron',sans-serif;
+      color: var(--pink6);
+      margin-bottom: .95em;
+      text-align:left;
+    }
+    .faq-q {
+      cursor:pointer;
+      font-weight:bold;
+      background: #fff4fd;
+      border-radius: 1em;
+      margin-bottom: .2em;
+      padding: .7em 1.25em .7em 1.25em;
+      transition: background .14s;
+      box-shadow: 0 2px 11px #ffb6e022;
+      position:relative;
+      outline: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .faq-q span {
+      font-weight:900;
+      font-size:1.21em;
+      color:var(--pink6);
+      margin-left: 12px;
+      transition: transform .18s;
+      display: inline-block;
+    }
+    .faq-q.active span {transform: rotate(45deg);}
+    .faq-q:focus,.faq-q:hover {background:#fff7fd;}
+    .faq-a {
+      display:none;
+      background: #fbeeff;
+      color: #84336a;
+      padding: .7em 1.5em .75em 2em;
+      border-radius: 0 0 1.1em 1.1em;
+      margin: -0.21em 0 1em 0.4em;
+      box-shadow: 0 2px 10px #ffd1e42e;
+      animation: faqOpen .3s cubic-bezier(.48,1.8,.32,1) 1;
+    }
+    .faq-q.active + .faq-a {display:block;}
+    @keyframes faqOpen {
+      0% {opacity:0; transform:translateY(-10px);}
+      100% {opacity:1; transform:translateY(0);}
+    }
+    @media (max-width: 700px) {
+      .faq-box {font-size:.98em;}
+      .review-form {max-width:98vw;}
+    }
+    @media (max-width: 480px) {
+      .stats {flex-direction:column;gap:0.3em;}
+      .stat {padding:1.1rem 1.2rem;}
+    }
+    /*--- keep the rest of your css as is ---*/
   </style>
 </head>
 <body>
@@ -427,11 +468,11 @@
     </section>
     <div class="faq-box" id="faq">
       <div class="faq-title">FAQ</div>
-      <div class="faq-q" tabindex="0" onclick="toggleFaq(this)">How do I pay for a product? <span>+</span></div>
+      <div class="faq-q" tabindex="0" onclick="toggleFaq(this)" aria-expanded="false">How do I pay for a product? <span>+</span></div>
       <div class="faq-a">Click “Pay Here!” on your chosen product, follow the instructions, and complete payment using PayPal’s “Friends & Family” option.</div>
-      <div class="faq-q" tabindex="0" onclick="toggleFaq(this)">How do I get my product? <span>+</span></div>
+      <div class="faq-q" tabindex="0" onclick="toggleFaq(this)" aria-expanded="false">How do I get my product? <span>+</span></div>
       <div class="faq-a">After payment, you’ll be given a link to our Discord for instant delivery or support!</div>
-      <div class="faq-q" tabindex="0" onclick="toggleFaq(this)">Can I make a custom order? <span>+</span></div>
+      <div class="faq-q" tabindex="0" onclick="toggleFaq(this)" aria-expanded="false">Can I make a custom order? <span>+</span></div>
       <div class="faq-a">Yes! Choose “Custom Orders” in Products or message us on Discord for a quote and design chat.</div>
     </div>
   </main>
@@ -473,9 +514,6 @@
   </div>
   <button id="top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="display:none;position:fixed;right:23px;bottom:26px;background:linear-gradient(90deg,#ff5ea7,#ffa1d7);color:#fff;border:none;border-radius:50%;width:46px;height:46px;box-shadow:0 4px 18px #ffb6e05a;font-size:2.1em;z-index:2222;cursor:pointer;">&#8679;</button>
   <script>
-    // All JS code: THE FULL FUNCTIONALITY
-    // (This is the same as what was in your previous code – just the CSS is new for .products-grid and .product-card!)
-
     // THEME TOGGLE
     const themeToggle = document.getElementById('theme-toggle');
     const themeIcon = document.getElementById('theme-icon');
@@ -551,13 +589,24 @@
     document.getElementById("links-products").innerHTML = linksHTML;
     document.getElementById("links-reviews").innerHTML = linksHTML;
 
-    // FAQ accordion keyboard support
+    // FAQ Accordion - Only 1 open at a time
     function toggleFaq(el){
-      el.classList.toggle("active");
+      // close all
+      document.querySelectorAll('.faq-q').forEach(q=>{
+        if(q!==el){
+          q.classList.remove('active');
+          q.setAttribute('aria-expanded','false');
+          if(q.nextElementSibling && q.nextElementSibling.classList.contains('faq-a')){
+            q.nextElementSibling.style.display='none';
+          }
+        }
+      });
+      // toggle clicked
+      let isActive = el.classList.toggle('active');
+      el.setAttribute('aria-expanded', isActive ? 'true' : 'false');
       let nxt = el.nextElementSibling;
       if(nxt && nxt.classList.contains("faq-a")) {
-        if(nxt.style.display==="block"){nxt.style.display="none";}
-        else {nxt.style.display="block";}
+        nxt.style.display = isActive ? "block" : "none";
       }
     }
     document.querySelectorAll('.faq-q').forEach(el=>{
@@ -604,7 +653,7 @@
       products.forEach((prod, i) => {
         const div = document.createElement("div");
         div.className = "product-card";
-        div.style.animationDelay = `${0.06 * i + 0.15}s`;
+        div.style.animationDelay = (0.06 * i + 0.15) + "s";
         div.innerHTML = `
           <img src="https://i.imgur.com/KcfZIqA.png" class="icon" alt="icon">
           <div class="product-title">${prod.name}</div>
@@ -629,7 +678,7 @@
       document.getElementById("modal-title").innerText = prod.name;
       document.getElementById("modal-desc").innerText = prod.desc || "";
       document.getElementById("modal-price").innerText = prod.price + (prod.extra ? " | " + prod.extra : "");
-      document.getElementById("modal-stock").innerText = `In Stock: ${prod.stock}`;
+      document.getElementById("modal-stock").innerText = "In Stock: " + prod.stock;
       document.getElementById("product-modal-bg").style.display = "flex";
       document.body.style.overflow = "hidden";
     }
@@ -747,7 +796,7 @@
         shown.slice().reverse().forEach((r, i) => {
           const div = document.createElement("div");
           div.className = "review-card";
-          div.style.animationDelay = `${0.06 * i + 0.12}s`;
+          div.style.animationDelay = (0.06 * i + 0.12) + "s";
           div.innerHTML = `
             <span class="reviewer">
               <span class="review-rating">${starRating(r.rating)}</span>
@@ -817,7 +866,7 @@
     }
     function exportReviews(){
       let csv = "name,rating,text,date,verified,hidden\n";
-      reviews.forEach(r=>csv+=`"${r.name}",${r.rating},"${r.text}","${r.date}",${r.verified},${r.hidden}\n`);
+      reviews.forEach(r=>csv+=`${r.name},${r.rating},"${r.text}","${r.date}",${r.verified},${r.hidden}\n`);
       let blob = new Blob([csv],{type:"text/csv"});
       let a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
