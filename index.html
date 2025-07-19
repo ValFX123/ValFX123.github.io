@@ -117,58 +117,269 @@
     }
     .theme-toggle:active {transform:scale(.92);}
     body.darkmode .theme-toggle { color: #ffbef9;background: #382247;box-shadow: 0 4px 28px #d041c740;}
-    main { padding: 3.3rem 1rem 2.7rem 1rem; max-width: 1200px; margin: 0 auto; }
-    /* --- HOME SECTION FLEX LAYOUT --- */
-    #home-content-flex {
+    main { padding: 3.3rem 1rem 2.7rem 1rem; max-width: 1100px; margin: 0 auto; }
+    section {
+      margin-bottom: 3.8rem;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .55s cubic-bezier(.37,2,.54,.97), transform .52s cubic-bezier(.37,2,.54,.97);
+    }
+    section.visible {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+    }
+    h1, h2, h3 { font-family: 'Orbitron', sans-serif; color: var(--pink6); }
+    body.darkmode h1, body.darkmode h2, body.darkmode h3 { color: var(--dm-pink2);}
+    h1 { font-size: 2.4rem; margin-top: 1.7rem; letter-spacing:1px;text-shadow:0 2px 12px #ffe4ec80;}
+    .section-title { font-size:2.05rem;margin-bottom:2rem;text-align:center;letter-spacing:1.5px;text-shadow:0 2px 10px #ffe4ec44;}
+    .stats {
+      display: flex; justify-content: center; gap: 2.6rem; flex-wrap: wrap;
+      margin: 2.4rem 0 1.9rem 0;
+    }
+    .stat {
+      text-align: center;
+      background: var(--white);
+      border-radius: 1.4em;
+      box-shadow: 0 8px 26px #ffb6e044;
+      padding: 1.5rem 2.5rem;
+      min-width: 140px;
+      opacity: 0;
+      transform: translateY(25px);
+      animation: statFade .7s .12s forwards;
+      animation-fill-mode: forwards;
+      font-size: 1.17em;
+      margin: .5em 0;
+    }
+    body.darkmode .stat {background:var(--dm-card);}
+    .stat .num { font-size: 2.2rem; font-weight: 900; color: var(--pink5);}
+    body.darkmode .stat .num { color: var(--dm-pink);}
+    .stat .label { font-size: 1.09rem; color: #a85a7c; margin-top: 4px;}
+    @keyframes statFade { to { opacity:1; transform:translateY(0);} }
+    .btn, button, input[type=button] {
+      background: linear-gradient(92deg, var(--pink5) 42%, var(--pink4) 92%);
+      color: #fff;
+      border: none;
+      border-radius: 1.22em;
+      font-weight: bold;
+      font-size: 1.13rem;
+      padding: 0.78em 2.2em;
+      cursor: pointer;
+      box-shadow: 0 2px 12px 0 #ffc8df2c;
+      outline:none;
+      transition: background var(--transition), transform .13s, box-shadow .14s;
+      animation: btnPulse 2s infinite alternate;
+    }
+    .btn:hover, button:hover, input[type=button]:hover {
+      background: linear-gradient(92deg, var(--pink6) 33%, var(--pink4) 92%);
+      transform: scale(1.08) rotate(-2deg);
+      box-shadow: 0 4px 16px 0 #ffa1d73c;
+      animation: btnPulseFast .38s cubic-bezier(.8,2,0,1) 1;
+    }
+    @keyframes btnPulse {
+      0% {box-shadow:0 2px 12px 0 #ffc8df2c;}
+      100% {box-shadow:0 5px 20px 0 #ff5ea751;}
+    }
+    @keyframes btnPulseFast {
+      0% {transform: scale(1);}
+      70% {transform: scale(1.13) rotate(-2deg);}
+      100% {transform: scale(1.08) rotate(-2deg);}
+    }
+    body.darkmode .btn, body.darkmode button, body.darkmode input[type=button] {
+      background: linear-gradient(92deg, var(--dm-pink) 42%, var(--dm-pink2) 92%);
+    }
+    .section-links {
       display: flex;
+      justify-content: center;
+      gap: 2.1em;
+      margin: 2.4em 0 0.4em 0;
+      padding-bottom: 0.8em;
+    }
+    .section-link {
+      display: flex;
+      align-items: center;
+      gap: 0.52em;
+      background: #fff;
+      color: #7a31a3;
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 1.09em;
+      border-radius: 2em;
+      box-shadow: 0 2px 10px #ffb6e02e;
+      padding: 0.63em 1.55em 0.63em 1.1em;
+      transition: background .16s, box-shadow .16s, color .14s;
+      border: 2.2px solid #ffb6e070;
+    }
+    .section-link svg {
+      width: 1.32em;
+      height: 1.32em;
+      vertical-align: middle;
+      display: inline-block;
+      margin-right: 0.13em;
+    }
+    .section-link.discord {
+      color: #5662f6;
+      border-color: #7c82f6;
+    }
+    .section-link.paypal {
+      color: #1e68cc;
+      border-color: #9dc9fa;
+    }
+    .section-link:hover {
+      background: #ffeffc;
+      color: #ff5ea7;
+      box-shadow: 0 6px 18px #ffb6e045;
+    }
+    .section-link.discord:hover { color: #5662f6; background:#f2f4ff;}
+    .section-link.paypal:hover { color: #1e68cc; background:#f3f8fd;}
+    .scroll-arrow {
+      margin:2.2em auto 0.4em auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation:bounceArrow 1.7s infinite;
+      cursor:pointer;
+      opacity:.65;
+      transition:opacity .18s;
+      width:3em;
+      height:2.2em;
+    }
+    .scroll-arrow:hover {opacity:1;}
+    @keyframes bounceArrow {
+      0% {transform:translateY(0);}
+      55% {transform:translateY(7px);}
+      85% {transform:translateY(0);}
+      100% {transform:translateY(0);}
+    }
+    /* Reviews Section */
+    .reviews-list {
+      margin: 2.2em 0 0 0;
+      display: flex; flex-direction: column; gap: 1.2em;
+      max-width: 650px; margin-left: auto; margin-right: auto;
+      min-height: 45px;
+    }
+    .review-card {
+      background: var(--white);
+      border-radius: 1em;
+      box-shadow: 0 2px 16px #ffb6e033;
+      padding: 1.1em 1.35em 1.2em 1.35em;
+      display: flex; flex-direction: column;
+      gap: 0.5em;
+      border-left: 6px solid var(--pink4);
+      position: relative;
+      opacity: 0;
+      transform: translateY(24px);
+      animation: reviewFade .7s forwards;
+      animation-fill-mode: forwards;
+    }
+    @keyframes reviewFade { 40% {opacity:1;transform:translateY(-8px);} 100% {opacity:1;transform:translateY(0);} }
+    .reviewer {
+      font-weight: bold; color: var(--pink5);
+      font-size: 1.07em;
+      display: flex; align-items: center; gap:0.6em;
+    }
+    .review-rating {
+      color: #ffd6f1;
+      font-size: 1.16em;
+      margin-right: 0.45em;
+      letter-spacing: 0.06em;
+      text-shadow: 0 2px 3px #ffa8ce55;
+      font-weight:bold;
+    }
+    .review-text {
+      color: #6e3171;
+      font-size: 1.03em;
+    }
+    .review-date {
+      font-size:0.93em; color:#d8b1c5;
+    }
+    .review-form {
+      background: var(--pink2);
+      border-radius: 1.2em;
+      box-shadow: 0 2px 16px #ffb6e019;
+      padding: 1.1em 1.2em;
+      margin: 2.1em auto 0 auto;
+      max-width: 440px;
+      display: flex; flex-direction: column; gap: 0.6em;
       align-items: stretch;
-      justify-content: center;
-      gap: 2.8em;
-      margin: 3.5em auto 0 auto;
-      max-width: 1150px;
-      flex-wrap: nowrap;
     }
-    .home-intro, .home-stats-wrap {
-      flex: 1 1 0;
-      min-width: 340px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-      box-sizing: border-box;
+    .review-form label { font-weight: bold; color: var(--pink6); font-size: 1em; margin-bottom:.17em;}
+    .review-form input, .review-form textarea, .review-form select {
+      font-family: inherit;
+      font-size: 1em;
+      padding: 0.55em 0.7em;
+      border-radius: 0.6em;
+      border: 1.5px solid var(--pink3);
+      background: #fff;
+      color: #6e3171;
+      outline: none;
+      resize: none;
+      transition: border-color .13s;
+      margin-bottom:.22em;
     }
-    .home-intro { align-items: flex-end; text-align: right;}
-    .home-intro p { max-width: 510px; font-size:1.21rem; line-height:1.7; color:#6e2a63; margin-top:1.18em; margin-bottom:0;}
-    .home-btns { display:flex;flex-direction:column;gap:1.1em;align-items:flex-end;margin-top:1.2em;}
-    .home-stats-wrap { align-items: flex-start; text-align: left;}
-    .stats { margin: 0 0 0.8rem 0; max-width: 370px; width: 100%; }
-    @media (max-width: 950px) {
-      #home-content-flex { flex-direction: column; gap: 1.5em; align-items: center; }
-      .home-intro, .home-stats-wrap { align-items: center; text-align: center;}
-      .stats {margin:2.2em auto 0.8em auto;}
-      .home-btns {align-items:center;}
+    .review-form input:focus, .review-form textarea:focus, .review-form select:focus {
+      border-color: var(--pink5);
     }
-    @media (max-width: 650px) {
-      #home-content-flex {gap:0.5em;}
-      .home-intro p {font-size:1em;}
+    .review-form button {
+      margin-top:0.5em;align-self:center;min-width:160px;
     }
-    @media (max-width: 450px) {
-      .home-intro p {font-size:.97em;}
+    .review-form .err { color:var(--pink6); font-size:0.98em; margin:0.2em 0;text-align:center;}
+    /* FAQ Accordion */
+    .faq-box {
+      background: none;
+      max-width: 740px;
+      margin: 2.7em auto 2.3em auto;
+      font-size: 1.08em;
+      color: #a24780;
+      border-radius: 1.4em;
+      padding: 0.9em 0.8em 1.1em 0.8em;
     }
-    /* --- PRODUCTS GRID --- */
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-      gap: 2.2rem 2.6rem;
-      margin-top: 1.7rem;
-      max-width: 1040px;
-      margin-left: auto;
-      margin-right: auto;
-      justify-items: center;
-      transition: opacity .5s, transform .5s;
+    .faq-title {
+      font-size: 1.25em;
+      font-family: 'Orbitron',sans-serif;
+      color: var(--pink6);
+      margin-bottom: .95em;
+      text-align:left;
     }
-    /* ... rest of CSS (modals, products, admin, reviews, FAQ, etc) ... */
-    /* For brevity, use the previous full code for all those features! */
+    .faq-q {
+      cursor:pointer;
+      font-weight:bold;
+      background: #fff4fd;
+      border-radius: 1em;
+      margin-bottom: .2em;
+      padding: .7em 1.25em .7em 1.25em;
+      transition: background .14s;
+      box-shadow: 0 2px 11px #ffb6e022;
+      position:relative;
+      outline: none;
+    }
+    .faq-q span {
+      font-weight:900;
+      float:right;
+      font-size:1.21em;
+      color:var(--pink6);
+      margin-left: 12px;
+      transition: transform .18s;
+    }
+    .faq-q.active span {transform: rotate(45deg);}
+    .faq-q:focus,.faq-q:hover {background:#fff7fd;}
+    .faq-a {
+      display:none;
+      background: #fbeeff;
+      color: #84336a;
+      padding: .7em 1.5em .75em 2em;
+      border-radius: 0 0 1.1em 1.1em;
+      margin: -0.21em 0 1em 0.4em;
+      box-shadow: 0 2px 10px #ffd1e42e;
+    }
+    .faq-q.active + .faq-a {display:block;}
+    @media (max-width: 700px) {
+      .faq-box {font-size:.98em;}
+      .review-form {max-width:98vw;}
+    }
+    @media (max-width: 480px) {
+      .stats {flex-direction:column;gap:0.3em;}
+      .stat {padding:1.1rem 1.2rem;}
+    }
   </style>
 </head>
 <body>
@@ -188,26 +399,26 @@
   </header>
   <main>
     <section id="home" style="margin-top:2em;">
-      <h1 style="text-align:center;margin-bottom:0;">Welcome to <span style="color: var(--pink5)">SourMarket</span>!</h1>
-      <div id="home-content-flex">
-        <div class="home-intro">
-          <p>
-            We specialize in unique custom items for everyone! <br>
-            <b>Necklaces, chains, skateboards, pillows, keychains, re-textures, custom orders, and more!</b><br>
-            <span style="color: var(--pink5);font-weight:600;">Mix & Match available.</span> Surprise yourself or create a ticket for a one-of-a-kind request.
-          </p>
-          <div class="home-btns">
-            <button class="btn" onclick="switchSection('products');window.scrollTo(0,0);">View Products</button>
-          </div>
+      <h1>Welcome to <span style="color: var(--pink5)">SourMarket</span>!</h1>
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:3em 2em;">
+      <div style="flex:2;min-width:310px;">
+        <p style="max-width:590px;font-size:1.21rem;line-height:1.67;color:#6e2a63;margin-top:1.18em;">
+          We specialize in unique custom items for everyone! <br>
+          <b>Necklaces, chains, skateboards, pillows, keychains, re-textures, custom orders, and more!</b><br>
+          <span style="color: var(--pink5);font-weight:600;">Mix & Match available.</span> Surprise yourself or create a ticket for a one-of-a-kind request.
+        </p>
+      </div>
+      <div style="flex:2;min-width:330px;">
+        <div class="stats">
+          <div class="stat"><div class="num" id="stat-sold">32</div><div class="label">PRODUCTS SOLD</div></div>
+          <div class="stat"><div class="num" id="stat-customers">14</div><div class="label">TOTAL CUSTOMERS</div></div>
+          <div class="stat"><div class="num" id="stat-reviews">0</div><div class="label">REVIEWS RECEIVED</div></div>
+          <div class="stat"><div class="num" id="stat-rating">0.00</div><div class="label">AVERAGE RATING</div></div>
         </div>
-        <div class="home-stats-wrap">
-          <div class="stats">
-            <div class="stat"><div class="num" id="stat-sold">32</div><div class="label">PRODUCTS SOLD</div></div>
-            <div class="stat"><div class="num" id="stat-customers">14</div><div class="label">TOTAL CUSTOMERS</div></div>
-            <div class="stat"><div class="num" id="stat-reviews">0</div><div class="label">REVIEWS RECEIVED</div></div>
-            <div class="stat"><div class="num" id="stat-rating">0.00</div><div class="label">AVERAGE RATING</div></div>
-          </div>
-        </div>
+      </div>
+      </div>
+      <div style="text-align:center; margin-top:2.2em;">
+        <button class="btn" onclick="switchSection('products');window.scrollTo(0,0);">View Products</button>
       </div>
       <div class="section-links" id="links-home"></div>
       <div class="scroll-arrow" onclick="scrollToSection('products')" title="Scroll to products">
@@ -253,7 +464,7 @@
       <div class="faq-a">Yes! Choose “Custom Orders” in Products or message us on Discord for a quote and design chat.</div>
     </div>
   </main>
-  <!-- PRODUCT MODAL -->
+  <!-- MODALS, POPUPS, ADMIN PANEL, ETC. --->
   <div id="product-modal-bg" class="modal-bg" style="display:none;">
     <div class="modal" id="product-modal">
       <button class="modal-close" onclick="closeModal()">&times;</button>
@@ -290,399 +501,398 @@
     <div style="margin-top:.7em;font-size:.93em;color:#a971a1;">(Visible to you only. <br>For public, remove this section.)</div>
   </div>
   <button id="top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="display:none;position:fixed;right:23px;bottom:26px;background:linear-gradient(90deg,#ff5ea7,#ffa1d7);color:#fff;border:none;border-radius:50%;width:46px;height:46px;box-shadow:0 4px 18px #ffb6e05a;font-size:2.1em;z-index:2222;cursor:pointer;">&#8679;</button>
-  <!-- FULL JS -->
   <script>
     // All JS code: THE FULL FUNCTIONALITY
     // (This is the same as what was in the previous full answer!)
     // (See previous answers for all functions and logic.)
 
-   // ---- THEME TOGGLE ----
-const themeToggle = document.getElementById('theme-toggle');
-const themeIcon = document.getElementById('theme-icon');
-function setTheme(mode){
-  if(mode==='dark'){document.body.classList.add('darkmode');themeIcon.textContent="☀️";}
-  else{document.body.classList.remove('darkmode');themeIcon.textContent="🌙";}
-  localStorage.setItem('sm_theme',mode);
-}
-themeToggle.onclick = function(){
-  setTheme(document.body.classList.contains('darkmode')?'light':'dark');
-};
-if(localStorage.getItem('sm_theme')==='dark'){setTheme('dark');}
-
-// ---- NAVIGATION/SECTIONS ----
-let sectionOrder = ["home","products","reviews"];
-function switchSection(name) {
-  sectionOrder.forEach(id => {
-    const sec = document.getElementById(id);
-    if(id === name) {
-      sec.style.display = "block";
-      setTimeout(()=>sec.classList.add("visible"),20);
-    } else {
-      sec.classList.remove("visible");
-      setTimeout(()=>sec.style.display = "none",420);
+    // -- THEME TOGGLE --
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    function setTheme(mode){
+      if(mode==='dark'){document.body.classList.add('darkmode');themeIcon.textContent="☀️";}
+      else{document.body.classList.remove('darkmode');themeIcon.textContent="🌙";}
+      localStorage.setItem('sm_theme',mode);
     }
-    document.querySelectorAll('nav a').forEach(a => {
-      a.classList.toggle("active", a.getAttribute('href') === "#" + name);
-    });
-  });
-  document.getElementById(name).scrollIntoView({behavior:"smooth"});
-}
-window.onload = function() {
-  sectionOrder.forEach(id => {
-    const sec = document.getElementById(id);
-    if (id === "home") {
-      sec.style.display = "block";
-      sec.classList.add("visible");
-    } else {
-      sec.style.display = "none";
-      sec.classList.remove("visible");
+    themeToggle.onclick = function(){
+      setTheme(document.body.classList.contains('darkmode')?'light':'dark');
+    };
+    if(localStorage.getItem('sm_theme')==='dark'){setTheme('dark');}
+
+    // -- NAVIGATION/SECTIONS --
+    let sectionOrder = ["home","products","reviews"];
+    function switchSection(name) {
+      sectionOrder.forEach(id => {
+        const sec = document.getElementById(id);
+        if(id === name) {
+          sec.style.display = "block";
+          setTimeout(()=>sec.classList.add("visible"),20);
+        } else {
+          sec.classList.remove("visible");
+          setTimeout(()=>sec.style.display = "none",420);
+        }
+        document.querySelectorAll('nav a').forEach(a => {
+          a.classList.toggle("active", a.getAttribute('href') === "#" + name);
+        });
+      });
+      document.getElementById(name).scrollIntoView({behavior:"smooth"});
     }
-  });
-  if(location.hash && ["#home","#products","#reviews"].includes(location.hash)){
-    switchSection(location.hash.substring(1));
-  } else {
-    switchSection('home');
-  }
-  renderStats();
-  window.addEventListener("scroll", handleTopBtn);
-}
-window.onhashchange = function() {
-  if(location.hash && ["#home","#products","#reviews"].includes(location.hash)){
-    switchSection(location.hash.substring(1));
-  }
-}
-function scrollToSection(id){
-  document.getElementById(id).scrollIntoView({behavior:"smooth"});
-  switchSection(id);
-}
-
-// ---- SECTION LINKS ----
-const linksHTML = `
-  <a class="section-link discord" href="https://discord.gg/sourmarket" target="_blank" rel="noopener">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.369a19.791 19.791 0 0 0-4.885-1.515.07.07 0 0 0-.073.035c-.211.375-.445.864-.608 1.249a19.837 19.837 0 0 0-5.896 0c-.163-.385-.397-.874-.608-1.249a.07.07 0 0 0-.073-.035 19.736 19.736 0 0 0-4.885 1.515.064.064 0 0 0-.03.027C.533 7.157-.32 9.866.099 12.52c.003.021.019.045.038.058a19.936 19.936 0 0 0 5.993 3.058.07.07 0 0 0 .076-.027c.462-.635.875-1.306 1.226-2.01a.07.07 0 0 0-.038-.097 13.181 13.181 0 0 1-1.885-.915.07.07 0 0 1-.008-.116c.127-.096.253-.195.372-.291a.07.07 0 0 1 .073-.01c3.927 1.79 8.18 1.79 12.061 0a.07.07 0 0 1 .073.009c.12.097.245.195.372.291a.07.07 0 0 1-.008.116c-.597.348-1.236.663-1.885.915a.07.07 0 0 0-.038.097c.36.704.774 1.375 1.227 2.01a.07.07 0 0 0 .075.027 19.888 19.888 0 0 0 6.003-3.058.07.07 0 0 0 .037-.058c.5-3.202-.838-5.907-2.548-8.124a.061.061 0 0 0-.031-.027zM8.02 13.682c-1.183 0-2.157-1.085-2.157-2.419 0-1.334.955-2.418 2.157-2.418 1.213 0 2.177 1.094 2.157 2.418 0 1.334-.955 2.419-2.157 2.419zm7.974 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.334.955-2.418 2.157-2.418 1.213 0 2.177 1.094 2.157 2.418 0 1.334-.944 2.419-2.157 2.419z"/></svg>
-    Discord
-  </a>
-  <a class="section-link paypal" href="https://www.paypal.me/RealEKitten69" target="_blank" rel="noopener">
-    <svg viewBox="0 0 32 32" fill="currentColor"><path d="M26.422 6.808C25.33 4.601 23.011 3.053 20.059 3.053h-8.427c-.749 0-1.397.543-1.508 1.283L5.033 27.339c-.062.425.26.82.692.82h4.049l1.133-7.453v-.002c.023-.156.158-.272.316-.272h2.287c6.496 0 11.561-2.633 13.001-10.236.047-.254.031-.545-.088-.767zm-1.324 4.964c-1.104 5.942-6.011 8.058-12.172 8.058h-1.757c-.157 0-.293.116-.316.272l-1.106 7.271H6.463L9.929 5.337c.016-.106.107-.185.214-.185h8.42c2.222 0 4.242 1.15 5.259 3.078.111.223.134.493.08.748z"/></svg>
-    PayPal
-  </a>
-`;
-document.getElementById("links-home").innerHTML = linksHTML;
-document.getElementById("links-products").innerHTML = linksHTML;
-document.getElementById("links-reviews").innerHTML = linksHTML;
-
-// ---- FAQ accordion ----
-function toggleFaq(el){
-  el.classList.toggle("active");
-  let nxt = el.nextElementSibling;
-  if(nxt && nxt.classList.contains("faq-a")) {
-    if(nxt.style.display==="block"){nxt.style.display="none";}
-    else {nxt.style.display="block";}
-  }
-}
-document.querySelectorAll('.faq-q').forEach(el=>{
-  el.onkeydown = e => {
-    if(e.key === "Enter" || e.key === " "){ e.preventDefault(); toggleFaq(el);}
-  }
-});
-
-// ---- PRODUCTS ----
-const products = [
-  {name:"Necklaces",price:"$10",extra:"Charms are $2-$4 depending on what it is",desc:"Custom necklaces, add your favorite charms!",stock:"∞"},
-  {name:"Iced Out Chain",price:"$15",desc:"Super shiny iced out chains to level up any outfit.",stock:"∞"},
-  {name:"Skateboard",price:"$15",desc:"Fully customizable skateboard for cruising in style.",stock:"∞"},
-  {name:"Mini Shoulder Pal",price:"$15",desc:"A mini plush pal that sits on your shoulder. So cute!",stock:"∞"},
-  {name:"Mini Avatar Keychain",price:"$20",desc:"Take your mini avatar anywhere you go, on your keys or bag!",stock:"∞"},
-  {name:"Custom pillows - Small",price:"$10",desc:"Small custom pillows for your room or as gifts.",stock:"∞"},
-  {name:"Custom pillows - Big",price:"$15",desc:"Big custom pillows for extra comfort and fun.",stock:"∞"},
-  {name:"Re-Textures",price:"$20-$50",desc:"Custom re-textures for your favorite items, prices vary.",stock:"∞"},
-  {name:"Custom Orders",price:"$10-$100",desc:"Want something totally unique? Send your idea for a custom quote.",stock:"∞"}
-];
-// ---- STATS ----
-let stats = JSON.parse(localStorage.getItem("sourmarket_stats") || '{}');
-stats.sold = stats.sold || 32;
-stats.customers = stats.customers || 14;
-let reviews = JSON.parse(localStorage.getItem("sourmarket_reviews") || '[]');
-let isCustomer = localStorage.getItem("sourmarket_isCustomer") === "1";
-function renderStats() {
-  document.getElementById("stat-sold").innerText = stats.sold;
-  document.getElementById("stat-customers").innerText = stats.customers;
-  document.getElementById("stat-reviews").innerText = reviews.length;
-  if (reviews.length === 0) {
-    document.getElementById("stat-rating").innerText = "0.00";
-  } else {
-    let avg = reviews.reduce((sum, r) => sum + Number(r.rating), 0) / reviews.length;
-    document.getElementById("stat-rating").innerText = avg.toFixed(2);
-  }
-  document.getElementById("adm-stat-sold").value = stats.sold;
-  document.getElementById("adm-stat-customers").value = stats.customers;
-}
-renderStats();
-function renderProducts() {
-  const grid = document.getElementById("products-grid");
-  grid.innerHTML = "";
-  products.forEach((prod, i) => {
-    const div = document.createElement("div");
-    div.className = "product-card";
-    div.style.animationDelay = `${0.06 * i + 0.15}s`;
-    div.innerHTML = `
-      <img src="https://i.imgur.com/KcfZIqA.png" class="icon" alt="icon">
-      <div class="product-title">${prod.name}</div>
-      <div class="product-desc">${prod.desc || ""}</div>
-      <div style="margin-top:0.47em;">
-        <span class="product-price">${prod.price}</span>
-      </div>
-      ${prod.extra ? `<div style="font-size:0.98em;color:#c92d70;margin-top:0.2em;">${prod.extra}</div>` : ""}
-      <div class="product-stock">In Stock: ${prod.stock}</div>
-      <button class="btn" onclick="openModal(${i});event.stopPropagation();">View Details</button>
-    `;
-    div.onclick = () => openModal(i);
-    grid.appendChild(div);
-  });
-}
-renderProducts();
-// ---- PRODUCT MODAL ----
-let selectedProductIdx = 0;
-function openModal(idx) {
-  selectedProductIdx = idx;
-  const prod = products[idx];
-  document.getElementById("modal-title").innerText = prod.name;
-  document.getElementById("modal-desc").innerText = prod.desc || "";
-  document.getElementById("modal-price").innerText = prod.price + (prod.extra ? " | " + prod.extra : "");
-  document.getElementById("modal-stock").innerText = `In Stock: ${prod.stock}`;
-  document.getElementById("product-modal-bg").style.display = "flex";
-  document.body.style.overflow = "hidden";
-}
-function closeModal() {
-  document.getElementById("product-modal-bg").style.display = "none";
-  document.body.style.overflow = "";
-}
-// ---- PAYMENT POPUP ----
-function showPayPopup() {
-  closeModal();
-  showPopupStep1();
-}
-function showPopupStep1() {
-  document.getElementById("pay-popup-bg").style.display = "flex";
-  document.getElementById("pay-popup-content").innerHTML = `
-    <div class="pay-popup">
-      <h2>Payment Instructions</h2>
-      <ol style="text-align:left;max-width:350px;margin:0 auto 1.1em auto;padding-left:1.2em;color:#803667;font-size:1.05em;">
-        <li><b>Friends and Family Only</b></li>
-        <li><b>No Notes</b></li>
-        <li style="word-break:break-all;"><b>RealEKitten69</b> (PayPal.me)</li>
-      </ol>
-      <a href="https://www.paypal.me/RealEKitten69" class="btn" target="_blank" onclick="setTimeout(showPayPopupProcessing,1200);">Pay with PayPal</a>
-    </div>
-  `;
-}
-function showPayPopupProcessing() {
-  document.getElementById("pay-popup-content").innerHTML = `
-    <div class="pay-popup">
-      <h2>Processing Your Payment...</h2>
-      <div class="spinner"></div>
-      <p style="margin-top:1.4em;color:#b5678b;">Please wait while we verify your payment.</p>
-    </div>
-  `;
-  setTimeout(()=>{
-    showPayPopupSuccess();
-    confetti();
-  }, 1700);
-}
-function showPayPopupSuccess() {
-  document.getElementById("pay-popup-content").innerHTML = `
-    <div class="pay-popup">
-      <span class="bigcheck">&#10003;</span>
-      <h2>Payment Completed!</h2>
-      <p style="margin-bottom:1.3em;">Thank you for your purchase.<br>Click below to receive your product and chat with support.</p>
-      <a href="https://discord.gg/sourmarket" class="btn" target="_blank" onclick="afterBuy()">Get your product</a>
-    </div>
-  `;
-  afterBuy();
-}
-function afterBuy() {
-  stats.sold = Number(stats.sold || 0) + 1;
-  if (!isCustomer) {
-    stats.customers = Number(stats.customers || 0) + 1;
-    isCustomer = true;
-    localStorage.setItem("sourmarket_isCustomer", "1");
-  }
-  renderStats();
-  localStorage.setItem("sourmarket_stats", JSON.stringify(stats));
-}
-document.getElementById("pay-popup-bg").onclick = function(e) {
-  if(e.target===this) {
-    document.getElementById("pay-popup-bg").style.display = "none";
-    document.getElementById("pay-popup-content").innerHTML = "";
-    document.body.style.overflow = "";
-  }
-};
-function confetti() {
-  const canvas = document.getElementById("confetti-canvas");
-  canvas.style.display = "block";
-  const ctx = canvas.getContext("2d");
-  let W = window.innerWidth, H = window.innerHeight;
-  canvas.width = W; canvas.height = H;
-  let confs = [];
-  for(let i=0;i<64;i++) confs.push({
-    x:Math.random()*W, y:Math.random()*-H,
-    r:8+Math.random()*12, d:4+Math.random()*4,
-    color:`hsl(${Math.floor(330+Math.random()*80)},${80+Math.random()*18}%,${60+Math.random()*32}%)`,
-    tilt:Math.random()*16, tiltAngle:Math.random()*360, tiltAngleInc:.09+Math.random()*.08
-  });
-  let frame = 0;
-  function drawConfetti(){
-    ctx.clearRect(0,0,W,H);
-    confs.forEach(c=>{
-      ctx.beginPath();
-      ctx.lineWidth = c.d;
-      ctx.strokeStyle = c.color;
-      ctx.moveTo(c.x + c.tilt + Math.sin(frame/12)*4, c.y);
-      ctx.lineTo(c.x + c.tilt, c.y + c.r);
-      ctx.stroke();
-    });
-    updateConfetti();
-    frame++;
-    if(frame<85) requestAnimationFrame(drawConfetti);
-    else canvas.style.display="none";
-  }
-  function updateConfetti(){
-    for(let i=0;i<confs.length;i++){
-      let c = confs[i];
-      c.y += Math.cos(c.d) + 2 + c.d/2;
-      c.tiltAngle += c.tiltAngleInc;
-      c.tilt = Math.sin(c.tiltAngle-((i%3)*2))*10;
+    window.onload = function() {
+      sectionOrder.forEach(id => {
+        const sec = document.getElementById(id);
+        if (id === "home") {
+          sec.style.display = "block";
+          sec.classList.add("visible");
+        } else {
+          sec.style.display = "none";
+          sec.classList.remove("visible");
+        }
+      });
+      if(location.hash && ["#home","#products","#reviews"].includes(location.hash)){
+        switchSection(location.hash.substring(1));
+      } else {
+        switchSection('home');
+      }
+      renderStats();
+      window.addEventListener("scroll", handleTopBtn);
     }
-  }
-  drawConfetti();
-}
-// ---- REVIEWS ----
-function renderReviews() {
-  const list = document.getElementById("reviews-list");
-  let shown = reviews.filter(r=>!r.hidden);
-  if (shown.length === 0) {
-    list.innerHTML = `<div style="text-align:center; color:#a971a1; font-size:1.13em;">No reviews yet. Be the first!</div>`;
-  } else {
-    list.innerHTML = "";
-    shown.slice().reverse().forEach((r, i) => {
-      const div = document.createElement("div");
-      div.className = "review-card";
-      div.style.animationDelay = `${0.06 * i + 0.12}s`;
-      div.innerHTML = `
-        <span class="reviewer">
-          <span class="review-rating">${starRating(r.rating)}</span>
-          ${escapeHtml(r.name)}
-          ${r.verified?`<span class="verified-badge" style="margin-left:.4em;font-size:.9em;color:#16b54d;"><svg viewBox="0 0 16 16" style="width:1em;height:1em;vertical-align:middle;"><path d="M13.95 3.95l-6.1 8.2c-.2.3-.62.3-.83 0l-3-4c-.24-.31 0-.76.42-.76.14 0 .28.07.36.19l2.62 3.5 5.67-7.62c.23-.31.71-.13.71.25 0 .08-.03.17-.08.24z"/></svg>Verified</span>`:""}
-        </span>
-        <div class="review-text">${escapeHtml(r.text)}</div>
-        <div class="review-date">${escapeHtml(r.date)}</div>
-      `;
-      list.appendChild(div);
+    window.onhashchange = function() {
+      if(location.hash && ["#home","#products","#reviews"].includes(location.hash)){
+        switchSection(location.hash.substring(1));
+      }
+    }
+    function scrollToSection(id){
+      document.getElementById(id).scrollIntoView({behavior:"smooth"});
+      switchSection(id);
+    }
+
+    // -- LINKS --
+    const linksHTML = 
+      <a class="section-link discord" href="https://discord.gg/sourmarket" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.369a19.791 19.791 0 0 0-4.885-1.515.07.07 0 0 0-.073.035c-.211.375-.445.864-.608 1.249a19.837 19.837 0 0 0-5.896 0c-.163-.385-.397-.874-.608-1.249a.07.07 0 0 0-.073-.035 19.736 19.736 0 0 0-4.885 1.515.064.064 0 0 0-.03.027C.533 7.157-.32 9.866.099 12.52c.003.021.019.045.038.058a19.936 19.936 0 0 0 5.993 3.058.07.07 0 0 0 .076-.027c.462-.635.875-1.306 1.226-2.01a.07.07 0 0 0-.038-.097 13.181 13.181 0 0 1-1.885-.915.07.07 0 0 1-.008-.116c.127-.096.253-.195.372-.291a.07.07 0 0 1 .073-.01c3.927 1.79 8.18 1.79 12.061 0a.07.07 0 0 1 .073.009c.12.097.245.195.372.291a.07.07 0 0 1-.008.116c-.597.348-1.236.663-1.885.915a.07.07 0 0 0-.038.097c.36.704.774 1.375 1.227 2.01a.07.07 0 0 0 .075.027 19.888 19.888 0 0 0 6.003-3.058.07.07 0 0 0 .037-.058c.5-3.202-.838-5.907-2.548-8.124a.061.061 0 0 0-.031-.027zM8.02 13.682c-1.183 0-2.157-1.085-2.157-2.419 0-1.334.955-2.418 2.157-2.418 1.213 0 2.177 1.094 2.157 2.418 0 1.334-.955 2.419-2.157 2.419zm7.974 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.334.955-2.418 2.157-2.418 1.213 0 2.177 1.094 2.157 2.418 0 1.334-.944 2.419-2.157 2.419z"/></svg>
+        Discord
+      </a>
+      <a class="section-link paypal" href="https://www.paypal.me/RealEKitten69" target="_blank" rel="noopener">
+        <svg viewBox="0 0 32 32" fill="currentColor"><path d="M26.422 6.808C25.33 4.601 23.011 3.053 20.059 3.053h-8.427c-.749 0-1.397.543-1.508 1.283L5.033 27.339c-.062.425.26.82.692.82h4.049l1.133-7.453v-.002c.023-.156.158-.272.316-.272h2.287c6.496 0 11.561-2.633 13.001-10.236.047-.254.031-.545-.088-.767zm-1.324 4.964c-1.104 5.942-6.011 8.058-12.172 8.058h-1.757c-.157 0-.293.116-.316.272l-1.106 7.271H6.463L9.929 5.337c.016-.106.107-.185.214-.185h8.42c2.222 0 4.242 1.15 5.259 3.078.111.223.134.493.08.748z"/></svg>
+        PayPal
+      </a>
+    ;
+    document.getElementById("links-home").innerHTML = linksHTML;
+    document.getElementById("links-products").innerHTML = linksHTML;
+    document.getElementById("links-reviews").innerHTML = linksHTML;
+
+    // -- FAQ accordion keyboard support --
+    function toggleFaq(el){
+      el.classList.toggle("active");
+      let nxt = el.nextElementSibling;
+      if(nxt && nxt.classList.contains("faq-a")) {
+        if(nxt.style.display==="block"){nxt.style.display="none";}
+        else {nxt.style.display="block";}
+      }
+    }
+    document.querySelectorAll('.faq-q').forEach(el=>{
+      el.onkeydown = e => {
+        if(e.key === "Enter" || e.key === " "){ e.preventDefault(); toggleFaq(el);}
+      }
     });
-  }
-  renderStats();
-  localStorage.setItem("sourmarket_reviews", JSON.stringify(reviews));
-  renderAdminReviewList();
-}
-function starRating(n){
-  let s="";
-  for(let i=1;i<=5;i++)
-    s+=i<=n?`<svg class="star-full" viewBox="0 0 20 20" style="width:1.15em;height:1.15em;fill:#FFD600;vertical-align:middle;"><polygon points="10,1 13,7 19,7.3 14.5,11.7 16,18 10,14.2 4,18 5.5,11.7 1,7.3 7,7"/></svg>`:`<svg class="star-empty" viewBox="0 0 20 20" style="width:1.15em;height:1.15em;fill:#ffe1e6;stroke:#ffb6e0;stroke-width:1.3;vertical-align:middle;"><polygon points="10,1 13,7 19,7.3 14.5,11.7 16,18 10,14.2 4,18 5.5,11.7 1,7.3 7,7"/></svg>`;
-  return s;
-}
-renderReviews();
-function addReview(e) {
-  e.preventDefault();
-  const name = document.getElementById("review-name").value.trim();
-  const rating = +document.getElementById("review-rating").value;
-  const text = document.getElementById("review-text").value.trim();
-  const err = document.getElementById("review-error");
-  err.innerText = "";
-  if(name.length < 2) {err.innerText="Name must be at least 2 characters.";return false;}
-  if(text.length < 8) {err.innerText="Review must be at least 8 characters.";return false;}
-  if(text.length > 300) {err.innerText="Keep your review under 300 characters.";return false;}
-  reviews.push({
-    name: escapeHtml(name),
-    rating: rating,
-    text: escapeHtml(text),
-    date: (new Date()).toISOString().split("T")[0],
-    verified: false,
-    hidden: false
-  });
-  document.getElementById("review-form").reset();
-  err.innerText="Thank you for your review!";
-  confetti();
-  setTimeout(()=>{err.innerText="";},1700);
-  renderReviews();
-  return false;
-}
-function escapeHtml(t) { return t.replace(/[&<>"']/g, s => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[s])); }
-// ---- ADMIN PANEL ----
-function toggleAdmin(){
-  const p = document.getElementById("admin-panel");
-  p.style.display = (p.style.display==="flex")?"none":"flex";
-}
-function resetStats(){
-  stats = {sold:32,customers:14};
-  localStorage.setItem("sourmarket_stats",JSON.stringify(stats));
-  isCustomer=false;localStorage.setItem("sourmarket_isCustomer","0");
-  renderStats();
-  alert("Stats reset!");
-}
-function clearReviews(){
-  reviews = [];
-  localStorage.setItem("sourmarket_reviews",JSON.stringify([]));
-  renderReviews();
-  alert("All reviews deleted!");
-}
-function exportReviews(){
-  let csv = "name,rating,text,date,verified,hidden\n";
-  reviews.forEach(r=>csv+=`"${r.name}",${r.rating},"${r.text}","${r.date}",${r.verified},${r.hidden}\n`);
-  let blob = new Blob([csv],{type:"text/csv"});
-  let a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "reviews.csv";
-  document.body.appendChild(a);
-  a.click(); setTimeout(()=>{a.remove();},800);
-}
-function renderAdminReviewList(){
-  const container = document.getElementById("admin-rev-list");
-  if(!container) return;
-  container.innerHTML = "";
-  reviews.forEach((r, i) => {
-    let row = document.createElement("div");
-    row.className = "admin-review-row" + (r.hidden?" adm-hide":"");
-    row.innerHTML = `
-      <span style="font-weight:bold;color:${r.verified?'#16b54d':'#b879a7'};">${escapeHtml(r.name)}</span>
-      <span style="font-size:1.08em;">${"★".repeat(r.rating)}${"☆".repeat(5-r.rating)}</span>
-      <span style="font-size:.95em;color:#777;">${r.date}</span>
-      <button class="adm-btn btn" onclick="toggleVerified(${i})">${r.verified?'Unverify':'Verify'}</button>
-      <button class="adm-btn btn" onclick="toggleHidden(${i})">${r.hidden?'Show':'Hide'}</button>
-    `;
-    container.appendChild(row);
-  });
-}
-function toggleVerified(idx){
-  reviews[idx].verified = !reviews[idx].verified;
-  localStorage.setItem("sourmarket_reviews", JSON.stringify(reviews));
-  renderReviews();
-}
-function toggleHidden(idx){
-  reviews[idx].hidden = !reviews[idx].hidden;
-  localStorage.setItem("sourmarket_reviews", JSON.stringify(reviews));
-  renderReviews();
-}
-function admSaveStats(){
-  stats.sold = Number(document.getElementById("adm-stat-sold").value)||0;
-  stats.customers = Number(document.getElementById("adm-stat-customers").value)||0;
-  localStorage.setItem("sourmarket_stats",JSON.stringify(stats));
-  renderStats();
-  alert("Stats saved!");
-}
-document.getElementById("admin-panel").style.display="none";
-function handleTopBtn() {
-  document.getElementById("top-btn").style.display = (window.scrollY > 240) ? "block" : "none";
-}
+
+    // PRODUCTS
+    const products = [
+      {name:"Necklaces",price:"$10",extra:"Charms are $2-$4 depending on what it is",desc:"Custom necklaces, add your favorite charms!",stock:"∞"},
+      {name:"Iced Out Chain",price:"$15",desc:"Super shiny iced out chains to level up any outfit.",stock:"∞"},
+      {name:"Skateboard",price:"$15",desc:"Fully customizable skateboard for cruising in style.",stock:"∞"},
+      {name:"Mini Shoulder Pal",price:"$15",desc:"A mini plush pal that sits on your shoulder. So cute!",stock:"∞"},
+      {name:"Mini Avatar Keychain",price:"$20",desc:"Take your mini avatar anywhere you go, on your keys or bag!",stock:"∞"},
+      {name:"Custom pillows - Small",price:"$10",desc:"Small custom pillows for your room or as gifts.",stock:"∞"},
+      {name:"Custom pillows - Big",price:"$15",desc:"Big custom pillows for extra comfort and fun.",stock:"∞"},
+      {name:"Re-Textures",price:"$20-$50",desc:"Custom re-textures for your favorite items, prices vary.",stock:"∞"},
+      {name:"Custom Orders",price:"$10-$100",desc:"Want something totally unique? Send your idea for a custom quote.",stock:"∞"}
+    ];
+    // STATS
+    let stats = JSON.parse(localStorage.getItem("sourmarket_stats") || '{}');
+    stats.sold = stats.sold || 32;
+    stats.customers = stats.customers || 14;
+    let reviews = JSON.parse(localStorage.getItem("sourmarket_reviews") || '[]');
+    let isCustomer = localStorage.getItem("sourmarket_isCustomer") === "1";
+    function renderStats() {
+      document.getElementById("stat-sold").innerText = stats.sold;
+      document.getElementById("stat-customers").innerText = stats.customers;
+      document.getElementById("stat-reviews").innerText = reviews.length;
+      if (reviews.length === 0) {
+        document.getElementById("stat-rating").innerText = "0.00";
+      } else {
+        let avg = reviews.reduce((sum, r) => sum + Number(r.rating), 0) / reviews.length;
+        document.getElementById("stat-rating").innerText = avg.toFixed(2);
+      }
+      document.getElementById("adm-stat-sold").value = stats.sold;
+      document.getElementById("adm-stat-customers").value = stats.customers;
+    }
+    renderStats();
+    function renderProducts() {
+      const grid = document.getElementById("products-grid");
+      grid.innerHTML = "";
+      products.forEach((prod, i) => {
+        const div = document.createElement("div");
+        div.className = "product-card";
+        div.style.animationDelay = ${0.06 * i + 0.15}s;
+        div.innerHTML = 
+          <img src="https://i.imgur.com/KcfZIqA.png" class="icon" alt="icon">
+          <div class="product-title">${prod.name}</div>
+          <div class="product-desc">${prod.desc || ""}</div>
+          <div style="margin-top:0.47em;">
+            <span class="product-price">${prod.price}</span>
+          </div>
+          ${prod.extra ? <div style="font-size:0.98em;color:#c92d70;margin-top:0.2em;">${prod.extra}</div> : ""}
+          <div class="product-stock">In Stock: ${prod.stock}</div>
+          <button class="btn" onclick="openModal(${i});event.stopPropagation();">View Details</button>
+        ;
+        div.onclick = () => openModal(i);
+        grid.appendChild(div);
+      });
+    }
+    renderProducts();
+    // PRODUCT MODAL
+    let selectedProductIdx = 0;
+    function openModal(idx) {
+      selectedProductIdx = idx;
+      const prod = products[idx];
+      document.getElementById("modal-title").innerText = prod.name;
+      document.getElementById("modal-desc").innerText = prod.desc || "";
+      document.getElementById("modal-price").innerText = prod.price + (prod.extra ? " | " + prod.extra : "");
+      document.getElementById("modal-stock").innerText = In Stock: ${prod.stock};
+      document.getElementById("product-modal-bg").style.display = "flex";
+      document.body.style.overflow = "hidden";
+    }
+    function closeModal() {
+      document.getElementById("product-modal-bg").style.display = "none";
+      document.body.style.overflow = "";
+    }
+    // PAYMENT POPUP
+    function showPayPopup() {
+      closeModal();
+      showPopupStep1();
+    }
+    function showPopupStep1() {
+      document.getElementById("pay-popup-bg").style.display = "flex";
+      document.getElementById("pay-popup-content").innerHTML = 
+        <div class="pay-popup">
+          <h2>Payment Instructions</h2>
+          <ol style="text-align:left;max-width:350px;margin:0 auto 1.1em auto;padding-left:1.2em;color:#803667;font-size:1.05em;">
+            <li><b>Friends and Family Only</b></li>
+            <li><b>No Notes</b></li>
+            <li style="word-break:break-all;"><b>RealEKitten69</b> (PayPal.me)</li>
+          </ol>
+          <a href="https://www.paypal.me/RealEKitten69" class="btn" target="_blank" onclick="setTimeout(showPayPopupProcessing,1200);">Pay with PayPal</a>
+        </div>
+      ;
+    }
+    function showPayPopupProcessing() {
+      document.getElementById("pay-popup-content").innerHTML = 
+        <div class="pay-popup">
+          <h2>Processing Your Payment...</h2>
+          <div class="spinner"></div>
+          <p style="margin-top:1.4em;color:#b5678b;">Please wait while we verify your payment.</p>
+        </div>
+      ;
+      setTimeout(()=>{
+        showPayPopupSuccess();
+        confetti();
+      }, 1700);
+    }
+    function showPayPopupSuccess() {
+      document.getElementById("pay-popup-content").innerHTML = 
+        <div class="pay-popup">
+          <span class="bigcheck">&#10003;</span>
+          <h2>Payment Completed!</h2>
+          <p style="margin-bottom:1.3em;">Thank you for your purchase.<br>Click below to receive your product and chat with support.</p>
+          <a href="https://discord.gg/sourmarket" class="btn" target="_blank" onclick="afterBuy()">Get your product</a>
+        </div>
+      ;
+      afterBuy();
+    }
+    function afterBuy() {
+      stats.sold = Number(stats.sold || 0) + 1;
+      if (!isCustomer) {
+        stats.customers = Number(stats.customers || 0) + 1;
+        isCustomer = true;
+        localStorage.setItem("sourmarket_isCustomer", "1");
+      }
+      renderStats();
+      localStorage.setItem("sourmarket_stats", JSON.stringify(stats));
+    }
+    document.getElementById("pay-popup-bg").onclick = function(e) {
+      if(e.target===this) {
+        document.getElementById("pay-popup-bg").style.display = "none";
+        document.getElementById("pay-popup-content").innerHTML = "";
+        document.body.style.overflow = "";
+      }
+    };
+    function confetti() {
+      const canvas = document.getElementById("confetti-canvas");
+      canvas.style.display = "block";
+      const ctx = canvas.getContext("2d");
+      let W = window.innerWidth, H = window.innerHeight;
+      canvas.width = W; canvas.height = H;
+      let confs = [];
+      for(let i=0;i<64;i++) confs.push({
+        x:Math.random()*W, y:Math.random()*-H,
+        r:8+Math.random()*12, d:4+Math.random()*4,
+        color:hsl(${Math.floor(330+Math.random()*80)},${80+Math.random()*18}%,${60+Math.random()*32}%),
+        tilt:Math.random()*16, tiltAngle:Math.random()*360, tiltAngleInc:.09+Math.random()*.08
+      });
+      let frame = 0;
+      function drawConfetti(){
+        ctx.clearRect(0,0,W,H);
+        confs.forEach(c=>{
+          ctx.beginPath();
+          ctx.lineWidth = c.d;
+          ctx.strokeStyle = c.color;
+          ctx.moveTo(c.x + c.tilt + Math.sin(frame/12)*4, c.y);
+          ctx.lineTo(c.x + c.tilt, c.y + c.r);
+          ctx.stroke();
+        });
+        updateConfetti();
+        frame++;
+        if(frame<85) requestAnimationFrame(drawConfetti);
+        else canvas.style.display="none";
+      }
+      function updateConfetti(){
+        for(let i=0;i<confs.length;i++){
+          let c = confs[i];
+          c.y += Math.cos(c.d) + 2 + c.d/2;
+          c.tiltAngle += c.tiltAngleInc;
+          c.tilt = Math.sin(c.tiltAngle-((i%3)*2))*10;
+        }
+      }
+      drawConfetti();
+    }
+    // Reviews and verified badge
+    function renderReviews() {
+      const list = document.getElementById("reviews-list");
+      let shown = reviews.filter(r=>!r.hidden);
+      if (shown.length === 0) {
+        list.innerHTML = <div style="text-align:center; color:#a971a1; font-size:1.13em;">No reviews yet. Be the first!</div>;
+      } else {
+        list.innerHTML = "";
+        shown.slice().reverse().forEach((r, i) => {
+          const div = document.createElement("div");
+          div.className = "review-card";
+          div.style.animationDelay = ${0.06 * i + 0.12}s;
+          div.innerHTML = 
+            <span class="reviewer">
+              <span class="review-rating">${starRating(r.rating)}</span>
+              ${escapeHtml(r.name)}
+              ${r.verified?<span class="verified-badge" style="margin-left:.4em;font-size:.9em;color:#16b54d;"><svg viewBox="0 0 16 16" style="width:1em;height:1em;vertical-align:middle;"><path d="M13.95 3.95l-6.1 8.2c-.2.3-.62.3-.83 0l-3-4c-.24-.31 0-.76.42-.76.14 0 .28.07.36.19l2.62 3.5 5.67-7.62c.23-.31.71-.13.71.25 0 .08-.03.17-.08.24z"/></svg>Verified</span>:""}
+            </span>
+            <div class="review-text">${escapeHtml(r.text)}</div>
+            <div class="review-date">${escapeHtml(r.date)}</div>
+          ;
+          list.appendChild(div);
+        });
+      }
+      renderStats();
+      localStorage.setItem("sourmarket_reviews", JSON.stringify(reviews));
+      renderAdminReviewList();
+    }
+    function starRating(n){
+      let s="";
+      for(let i=1;i<=5;i++)
+        s+=i<=n?<svg class="star-full" viewBox="0 0 20 20" style="width:1.15em;height:1.15em;fill:#FFD600;vertical-align:middle;"><polygon points="10,1 13,7 19,7.3 14.5,11.7 16,18 10,14.2 4,18 5.5,11.7 1,7.3 7,7"/></svg>:<svg class="star-empty" viewBox="0 0 20 20" style="width:1.15em;height:1.15em;fill:#ffe1e6;stroke:#ffb6e0;stroke-width:1.3;vertical-align:middle;"><polygon points="10,1 13,7 19,7.3 14.5,11.7 16,18 10,14.2 4,18 5.5,11.7 1,7.3 7,7"/></svg>;
+      return s;
+    }
+    renderReviews();
+    function addReview(e) {
+      e.preventDefault();
+      const name = document.getElementById("review-name").value.trim();
+      const rating = +document.getElementById("review-rating").value;
+      const text = document.getElementById("review-text").value.trim();
+      const err = document.getElementById("review-error");
+      err.innerText = "";
+      if(name.length < 2) {err.innerText="Name must be at least 2 characters.";return false;}
+      if(text.length < 8) {err.innerText="Review must be at least 8 characters.";return false;}
+      if(text.length > 300) {err.innerText="Keep your review under 300 characters.";return false;}
+      reviews.push({
+        name: escapeHtml(name),
+        rating: rating,
+        text: escapeHtml(text),
+        date: (new Date()).toISOString().split("T")[0],
+        verified: false,
+        hidden: false
+      });
+      document.getElementById("review-form").reset();
+      err.innerText="Thank you for your review!";
+      confetti();
+      setTimeout(()=>{err.innerText="";},1700);
+      renderReviews();
+      return false;
+    }
+    function escapeHtml(t) { return t.replace(/[&<>"']/g, s => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[s])); }
+    // ADMIN PANEL
+    function toggleAdmin(){
+      const p = document.getElementById("admin-panel");
+      p.style.display = (p.style.display==="flex")?"none":"flex";
+    }
+    function resetStats(){
+      stats = {sold:32,customers:14};
+      localStorage.setItem("sourmarket_stats",JSON.stringify(stats));
+      isCustomer=false;localStorage.setItem("sourmarket_isCustomer","0");
+      renderStats();
+      alert("Stats reset!");
+    }
+    function clearReviews(){
+      reviews = [];
+      localStorage.setItem("sourmarket_reviews",JSON.stringify([]));
+      renderReviews();
+      alert("All reviews deleted!");
+    }
+    function exportReviews(){
+      let csv = "name,rating,text,date,verified,hidden\n";
+      reviews.forEach(r=>csv+="${r.name}",${r.rating},"${r.text}","${r.date}",${r.verified},${r.hidden}\n);
+      let blob = new Blob([csv],{type:"text/csv"});
+      let a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "reviews.csv";
+      document.body.appendChild(a);
+      a.click(); setTimeout(()=>{a.remove();},800);
+    }
+    function renderAdminReviewList(){
+      const container = document.getElementById("admin-rev-list");
+      if(!container) return;
+      container.innerHTML = "";
+      reviews.forEach((r, i) => {
+        let row = document.createElement("div");
+        row.className = "admin-review-row" + (r.hidden?" adm-hide":"");
+        row.innerHTML = 
+          <span style="font-weight:bold;color:${r.verified?'#16b54d':'#b879a7'};">${escapeHtml(r.name)}</span>
+          <span style="font-size:1.08em;">${"★".repeat(r.rating)}${"☆".repeat(5-r.rating)}</span>
+          <span style="font-size:.95em;color:#777;">${r.date}</span>
+          <button class="adm-btn btn" onclick="toggleVerified(${i})">${r.verified?'Unverify':'Verify'}</button>
+          <button class="adm-btn btn" onclick="toggleHidden(${i})">${r.hidden?'Show':'Hide'}</button>
+        ;
+        container.appendChild(row);
+      });
+    }
+    function toggleVerified(idx){
+      reviews[idx].verified = !reviews[idx].verified;
+      localStorage.setItem("sourmarket_reviews", JSON.stringify(reviews));
+      renderReviews();
+    }
+    function toggleHidden(idx){
+      reviews[idx].hidden = !reviews[idx].hidden;
+      localStorage.setItem("sourmarket_reviews", JSON.stringify(reviews));
+      renderReviews();
+    }
+    function admSaveStats(){
+      stats.sold = Number(document.getElementById("adm-stat-sold").value)||0;
+      stats.customers = Number(document.getElementById("adm-stat-customers").value)||0;
+      localStorage.setItem("sourmarket_stats",JSON.stringify(stats));
+      renderStats();
+      alert("Stats saved!");
+    }
+    document.getElementById("admin-panel").style.display="none";
+    function handleTopBtn() {
+      document.getElementById("top-btn").style.display = (window.scrollY > 240) ? "block" : "none";
+    }
   </script>
 </body>
 </html>
