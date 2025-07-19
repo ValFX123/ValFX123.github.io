@@ -34,7 +34,6 @@ function renderProducts() {
   products.forEach((prod, i) => {
     const div = document.createElement("div");
     div.className = "product-card";
-    div.style.animationDelay = (0.06 * i + 0.15) + "s";
     div.innerHTML = `
       <img src="https://i.imgur.com/KcfZIqA.png" class="icon" alt="icon">
       <div class="product-title">${prod.name}</div>
@@ -44,22 +43,20 @@ function renderProducts() {
       </div>
       ${prod.extra ? `<div style="font-size:0.98em;color:#c92d70;margin-top:0.2em;">${prod.extra}</div>` : ""}
       <div class="product-stock">In Stock: ${prod.stock}</div>
-      <button class="btn product-view-btn">View Details</button>
+      <button class="btn product-view-btn" data-prod="${i}">View Details</button>
     `;
-    div.querySelector('.product-view-btn').onclick = (e) => {
-      e.stopPropagation();
-      openModal(i);
-    };
-    div.onclick = (e) => {
-      if(!e.target.classList.contains('product-view-btn')) openModal(i);
-    };
     grid.appendChild(div);
+  });
+  // Add listeners AFTER rendering all products!
+  document.querySelectorAll('.product-view-btn').forEach(btn => {
+    btn.onclick = function(e) {
+      e.stopPropagation();
+      openModal(Number(btn.getAttribute('data-prod')));
+    }
   });
 }
 renderProducts();
 
-// --- MODAL LOGIC ---
-let selectedProductIdx = 0;
 function openModal(idx) {
   selectedProductIdx = idx;
   const prod = products[idx];
@@ -69,18 +66,18 @@ function openModal(idx) {
   document.getElementById("modal-stock").innerText = "In Stock: " + prod.stock;
   document.getElementById("product-modal-bg").style.display = "flex";
   document.body.style.overflow = "hidden";
-  document.getElementById("modal-pay-btn").onclick = function(e){
-    e.stopPropagation();
-    showPayPopup();
-  };
 }
+document.getElementById("modal-pay-btn").onclick = function(e){
+  e.stopPropagation();
+  showPayPopup();
+};
 function closeModal() {
   document.getElementById("product-modal-bg").style.display = "none";
   document.body.style.overflow = "";
 }
 document.getElementById("product-modal-bg").onclick = function(e) {
   if(e.target===this) closeModal();
-};
+}
 
 // --- PAYMENT POPUP + EMAILJS + DISCORD WEBHOOK ---
 function showPayPopup() {
