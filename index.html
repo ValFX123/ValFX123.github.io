@@ -29,11 +29,18 @@
             filter: brightness(0.42) blur(1.5px);
         }
         #bg-overlay {
-            background:rgba(8,12,24,0.52);
+            background:rgba(8,12,24,0.38);
             z-index:1;
         }
+        #snow-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 2;
+        }
         #click-overlay {
-            position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:2;
+            position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:3;
             background:rgba(0,0,0,0.84);
             display:flex;align-items:center;justify-content:center;
             font-size:2.2rem;font-weight:bold;cursor:pointer;user-select:none;
@@ -41,7 +48,7 @@
             animation: fadeIn .9s cubic-bezier(.39,1.24,.47,.99);
         }
         #main-content {
-            z-index:3; position:fixed; left:0; top:0; width:100vw; height:100vh;
+            z-index: 4; position:fixed; left:0; top:0; width:100vw; height:100vh;
             display:flex; align-items:center; justify-content:center;
             opacity:0; pointer-events:none; transition:opacity 1s;
         }
@@ -57,7 +64,7 @@
             100%{ transform: scale(1) translateY(0); opacity: 1;}
         }
         .profile-card {
-            background: rgba(38, 41, 61, 0.37);
+            background: transparent; /* fully transparent! */
             border-radius: 30px;
             padding: 2.3rem 2.3rem 2rem;
             box-shadow:0 8px 42px #1119,0 0 0 2.5px rgba(95,89,255,0.10);
@@ -65,21 +72,12 @@
             min-width:320px;max-width:96vw;
             position:relative;
             animation: cardPop .92s cubic-bezier(.49,1.4,.34,1.0);
-            border: 1.5px solid rgba(130,130,255,0.14);
-            backdrop-filter: blur(16px);
+            border: none;
             transition: box-shadow .32s, background .22s;
             margin-top: 5px;
         }
         .profile-card::before {
-            content:'';
-            display:block;
-            position:absolute;
-            inset:0;
-            border-radius:32px;
-            pointer-events:none;
-            box-shadow: 0 1px 36px 0 #715aff77 inset, 0 0px 0 0 transparent;
-            opacity:.22;
-            z-index:0;
+            display: none;
         }
         .avatar-wrap {
             position:relative; display:inline-block; margin-bottom:1.1rem; z-index:1;
@@ -143,11 +141,12 @@
     </style>
 </head>
 <body>
-<!-- Replace the src links below with your own CDN URLs if needed -->
+<!-- Use your own CDN/image/audio/video URLs! -->
 <video id="bg-video" autoplay loop muted playsinline>
     <source src="https://files.catbox.moe/7mef5z.mp4" type="video/mp4">
 </video>
 <div id="bg-overlay"></div>
+<canvas id="snow-canvas"></canvas>
 <audio id="bg-audio" loop preload="auto" style="display:none">
     <source src="https://files.catbox.moe/xk8jgd.mp3" type="audio/mp3">
 </audio>
@@ -294,6 +293,72 @@ function addSocialLink() {
     }
     return false;
 }
+
+/* --------- SNOW EFFECT --------- */
+const canvas = document.getElementById('snow-canvas');
+let ctx = canvas.getContext('2d');
+let w = window.innerWidth, h = window.innerHeight;
+let snowflakes = [];
+function resizeCanvas() {
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width = w;
+    canvas.height = h;
+}
+window.addEventListener('resize', resizeCanvas);
+function createSnowflakes() {
+    let count = Math.floor(w / 16);
+    snowflakes = [];
+    for(let i=0; i<count; i++) {
+        snowflakes.push({
+            x: Math.random()*w,
+            y: Math.random()*h,
+            r: 1.2 + Math.random()*2.8,
+            d: Math.random()*1.5+0.5,
+            op: Math.random()*0.7+0.3,
+            vx: Math.random()*0.9-0.45,
+            vy: Math.random()*1.6+0.6,
+        });
+    }
+}
+function drawSnowflakes() {
+    ctx.clearRect(0,0,w,h);
+    ctx.save();
+    ctx.shadowBlur = 7;
+    ctx.shadowColor = "#fff";
+    for(let flake of snowflakes) {
+        ctx.globalAlpha = flake.op;
+        ctx.beginPath();
+        ctx.arc(flake.x, flake.y, flake.r, 0, Math.PI*2);
+        ctx.fillStyle = "#fff";
+        ctx.fill();
+    }
+    ctx.restore();
+}
+function moveSnowflakes() {
+    for(let flake of snowflakes) {
+        flake.x += flake.vx;
+        flake.y += flake.vy;
+        if(flake.y > h+5) {
+            flake.x = Math.random()*w;
+            flake.y = -5;
+        }
+        if(flake.x < -5) flake.x = w+5;
+        if(flake.x > w+5) flake.x = -5;
+    }
+}
+function snowLoop() {
+    moveSnowflakes();
+    drawSnowflakes();
+    requestAnimationFrame(snowLoop);
+}
+resizeCanvas();
+createSnowflakes();
+snowLoop();
+window.addEventListener('resize', ()=>{
+    resizeCanvas();
+    createSnowflakes();
+});
 </script>
 </body>
 </html>
