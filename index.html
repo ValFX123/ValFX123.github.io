@@ -1,13 +1,332 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>guns.lol Clone</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <title id="page-title">Custom Profile Landing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Your custom profile page">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        html, body {height:100%;margin:0;padding:0;box-sizing:border-box;}
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #111;
+            color: #fff;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        #bg-video, #bg-overlay {
+            position:fixed; top:0; left:0; width:100vw; height:100vh;
+            object-fit:cover;
+            z-index:0;
+        }
+        #bg-overlay {
+            background:rgba(0,0,0,0.60);
+            z-index:1;
+        }
+        #click-overlay {
+            position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:2;
+            background:rgba(0,0,0,0.80);
+            display:flex;align-items:center;justify-content:center;
+            font-size:2.2rem;font-weight:bold;cursor:pointer;user-select:none;
+            transition:opacity .5s;
+            animation: fadeIn .9s cubic-bezier(.39,1.24,.47,.99);
+        }
+        #main-content {
+            z-index:3; position:fixed; left:0; top:0; width:100vw; height:100vh;
+            display:flex; align-items:center; justify-content:center;
+            opacity:0; pointer-events:none; transition:opacity 1s;
+        }
+        #main-content.visible {opacity:1; pointer-events:auto; animation: fadeInScale .9s cubic-bezier(.45,1.15,.50,1.0);}
+        @keyframes fadeIn {0%{opacity:0;} 100%{opacity:1;}}
+        @keyframes fadeInScale {0%{opacity:0;transform:scale(.98);} 100%{opacity:1;transform:scale(1);}}
+        .profile-card {
+            background: rgba(30,32,52,0.97);
+            border-radius: 25px;
+            padding: 2.7rem 2rem 2rem;
+            box-shadow:0 12px 38px #000a;
+            text-align:center;
+            min-width:330px;max-width:96vw;
+            position:relative;
+            transition:box-shadow .4s;
+            animation: fadeInScale 1.2s .2s backwards;
+        }
+        .avatar-wrap {
+            position:relative; display:inline-block; margin-bottom:1.2rem;
+        }
+        .avatar {
+            width:125px; height:125px; border-radius:50%; object-fit:cover; background:#242;
+            border:4px solid #6c63ff; box-shadow:0 4px 28px #000a;
+            transition: box-shadow .3s, border-color .3s;
+            cursor:pointer;
+        }
+        .avatar:hover {box-shadow:0 0 0 6px #6c63ff90;}
+        .avatar-edit {
+            position:absolute; bottom:8px; right:6px; background:#232344; border-radius:50%; padding:7px;
+            box-shadow:0 1px 7px #000a; cursor:pointer; color:#fff;
+            font-size:1.1rem; display:flex;align-items:center;justify-content:center;
+        }
+        .profile-fields {margin-bottom:1.6rem;}
+        .nickname {font-size:2.3rem; font-weight:900;}
+        .tagline {font-size:1.05rem; color:#adadff;margin-bottom:.5rem;letter-spacing:1px;}
+        .status-dot {
+            display:inline-block; width:15px; height:15px; border-radius:50%; margin-right:7px; vertical-align:middle;
+            background:#888;
+            border:2px solid #232344;
+            transition:background .3s;
+        }
+        .status-online {background:#43b581;}
+        .status-idle {background:#faa61a;}
+        .status-dnd {background:#f04747;}
+        .status-offline {background:#747f8d;}
+        .bio, .location {margin-top:.5rem; opacity:.89;}
+        .socials {display:flex;justify-content:center;gap:1.1rem;margin:1.4rem 0;}
+        .socials a {
+            padding:.6rem; border-radius:50%; background:rgba(60,60,98,0.97);
+            color:#fff; font-size:1.45rem; transition:background .18s, transform .18s;
+            display:inline-flex; align-items:center; justify-content:center;
+            border:2px solid transparent;
+            position:relative;
+        }
+        .socials a:hover {background:#6c63ffcc; transform:scale(1.15);}
+        .add-link-btn {background:none; border:none; color:#adadff; cursor:pointer; margin-left:.7rem;}
+        .add-link-btn:hover {color:#fff;text-shadow:0 0 8px #6c63ffb8;}
+        .upload-section {margin:1.2rem 0;}
+        .upload-btn {
+            display:inline-block; background:#232344; color:#fff; border:none; padding:.5rem 1rem;
+            border-radius:12px; margin:0 .5rem 0 0; cursor:pointer; font-size:1rem; transition:background .2s;
+        }
+        .upload-btn:hover {background:#6c63ffcc;}
+        .preview-link {
+            display:inline-flex;align-items:center;font-size:1.08rem;margin-left:.5rem;
+            background:rgba(100,100,160,0.19);padding:0 .6rem .15rem .6rem;border-radius:9px;
+            transition:background .2s;
+        }
+        .preview-link i {margin-right:5px;}
+        .discord-status {
+            display:inline-flex;align-items:center;gap:.3rem;font-size:1rem;margin:.7rem 0 .1rem 0;
+            color:#b6ffb6;
+        }
+        @media (max-width:600px) {
+            .profile-card {padding:1.1rem;}
+            .nickname {font-size:1.1rem;}
+            .avatar {width:72px;height:72px;}
+        }
+    </style>
+</head>
+<body>
+<video id="bg-video" autoplay loop muted playsinline>
+    <source src="" type="video/mp4">
+</video>
+<div id="bg-overlay"></div>
+<audio id="bg-audio" loop preload="auto" style="display:none"></audio>
+<div id="click-overlay">Click Anywhere</div>
+<div id="main-content">
+    <div class="profile-card">
+        <div class="avatar-wrap">
+            <img src="https://i.imgur.com/S2fE9iJ.png" class="avatar" id="avatar" alt="Avatar">
+            <span class="avatar-edit" title="Upload avatar"><i class="fa fa-camera"></i></span>
+        </div>
+        <div class="profile-fields">
+            <div class="nickname" id="nickname">YourName</div>
+            <div class="tagline" id="tagline">@yourtagline</div>
+            <div class="discord-status" id="discord-status" style="display:none;">
+                <span class="status-dot" id="status-dot"></span>
+                <span id="discord-username"></span>
+            </div>
+            <div class="bio" id="bio">Your short bio or description goes here. You can make it as creative as you want!</div>
+            <div class="location" id="location"><i class="fa fa-map-marker-alt"></i> Your City, Earth</div>
+        </div>
+        <div class="socials" id="socials"></div>
+        <button class="add-link-btn" onclick="showLinkInput()">+ Add Social Link</button>
+        <div class="upload-section">
+            <input type="file" accept="video/mp4,video/webm" id="video-upload" style="display:none">
+            <button class="upload-btn" onclick="document.getElementById('video-upload').click()">Upload BG Video</button>
+            <input type="file" accept="audio/*" id="audio-upload" style="display:none">
+            <button class="upload-btn" onclick="document.getElementById('audio-upload').click()">Upload Audio</button>
+            <input type="file" accept="image/*" id="avatar-upload" style="display:none">
+            <button class="upload-btn" onclick="document.getElementById('avatar-upload').click()">Upload Avatar</button>
+        </div>
+    </div>
+</div>
+
+<!-- Link Add Modal -->
+<div id="link-modal" style="display:none;position:fixed;z-index:10;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,.79);align-items:center;justify-content:center;">
+    <div style="background:#232344;padding:1.6rem 1rem;border-radius:15px;box-shadow:0 6px 30px #000b;min-width:320px;text-align:center;position:relative;">
+        <button style="position:absolute;top:10px;right:18px;background:none;border:none;color:#fff;font-size:1.4rem;cursor:pointer" onclick="hideLinkInput()"><i class="fa fa-times"></i></button>
+        <h3>Add Social/Profile Link</h3>
+        <form id="link-form" onsubmit="return addSocialLink();">
+            <input id="link-url" type="url" required placeholder="Profile Link (https://...)" style="width:80%;padding:.5rem;margin-bottom:1rem;border-radius:7px;border:1px solid #bbb;"><br>
+            <select id="link-icon" style="width:80%;padding:.5rem;margin-bottom:.9rem;border-radius:7px;border:1px solid #bbb;">
+                <option value="fa-discord">Discord</option>
+                <option value="fa-twitter">Twitter</option>
+                <option value="fa-telegram">Telegram</option>
+                <option value="fa-github">GitHub</option>
+                <option value="fa-youtube">YouTube</option>
+                <option value="fa-instagram">Instagram</option>
+                <option value="fa-link">Other</option>
+            </select><br>
+            <button class="upload-btn" type="submit" style="margin-top:.2rem">Add Link</button>
+        </form>
+        <div id="link-preview" class="preview-link" style="margin-top:1rem;display:none;"></div>
+    </div>
+</div>
+
+<script>
+/* ---------------- CONFIG ---------------- */
+const config = {
+    pageTitle: "ValFX | Custom Profile Landing",
+    pageDescription: "My animated, customizable profile page!",
+    avatar: "https://i.imgur.com/S2fE9iJ.png",
+    nickname: "ValFX |",
+    tagline: "@fluxy",
+    bio: "Why yo<br>🌟 Fluxy Team <br>🚀 Always Building.",
+    location: "London, UK",
+    discordUserId: "1020743434700988548", // Replace with your Discord User ID
+    socials: [
+        { icon: "fa-discord", url: "https://discord.com/users/1020743434700988548" },
+        { icon: "fa-twitter", url: "https://twitter.com/yourhandle" },
+        { icon: "fa-telegram", url: "https://t.me/youruser" },
+        { icon: "fa-github", url: "https://github.com/youruser" }
+    ],
+    bgVideo: "", // You can put your default video URL here
+    bgAudio: ""  // You can put your default audio URL here
+};
+/* ------------- END CONFIG --------------- */
+
+// ---- INIT PROFILE ---- //
+document.title = config.pageTitle;
+document.getElementById('page-title').textContent = config.pageTitle;
+document.querySelector('meta[name=description]').setAttribute('content', config.pageDescription);
+document.getElementById('avatar').src = config.avatar;
+document.getElementById('nickname').textContent = config.nickname;
+document.getElementById('tagline').textContent = config.tagline;
+document.getElementById('bio').innerHTML = config.bio;
+document.getElementById('location').innerHTML = '<i class="fa fa-map-marker-alt"></i> ' + config.location;
+if (config.bgVideo) document.getElementById('bg-video').src = config.bgVideo;
+if (config.bgAudio) {document.getElementById('bg-audio').src = config.bgAudio;document.getElementById('bg-audio').style.display = "block";}
+
+/* --------- SOCIAL ICONS --------- */
+let socials = [...config.socials];
+function renderSocials() {
+    const div = document.getElementById('socials');
+    div.innerHTML = "";
+    socials.forEach((s, idx) => {
+        const a = document.createElement('a');
+        a.href = s.url; a.target = "_blank";
+        a.innerHTML = `<i class="fab ${s.icon}"></i>`;
+        // Remove button
+        a.title = "Open Link";
+        div.appendChild(a);
+    });
+}
+renderSocials();
+
+/* --------- DISCORD STATUS --------- */
+// Fetches status from [lanyard](https://api.lanyard.rest/v1/users/...)
+if (config.discordUserId) {
+    document.getElementById('discord-status').style.display = '';
+    fetchDiscordStatus(config.discordUserId);
+}
+function fetchDiscordStatus(id) {
+    fetch(`https://api.lanyard.rest/v1/users/${id}`)
+    .then(r=>r.json()).then(json=>{
+        if (json.success && json.data) {
+            let status = json.data.discord_status || 'offline';
+            let username = json.data.discord_user.username + '#' + json.data.discord_user.discriminator;
+            let dot = document.getElementById('status-dot');
+            document.getElementById('discord-username').textContent = username;
+            dot.className = 'status-dot status-' + (status==='online'?'online':status==='idle'?'idle':status==='dnd'?'dnd':'offline');
+            dot.title = status.charAt(0).toUpperCase() + status.slice(1);
+        }
+    }).catch(()=>{});
+}
+
+/* --------- ANIMATIONS/ENTRY --------- */
+const overlay = document.getElementById('click-overlay');
+overlay.addEventListener('click', () => {
+    overlay.style.opacity = '0';
+    setTimeout(() => overlay.style.display = 'none', 500);
+    document.getElementById('main-content').classList.add('visible');
+    if (config.bgAudio) setTimeout(() => document.getElementById('bg-audio').play(), 200);
+});
+
+/* --------- FILE UPLOADS --------- */
+function readFileToUrl(file, callback) {
+    const reader = new FileReader();
+    reader.onload = e => callback(e.target.result);
+    reader.readAsDataURL(file);
+}
+document.getElementById('avatar-upload').addEventListener('change', e=>{
+    let file = e.target.files[0];
+    if (file) {
+        readFileToUrl(file, url=>{
+            document.getElementById('avatar').src = url;
+            localStorage.setItem('avatar', url);
+        });
+    }
+});
+document.querySelector('.avatar-edit').onclick = ()=>document.getElementById('avatar-upload').click();
+
+document.getElementById('video-upload').addEventListener('change', e=>{
+    let file = e.target.files[0];
+    if (file) {
+        readFileToUrl(file, url=>{
+            document.getElementById('bg-video').src = url;
+            localStorage.setItem('bgVideo', url);
+        });
+    }
+});
+document.getElementById('audio-upload').addEventListener('change', e=>{
+    let file = e.target.files[0];
+    if (file) {
+        readFileToUrl(file, url=>{
+            document.getElementById('bg-audio').src = url;
+            document.getElementById('bg-audio').style.display = "block";
+            localStorage.setItem('bgAudio', url);
+        });
+    }
+});
+// Restore last session (if file was uploaded)
+window.onload = function(){
+    if (localStorage.getItem('avatar')) document.getElementById('avatar').src = localStorage.getItem('avatar');
+    if (localStorage.getItem('bgVideo')) document.getElementById('bg-video').src = localStorage.getItem('bgVideo');
+    if (localStorage.getItem('bgAudio')) {
+        document.getElementById('bg-audio').src = localStorage.getItem('bgAudio');
+        document.getElementById('bg-audio').style.display = "block";
+    }
+}
+
+/* --------- ADD SOCIAL LINK --------- */
+function showLinkInput() {
+    document.getElementById('link-modal').style.display = 'flex';
+    document.getElementById('link-form').reset();
+    document.getElementById('link-preview').style.display = 'none';
+}
+function hideLinkInput() {
+    document.getElementById('link-modal').style.display = 'none';
+}
+document.getElementById('link-url').oninput = function() {
+    let val = this.value, icon = document.getElementById('link-icon').value;
+    let label = icon.charAt(0).toUpperCase() + icon.slice(1).replace('fa-','');
+    if (val) {
+        document.getElementById('link-preview').style.display = 'inline-flex';
+        document.getElementById('link-preview').innerHTML = `<i class="fab ${icon}"></i> ${label} <span style="margin-left:10px;color:#aaa;font-size:.93em;">${val.replace(/^https?:\/\//,'')}</span>`;
+    } else {
+        document.getElementById('link-preview').style.display = 'none';
+    }
+};
+document.getElementById('link-icon').onchange = document.getElementById('link-url').oninput;
+function addSocialLink() {
+    let url = document.getElementById('link-url').value;
+    let icon = document.getElementById('link-icon').value;
+    if (url && icon) {
+        socials.push({icon, url});
+        renderSocials();
+        hideLinkInput();
+    }
+    return false;
+}
+</script>
+</body>
 </html>
