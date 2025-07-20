@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>ValFX | Custom Profile Landing</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="My animated, customizable profile page!">
+    <meta name="description" content="ValFX's profile card with Discord status, animated snow, and custom video background.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         html, body {
@@ -104,9 +104,6 @@
             box-shadow:0 2px 6px #7858ff55;
             margin-left:2px;
             margin-bottom: 2px;
-        }
-        .desc {
-            margin-top: .5rem;
         }
         .profile-fields {
             display: flex;
@@ -226,8 +223,8 @@
 <script>
 const config = {
     pageTitle: "ValFX | Custom Profile Landing",
-    nickname: "ValFX |",
-    bio: "Why you loo|",
+    nickname: "ValFX",
+    bio: "",
     location: "At Fluxy",
     avatar: "https://i.imgur.com/RcN7BL1.png",
     diamondIcon: '<i class="fa-solid fa-gem"></i>',
@@ -240,18 +237,13 @@ const config = {
         { icon: '<img src="https://cryptologos.cc/logos/litecoin-ltc-logo.png" style="width:28px;height:28px;">', url: "#" },
         { icon: '<img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" style="width:28px;height:28px;">', url: "#" },
         { icon: '<img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" style="width:28px;height:28px;">', url: "#" },
-        { icon: '<img src="https://cdn-icons-png.flaticon.com/512/732/732221.png" style="width:28px;height:28px;">', url: "#" }, // F icon, replace with your own
+        { icon: '<img src="https://cdn-icons-png.flaticon.com/512/732/732221.png" style="width:28px;height:28px;">', url: "#" },
         { icon: '<i class="fa-brands fa-paypal"></i>', url: "#" },
         { icon: '<i class="fa-brands fa-discord"></i>', url: "#" }
     ]
 };
-// Page title
 document.title = config.pageTitle;
-
-// Avatar
 document.getElementById('avatar').src = config.avatar;
-
-// Socials (hardcoded, custom icons)
 const socialsDiv = document.getElementById('socials');
 config.socialIcons.forEach(link => {
     const a = document.createElement('a');
@@ -260,8 +252,6 @@ config.socialIcons.forEach(link => {
     a.innerHTML = link.icon;
     socialsDiv.appendChild(a);
 });
-
-// Typewriter for nickname and bio
 function typeWriter(element, html, speed, cb) {
     element.innerHTML = '';
     let i = 0;
@@ -283,12 +273,10 @@ function typeWriter(element, html, speed, cb) {
     }
     typing();
 }
-// Show typewriter title and bio on click
 document.getElementById('click-overlay').addEventListener('click', () => {
     document.getElementById('click-overlay').style.opacity = '0';
     setTimeout(() => document.getElementById('click-overlay').style.display = 'none', 500);
     document.getElementById('main-content').classList.add('visible');
-    // Show video/audio only after click
     let video = document.getElementById('bg-video');
     let audio = document.getElementById('bg-audio');
     video.currentTime = 0;
@@ -299,17 +287,11 @@ document.getElementById('click-overlay').addEventListener('click', () => {
         audio.currentTime = 0;
         audio.play();
     }
-    // Typewriter animation
-    typeWriter(document.getElementById('nickname'), config.nickname, 80, ()=>{
-        typeWriter(document.getElementById('bio'), config.bio, 38);
-    });
+    typeWriter(document.getElementById('nickname'), config.nickname, 80);
 });
-
-// Initial state, show diamond, location, but only typewriter nickname and bio
 document.querySelector('.diamond').innerHTML = config.diamondIcon;
-document.getElementById('bio').innerHTML = ""; // Will show on click
+document.getElementById('bio').innerHTML = "";
 document.getElementById('location').innerHTML = '<i class="fa fa-map-marker-alt"></i> ' + config.location;
-
 // Discord badge (shows always, live presence)
 function showDiscordBadge(data) {
     let statusIcon = {
@@ -342,7 +324,6 @@ function fetchDiscordStatus(id) {
     }).catch(()=>{ showDiscordBadge({status:"offline"}); });
 }
 fetchDiscordStatus(config.discordUserId);
-
 // Snow (slower, soft)
 const canvas = document.getElementById('snow-canvas');
 let ctx = canvas.getContext('2d');
