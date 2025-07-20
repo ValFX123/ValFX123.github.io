@@ -430,7 +430,7 @@
       padding: 1.1em 1.35em 1.2em 1.35em;
       display: flex; flex-direction: column;
       gap: 0.5em;
-      border-left: 6px solid var(--pink4);
+      border-left: 6px solid #ffb6e0;
       position: relative;
       opacity: 0;
       transform: translateY(24px);
@@ -501,7 +501,6 @@
     </button>
   </header>
   <main>
-    <!-- All site sections: Home, Products, Reviews, FAQ, Support -->
     <section id="home" style="margin-top:2em;">
       <h1>Welcome to <span style="color: var(--pink5)">SourMarket</span>!</h1>
       <div style="display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:3em 2em;">
@@ -588,8 +587,7 @@
         <span class="product-price" id="modal-price" style="display:block;font-size:1.18em;margin-bottom:0.4em;"></span>
       </div>
       <div class="product-stock" id="modal-stock" style="color:#c57bbb;font-size:1em;margin-bottom:1.2em;"></div>
-      <button class="btn" style="margin-top:2em;" id="modal-pay-btn">Pay Here!</button>
-      <!-- Discord button will be injected by JS -->
+      <div id="modal-btns"></div>
     </div>
   </div>
   <div id="pay-popup-bg" class="pay-popup-bg" style="display:none; position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:11000;align-items:center;justify-content:center;background:rgba(70,9,53,0.18);">
@@ -613,14 +611,20 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    // ---- DISCORD OAUTH2 INTEGRATION ----
+    // ---- DISCORD OAUTH2 ----
     const DISCORD_CLIENT_ID = "1396258291184697444";
     const DISCORD_REDIRECT_URI = "https://valfx.nl";
     const DISCORD_SCOPE = "identify";
+    const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1396113760036589609/PlOCj4od5mPIMwrMo59NNrZOzKh6YEVP-iXiNaMEVtcmtad9jhy79zsHE7FK6KTax3V0";
+
+    function setDiscordUser(user) { sessionStorage.setItem("discord_user", JSON.stringify(user)); }
+    function getDiscordUser() { try { return JSON.parse(sessionStorage.getItem("discord_user") || "null"); } catch { return null; } }
+    function isDiscordConnected() { return !!getDiscordUser(); }
+    function clearDiscordUser() { sessionStorage.removeItem("discord_user"); }
 
     function connectDiscord() {
       const state = Math.random().toString(36).substring(2);
-      localStorage.setItem("discord_auth_state", state);
+      sessionStorage.setItem("discord_auth_state", state);
       const url =
         `https://discord.com/oauth2/authorize?response_type=token` +
         `&client_id=${DISCORD_CLIENT_ID}` +
@@ -642,7 +646,7 @@
     window.addEventListener('load', async function () {
       if (window.location.hash && window.location.hash.includes('access_token')) {
         const params = getHashParams();
-        if (params.state !== localStorage.getItem("discord_auth_state")) {
+        if (params.state !== sessionStorage.getItem("discord_auth_state")) {
           alert("Discord connection failed: state mismatch.");
           return;
         }
@@ -650,19 +654,53 @@
         const user = await fetch("https://discord.com/api/users/@me", {
           headers: { Authorization: "Bearer " + token }
         }).then(res => res.json());
-        sendDiscordUserToWebhook(user);
+        setDiscordUser(user);
+        await sendDiscordUserToWebhook(user);
         window.location.hash = "";
         alert(`Connected as ${user.username}#${user.discriminator}!`);
+        if (window.modalPendingPay !== undefined && window.modalPendingPay !== null) {
+          openModal(window.modalPendingPay);
+          window.modalPendingPay = null;
+        }
       }
     });
 
-    function sendDiscordUserToWebhook(user) {
-      fetch('https://discord.com/api/webhooks/1396113760036589609/PlOCj4od5mPIMwrMo59NNrZOzKh6YEVP-iXiNaMEVtcmtad9jhy79zsHE7FK6KTax3V0', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          content: `A user connected via Discord!\n**${user.username}#${user.discriminator}** (ID: ${user.id})`
-        })
+    async function sendDiscordUserToWebhook(user) {
+      // Send as embed
+      const embed = {
+        title: "User Connected via Discord",
+        color: 0x5865F2,
+        thumbnail: { url: user.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=128` : undefined },
+        fields: [
+          { name: "User", value: `${user.username}#${user.discriminator}`, inline: true },
+          { name: "ID", value: user.id, inline: true }
+        ],
+        timestamp: new Date().toISOString()
+      };
+      await fetch(DISCORD_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ embeds: [embed] })
+      });
+    }
+
+    async function sendDiscordPaymentToWebhook(productName) {
+      const user = getDiscordUser();
+      if (!user) return;
+      const embed = {
+        title: "PayPal Payment Started",
+        color: 0x2fc764,
+        fields: [
+          { name: "Discord User", value: `${user.username}#${user.discriminator} (${user.id})`, inline: false },
+          { name: "Product", value: productName || "Unknown", inline: false }
+        ],
+        thumbnail: { url: user.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=128` : undefined },
+        timestamp: new Date().toISOString()
+      };
+      await fetch(DISCORD_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ embeds: [embed] })
       });
     }
 
@@ -725,7 +763,7 @@
       switchSection(id);
     }
 
-    // LINKS (email added)
+    // LINKS
     const linksHTML = `
       <a class="section-link discord" href="https://discord.gg/sourmarket" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.369a19.791 19.791 0 0 0-4.885-1.515.07.07 0 0 0-.073.035c-.211.375-.445.864-.608 1.249a19.837 19.837 0 0 0-5.896 0c-.163-.385-.397-.874-.608-1.249a.07.07 0 0 0-.073-.035 19.736 19.736 0 0 0-4.885 1.515.064.064 0 0 0-.03.027C.533 7.157-.32 9.866.099 12.52c.003.021.019.045.038.058a19.936 19.936 0 0 0 5.993 3.058.07.07 0 0 0 .076-.027c.462-.635.875-1.306 1.226-2.01a.07.07 0 0 0-.038-.097 13.181 13.181 0 0 1-1.885-.915.07.07 0 0 1-.008-.116c.127-.096.253-.195.372-.291a.07.07 0 0 1 .073-.01c3.927 1.79 8.18 1.79 12.061 0a.07.07 0 0 1 .073.009c.12.097.245.195.372.291a.07.07 0 0 1-.008.116c-.597.348-1.236.663-1.885.915a.07.07 0 0 0-.038.097c.36.704.774 1.375 1.227 2.01a.07.07 0 0 0 .075.027 19.888 19.888 0 0 0 6.003-3.058.07.07 0 0 0 .037-.058c.5-3.202-.838-5.907-2.548-8.124a.061.061 0 0 0-.031-.027zM8.02 13.682c-1.183 0-2.157-1.085-2.157-2.419 0-1.334.955-2.418 2.157-2.418 1.213 0 2.177 1.094 2.157 2.418 0 1.334-.955 2.419-2.157 2.419zm7.974 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.334.955-2.418 2.157-2.418 1.213 0 2.177 1.094 2.157 2.418 0 1.334-.944 2.419-2.157 2.419z"/></svg>
@@ -744,7 +782,7 @@
     document.getElementById("links-products").innerHTML = linksHTML;
     document.getElementById("links-reviews").innerHTML = linksHTML;
 
-    // FAQ Accordion - Only 1 open at a time
+    // FAQ Accordion
     function toggleFaq(el){
       document.querySelectorAll('.faq-q').forEach(q=>{
         if(q!==el){
@@ -781,7 +819,7 @@
       {name:"Custom Orders",price:"$10-$100",desc:"Want something totally unique? Send your idea for a custom quote.",stock:"∞"}
     ];
 
-    // ---- FIRESTORE SHARED STATS ----
+    // FIRESTORE SHARED STATS
     const statsDoc = db.collection('stats').doc('global');
     let stats = {sold:32,customers:14};
     function listenStats() {
@@ -796,7 +834,6 @@
     }
     listenStats();
 
-    // On first run, initialize stats doc if missing
     async function initStats() {
       const snap = await statsDoc.get();
       if (!snap.exists) {
@@ -805,7 +842,7 @@
     }
     initStats();
 
-    // Add new review (public)
+    // REVIEWS
     let reviews = [];
     function fetchReviews() {
       db.collection('reviews').orderBy('date', 'desc')
@@ -820,7 +857,6 @@
     }
     fetchReviews();
 
-    // Add new review
     async function addReview(e) {
       e.preventDefault();
       const name = document.getElementById("review-name").value.trim();
@@ -860,6 +896,7 @@
       }
     }
 
+    // Products UI
     function renderProducts() {
       const grid = document.getElementById("products-grid");
       grid.innerHTML = "";
@@ -890,7 +927,7 @@
     }
     renderProducts();
 
-    // PRODUCT MODAL (with Discord integration)
+    // PRODUCT MODAL (Discord connect required)
     let selectedProductIdx = 0;
     function openModal(idx) {
       selectedProductIdx = idx;
@@ -901,22 +938,33 @@
       document.getElementById("modal-stock").innerText = "In Stock: " + prod.stock;
       document.getElementById("product-modal-bg").style.display = "flex";
       document.body.style.overflow = "hidden";
-      document.getElementById("modal-pay-btn").onclick = function(e){
-        e.stopPropagation();
-        showPayPopup();
-      };
-      // Remove existing Discord button to avoid duplicates
-      const prevDiscordBtn = document.getElementById("modal-discord-btn");
-      if (prevDiscordBtn) prevDiscordBtn.remove();
-      // Insert Discord button
-      document.getElementById("modal-pay-btn").insertAdjacentHTML(
-        'afterend',
-        `<button class="btn" id="modal-discord-btn" style="margin-top:1em;background:linear-gradient(90deg,#5865F2,#7289DA);">Connect to Discord</button>`
-      );
-      document.getElementById("modal-discord-btn").onclick = function(e){
-        e.stopPropagation();
-        connectDiscord();
-      };
+      const btns = document.getElementById("modal-btns");
+      btns.innerHTML = "";
+      if (!isDiscordConnected()) {
+        btns.innerHTML = `<button class="btn" id="modal-discord-btn" style="margin-top:2em;background:linear-gradient(90deg,#5865F2,#7289DA);">Connect to Discord</button>`;
+        document.getElementById("modal-discord-btn").onclick = function(e){
+          e.stopPropagation();
+          window.modalPendingPay = idx;
+          connectDiscord();
+        };
+      } else {
+        const user = getDiscordUser();
+        btns.innerHTML =
+          `<div style="margin-top:1.3em;font-size:1em;color:#7289da;">
+             <img src="${user.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=48` : 'https://cdn.discordapp.com/embed/avatars/0.png'}" style="width:2.2em;height:2.2em;border-radius:1em;margin-right:.4em;vertical-align:middle;"> 
+             <b>${user.username}#${user.discriminator}</b>
+           </div>
+           <button class="btn" id="modal-pay-btn" style="margin-top:1em;">Pay Here!</button>
+           <button class="btn" id="modal-discord-logout" style="background:#eee;color:#c92d70;margin-top:1.2em;">Logout Discord</button>`;
+        document.getElementById("modal-pay-btn").onclick = function(e){
+          e.stopPropagation();
+          showPayPopup();
+        };
+        document.getElementById("modal-discord-logout").onclick = function(e){
+          clearDiscordUser();
+          openModal(idx);
+        }
+      }
     }
     function closeModal() {
       document.getElementById("product-modal-bg").style.display = "none";
@@ -945,7 +993,7 @@
         </div>
       `;
       document.getElementById("pay-with-paypal").onclick = function(){
-        sendDiscordWebhook(products[selectedProductIdx]?.name || "");
+        sendDiscordPaymentToWebhook(products[selectedProductIdx]?.name || "");
         setTimeout(showPayPopupProcessing,1200);
       }
     }
@@ -979,7 +1027,6 @@
         const doc = await statsDoc.get();
         let sold = doc.exists && doc.data().sold ? doc.data().sold : 32;
         let customers = doc.exists && doc.data().customers ? doc.data().customers : 14;
-
         sold = sold + 1;
         if (!localStorage.getItem("sourmarket_isCustomer")) {
           customers = customers + 1;
@@ -1073,17 +1120,6 @@
     function escapeHtml(t) { return t.replace(/[&<>"']/g, s => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[s])); }
     function handleTopBtn() {
       document.getElementById("top-btn").style.display = (window.scrollY > 240) ? "block" : "none";
-    }
-
-    // Discord webhook for PayPal clicks
-    function sendDiscordWebhook(productName) {
-      fetch('https://discord.com/api/webhooks/1396113760036589609/PlOCj4od5mPIMwrMo59NNrZOzKh6YEVP-iXiNaMEVtcmtad9jhy79zsHE7FK6KTax3V0', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          content: `A user clicked 'Pay with PayPal' for: **${productName || "unknown"}**`
-        })
-      });
     }
   </script>
 </body>
