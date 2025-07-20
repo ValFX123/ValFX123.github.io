@@ -67,227 +67,201 @@
         .profile-card {
             background: transparent;
             border-radius: 30px;
-            padding: 2.3rem 2.3rem 2rem;
-            box-shadow:0 8px 42px #1119,0 0 0 2.5px rgba(95,89,255,0.10);
+            padding: 0;
             text-align:center;
-            min-width:320px;max-width:96vw;
+            min-width:340px;max-width:98vw;
             position:relative;
             animation: cardPop .92s cubic-bezier(.49,1.4,.34,1.0);
             border: none;
-            transition: box-shadow .32s, background .22s;
-            margin-top: 5px;
+            margin-top: 0;
+            box-shadow:none;
         }
-        .profile-card::before { display: none; }
         .avatar-wrap {
             position:relative; display:inline-block; margin-bottom:1.1rem; z-index:1;
+            margin-top: 8px;
         }
         .avatar {
-            width:108px; height:108px; border-radius:50%; object-fit:cover; background:#222;
-            border:3.2px solid #715aff; box-shadow:0 4px 26px #000b;
+            width:120px; height:120px; border-radius:50%; object-fit:cover; background:#222;
+            border:4px solid #fff; box-shadow:0 0 18px #b58fff, 0 0 0 6px #715aff55;
             margin-bottom:0;
-            margin-top:-12px;
-            transition:box-shadow .32s, border-color .23s;
         }
-        .avatar:hover { box-shadow:0 0 0 8px #715aff33; }
-        .avatar-edit {display:none;}
-        .profile-fields {margin-bottom:1.1rem;}
         .nickname {
-            font-size:2.15rem; font-weight:900;
+            font-size:2.2rem; font-weight:900;
             letter-spacing: .01em;
-            min-height: 2.4rem;
+            min-height: 2.6rem;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: .6rem;
         }
-        .tagline {
-            font-size:1.07rem; color:#8ea3ff;margin-bottom:.5rem;letter-spacing:1px;
-            margin-top: -.3rem;
+        .nickname .diamond {
+            display:inline-block;
+            background:linear-gradient(145deg, #b197fc 50%, #7858ff 100%);
+            color:#fff; border-radius:50%;
+            width:28px;height:28px;line-height:28px;
+            font-size:1.25rem; font-weight:600;
+            box-shadow:0 2px 6px #7858ff55;
+            margin-left:2px;
+            margin-bottom: 2px;
         }
-        .status-dot {
-            display:inline-block; width:15px; height:15px; border-radius:50%; margin-right:7px; vertical-align:middle;
-            background:#888; border:2px solid #232344;
-            transition:background .3s;
+        .desc {
+            margin-top: .5rem;
         }
-        .status-online {background:#43b581;}
-        .status-idle {background:#faa61a;}
-        .status-dnd {background:#f04747;}
-        .status-offline {background:#747f8d;}
-        .bio, .location {
-            margin-top:.5rem; opacity:.91; font-size:1.07rem;
-            min-height: 3.2rem;
+        .profile-fields {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: .2rem;
         }
-        .bio {margin-bottom:.35rem;}
+        .typewriter {
+            min-height: 1.9em;
+            display: inline-block;
+        }
+        .bio {
+            margin-top: 1.1rem;
+            margin-bottom: .7rem;
+            font-size: 1.12rem;
+            opacity: .95;
+            font-weight: 500;
+        }
+        .location {
+            font-size:1.08rem;
+            color:#fff;
+            margin-bottom: .7rem;
+            opacity: .86;
+        }
+        .discord-badge-box {
+            margin: 1.3rem auto 1rem;
+            max-width: 400px;
+        }
+        .discord-badge-inner {
+            display:flex;align-items:center;gap:13px;background:rgba(30,30,38,0.89);border-radius:17px;padding:10px 21px 10px 13px;box-shadow:0 2px 20px #0005;backdrop-filter:blur(9px);
+        }
+        .discord-badge-inner img {
+            width:46px;height:46px;border-radius:50%;border:2.5px solid #222;object-fit:cover;
+        }
+        .discord-badge-text {
+            flex:1;text-align:left;line-height:1.21;
+        }
+        .discord-badge-username {
+            font-weight:700;font-size:1.11rem;color:#fff;
+            letter-spacing: .01em;
+        }
+        .discord-badge-icons {
+            display:inline-block;font-size:.97rem;margin-left:3px;
+        }
+        .discord-badge-status {
+            margin-top:3px;font-size:.99rem;color:#fff;opacity:0.92;
+        }
+        .discord-badge-status-dot {
+            display:inline-block;width:15px;height:15px;border-radius:50%;margin-right:5px;vertical-align:middle;
+        }
+        .discord-badge-vouches {
+            background: #fff1; border-radius:7px; margin-left:10px; padding:2.3px 7.5px; font-size:.98em; opacity:.87;
+            font-weight: 500;
+            color:#f3f3f3;
+        }
         .socials {
-            display:flex;justify-content:center;gap:1.25rem;margin:1.33rem 0 1.09rem 0;
+            display:flex;justify-content:center;gap:1.23rem;margin:1.67rem 0 0.65rem 0;
         }
         .socials a {
-            padding:.62rem; border-radius:50%; background:rgba(90,100,170,0.19);
+            padding:.65rem; border-radius:50%; background:rgba(90,100,170,0.19);
             color:#fff; font-size:1.41rem; transition:background .18s, transform .18s, color .18s;
             display:inline-flex; align-items:center; justify-content:center;
-            border:2px solid rgba(130,130,255,0.10);
+            border:2px solid rgba(130,130,255,0.09);
             position:relative;
             box-shadow: 0 1px 7px #0003;
         }
         .socials a:hover {background:#6c63ffcc; color:#fff; transform:scale(1.15);}
-        .add-link-btn {
-            background:none; border:none; color:#adadff; cursor:pointer;
-            margin:0 0 .5rem 0;
-            font-size:1rem; font-weight:500;
-            letter-spacing:.02em; transition:color .2s;
-            text-shadow: 0 2px 12px #0007;
+        .view-count {
+            font-size: 1.05rem;
+            opacity: .77;
+            margin: 10px 0 0 0;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            justify-content: center;
+            letter-spacing: .05em;
         }
-        .add-link-btn:hover {color:#fff;text-shadow:0 0 8px #6c63ffb8;}
-        /* Volume slider styles */
-        .volume-container {
-            position: fixed;
-            left: 40px; bottom: 38px;
-            z-index: 12;
-            background: rgba(30,36,46,0.64);
-            border-radius: 20px;
-            padding: 10px 18px 10px 13px;
-            display: flex; align-items: center;
-            box-shadow: 0 6px 32px #0005;
-            backdrop-filter: blur(12px);
-            min-width: 170px;
-            gap: 9px;
-            transition: background .2s;
-            user-select: none;
+        .fa-eye {
+            color: #fff;
+            opacity: .84;
         }
-        .volume-container:hover { background: rgba(42,52,70,0.77);}
-        .volume-icon {
-            color: #fff; font-size: 1.3rem; margin-right: 2px;
-            opacity: 0.85;
-        }
-        .volume-slider {
-            -webkit-appearance: none;
-            width: 115px; height: 5px;
-            background: rgba(255,255,255,0.25);
-            outline: none;
-            border-radius: 5px;
-            margin: 0 8px;
-        }
-        .volume-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 26px; height: 26px;
-            border-radius: 50%;
-            background: url('https://i.imgur.com/6bZ7PZl.png') no-repeat center/contain, #fff;
-            border: 2.5px solid #fff;
-            box-shadow: 0 2px 12px #0006;
-            cursor: pointer;
-            margin-top: -11px;
-            transition: border-color .15s;
-        }
-        .volume-slider::-moz-range-thumb {
-            width: 26px; height: 26px;
-            border-radius: 50%;
-            background: url('https://i.imgur.com/6bZ7PZl.png') no-repeat center/contain, #fff;
-            border: 2.5px solid #fff;
-            box-shadow: 0 2px 12px #0006;
-            cursor: pointer;
-            transition: border-color .15s;
-        }
-        .volume-slider::-ms-thumb {
-            width: 26px; height: 26px;
-            border-radius: 50%;
-            background: url('https://i.imgur.com/6bZ7PZl.png') no-repeat center/contain, #fff;
-            border: 2.5px solid #fff;
-            box-shadow: 0 2px 12px #0006;
-            cursor: pointer;
-            transition: border-color .15s;
-        }
-        .volume-slider:focus { outline: none; }
-        .volume-slider::-webkit-slider-runnable-track { height: 5px; border-radius: 5px; }
-        .volume-slider::-ms-fill-lower, .volume-slider::-ms-fill-upper { background: transparent; }
         @media (max-width:600px) {
             .profile-card {padding:1rem;}
-            .nickname {font-size:1.13rem;}
+            .nickname {font-size:1.15rem;}
             .avatar {width:67px;height:67px;}
-            .volume-container { left: 5vw; bottom: 13vw; padding: 7px 7vw 7px 4vw; min-width: 100px;}
-            .volume-slider { width: 60vw;}
         }
     </style>
 </head>
 <body>
-<!-- Use your own CDN/image/audio/video URLs! -->
 <video id="bg-video" autoplay loop muted playsinline>
-    <source src="https://files.catbox.moe/7mef5z.mp4" type="video/mp4">
+    <source src="https://files.catbox.moe/3k7o6v.mp4" type="video/mp4">
 </video>
 <div id="bg-overlay"></div>
 <canvas id="snow-canvas"></canvas>
 <audio id="bg-audio" loop preload="auto" style="display:none">
-    <source src="https://files.catbox.moe/xk8jgd.mp3" type="audio/mp3">
+    <source src="https://files.catbox.moe/g3gzxr.mp3" type="audio/mp3">
 </audio>
 <div id="click-overlay">Click Anywhere</div>
 <div id="main-content">
     <div class="profile-card">
         <div class="avatar-wrap">
-            <img src="https://i.imgur.com/6WvyX4b.jpg" class="avatar" id="avatar" alt="Avatar">
+            <img src="https://i.imgur.com/RcN7BL1.png" class="avatar" id="avatar" alt="Avatar">
+        </div>
+        <div class="nickname" id="nickname"></div>
+        <div class="desc">
+            <span class="diamond"><i class="fa-solid fa-gem"></i></span>
         </div>
         <div class="profile-fields">
-            <div class="nickname" id="nickname"></div>
-            <div class="tagline" id="tagline">@fluxy</div>
-            <div class="discord-status" id="discord-status" style="display:none;">
-                <span class="status-dot" id="status-dot"></span>
-                <span id="discord-username"></span>
-            </div>
             <div class="bio" id="bio"></div>
-            <div class="location" id="location"><i class="fa fa-map-marker-alt"></i> London, UK</div>
+            <div class="location" id="location"><i class="fa fa-map-marker-alt"></i> At Fluxy</div>
         </div>
+        <div class="discord-badge-box" id="discord-badge"></div>
         <div class="socials" id="socials"></div>
-        <button class="add-link-btn" onclick="showLinkInput()">+ Add Social Link</button>
-        <!-- Discord Badge Example -->
-        <div id="discord-badge" style="margin:0 auto;max-width:310px;"></div>
-    </div>
-</div>
-<!-- Volume Control UI -->
-<div class="volume-container" id="volume-container" style="display:none;">
-    <span class="volume-icon"><i class="fa fa-volume-up"></i></span>
-    <input type="range" min="0" max="1" step="0.01" class="volume-slider" id="volume-slider" value="0.4">
-</div>
-<!-- Link Add Modal -->
-<div id="link-modal" style="display:none;position:fixed;z-index:10;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,.79);align-items:center;justify-content:center;">
-    <div style="background:#232344;padding:1.6rem 1rem;border-radius:15px;box-shadow:0 6px 30px #000b;min-width:320px;text-align:center;position:relative;">
-        <button style="position:absolute;top:10px;right:18px;background:none;border:none;color:#fff;font-size:1.4rem;cursor:pointer" onclick="hideLinkInput()"><i class="fa fa-times"></i></button>
-        <h3>Add Social/Profile Link</h3>
-        <form id="link-form" onsubmit="return addSocialLink();">
-            <input id="link-url" type="url" required placeholder="Profile Link (https://...)" style="width:80%;padding:.5rem;margin-bottom:1rem;border-radius:7px;border:1px solid #bbb;"><br>
-            <select id="link-icon" style="width:80%;padding:.5rem;margin-bottom:.9rem;border-radius:7px;border:1px solid #bbb;">
-                <option value="fa-discord">Discord</option>
-                <option value="fa-twitter">Twitter</option>
-                <option value="fa-telegram">Telegram</option>
-                <option value="fa-github">GitHub</option>
-                <option value="fa-youtube">YouTube</option>
-                <option value="fa-instagram">Instagram</option>
-                <option value="fa-link">Other</option>
-            </select><br>
-            <button style="margin-top:.2rem;padding:.5rem 1.2rem;background:#715aff;border:none;border-radius:8px;color:#fff;font-weight:600;font-size:1rem;cursor:pointer;" type="submit">Add Link</button>
-        </form>
-        <div id="link-preview" class="preview-link" style="margin-top:1rem;display:none;"></div>
+        <div class="view-count"><i class="fa fa-eye"></i> <span>227</span></div>
     </div>
 </div>
 <script>
-/* ---------------- CONFIG ---------------- */
 const config = {
     pageTitle: "ValFX | Custom Profile Landing",
-    pageDescription: "My animated, customizable profile page!",
-    avatar: "https://i.imgur.com/RcN7BL1.png",
     nickname: "ValFX |",
-    tagline: "@fluxy",
-    bio: "Why yo<br>🌟 Fluxy Team <br>🚀 Always Building.",
-    location: "London, UK",
+    bio: "Why you loo|",
+    location: "At Fluxy",
+    avatar: "https://i.imgur.com/RcN7BL1.png",
+    diamondIcon: '<i class="fa-solid fa-gem"></i>',
     discordUserId: "867556448338313237",
     discordUsername: "val0123",
     discordVouches: "600+ Vouches",
-    socials: [
-        { icon: "fa-discord", url: "https://discord.com/users/867556448338313237" },
-        { icon: "fa-twitter", url: "https://twitter.com/yourhandle" },
-        { icon: "fa-telegram", url: "https://t.me/youruser" },
-        { icon: "fa-github", url: "https://github.com/youruser" }
-    ],
-    bgVideo: "https://files.catbox.moe/3k7o6v.mp4", // <-- Use your CDN/mp4 url here
-    bgAudio: "https://files.catbox.moe/g3gzxr.mp3"  // <-- Use your CDN/mp3 url here
+    bgVideo: "https://files.catbox.moe/3k7o6v.mp4",
+    bgAudio: "https://files.catbox.moe/g3gzxr.mp3",
+    socialIcons: [
+        { icon: '<img src="https://cryptologos.cc/logos/litecoin-ltc-logo.png" style="width:28px;height:28px;">', url: "#" },
+        { icon: '<img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" style="width:28px;height:28px;">', url: "#" },
+        { icon: '<img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" style="width:28px;height:28px;">', url: "#" },
+        { icon: '<img src="https://cdn-icons-png.flaticon.com/512/732/732221.png" style="width:28px;height:28px;">', url: "#" }, // F icon, replace with your own
+        { icon: '<i class="fa-brands fa-paypal"></i>', url: "#" },
+        { icon: '<i class="fa-brands fa-discord"></i>', url: "#" }
+    ]
 };
-/* ------------- END CONFIG --------------- */
+// Page title
+document.title = config.pageTitle;
 
-/* --------- TYPEWRITER ANIMATION --------- */
+// Avatar
+document.getElementById('avatar').src = config.avatar;
+
+// Socials (hardcoded, custom icons)
+const socialsDiv = document.getElementById('socials');
+config.socialIcons.forEach(link => {
+    const a = document.createElement('a');
+    a.href = link.url;
+    a.target = "_blank";
+    a.innerHTML = link.icon;
+    socialsDiv.appendChild(a);
+});
+
+// Typewriter for nickname and bio
 function typeWriter(element, html, speed, cb) {
     element.innerHTML = '';
     let i = 0;
@@ -309,51 +283,48 @@ function typeWriter(element, html, speed, cb) {
     }
     typing();
 }
+// Show typewriter title and bio on click
+document.getElementById('click-overlay').addEventListener('click', () => {
+    document.getElementById('click-overlay').style.opacity = '0';
+    setTimeout(() => document.getElementById('click-overlay').style.display = 'none', 500);
+    document.getElementById('main-content').classList.add('visible');
+    // Show video/audio only after click
+    let video = document.getElementById('bg-video');
+    let audio = document.getElementById('bg-audio');
+    video.currentTime = 0;
+    video.style.display = "";
+    video.play();
+    if (audio.src) {
+        audio.volume = 0.4;
+        audio.currentTime = 0;
+        audio.play();
+    }
+    // Typewriter animation
+    typeWriter(document.getElementById('nickname'), config.nickname, 80, ()=>{
+        typeWriter(document.getElementById('bio'), config.bio, 38);
+    });
+});
 
-/* ---- INIT PROFILE ---- */
-document.title = config.pageTitle;
-document.getElementById('tagline').textContent = config.tagline;
-document.getElementById('avatar').src = config.avatar;
+// Initial state, show diamond, location, but only typewriter nickname and bio
+document.querySelector('.diamond').innerHTML = config.diamondIcon;
+document.getElementById('bio').innerHTML = ""; // Will show on click
 document.getElementById('location').innerHTML = '<i class="fa fa-map-marker-alt"></i> ' + config.location;
 
-document.getElementById('bg-video').src = config.bgVideo;
-if (config.bgAudio) {
-    document.getElementById('bg-audio').src = config.bgAudio;
-    document.getElementById('bg-audio').style.display = "block";
-}
-/* --------- SOCIAL ICONS --------- */
-let socials = [...config.socials];
-function renderSocials() {
-    const div = document.getElementById('socials');
-    div.innerHTML = "";
-    socials.forEach((s, idx) => {
-        const a = document.createElement('a');
-        a.href = s.url; a.target = "_blank";
-        a.innerHTML = `<i class="fab ${s.icon}"></i>`;
-        a.title = "Open Link";
-        div.appendChild(a);
-    });
-}
-renderSocials();
-
-/* --------- DISCORD PRESENCE & BADGE --------- */
+// Discord badge (shows always, live presence)
 function showDiscordBadge(data) {
-    // Roles, badges, and icons could be added here!
     let statusIcon = {
         online: "#43b581", idle: "#faa61a", dnd: "#f04747", offline: "#747f8d"
     }[data.status] || "#888";
-    // For extra badges, update here or use SVG/images.
     let badgeHTML = `
-        <div style="display:flex;align-items:center;gap:12px;background:rgba(30,30,38,0.93);border-radius:16px;padding:10px 18px 10px 11px;box-shadow:0 2px 20px #0005;backdrop-filter:blur(8px);margin-top:25px;">
-            <img src="${config.avatar}" alt="avatar" style="width:45px;height:45px;border-radius:50%;border:2.5px solid #222;object-fit:cover;">
-            <div style="flex:1;text-align:left;">
-                <span style="font-weight:700;font-size:1.1rem;color:#fff;">${config.discordUsername} <span style="font-size:.9rem;color:#aaf;"><i class="fa fa-check-circle"></i></span></span>
-                <div style="margin-top:2px;font-size:.93rem;color:#fff;opacity:0.87;">
-                    <span style="margin-right:7px;vertical-align:middle;">
-                        <span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:${statusIcon};margin-right:3px;vertical-align:middle;"></span>
-                        ${data.status[0].toUpperCase() + data.status.slice(1)}
-                    </span>
-                    <span style="margin-left:6px;opacity:0.7;"><i class="fa fa-badge-check"></i> ${config.discordVouches}</span>
+        <div class="discord-badge-inner">
+            <img src="${config.avatar}" alt="avatar">
+            <div class="discord-badge-text">
+                <span class="discord-badge-username">${config.discordUsername}</span>
+                <span class="discord-badge-icons"><i class="fa fa-check-circle"></i></span>
+                <div class="discord-badge-status">
+                    <span class="discord-badge-status-dot" style="background:${statusIcon}"></span>
+                    ${data.status[0].toUpperCase() + data.status.slice(1)}
+                    <span class="discord-badge-vouches"><i class="fa fa-badge-check"></i> ${config.discordVouches}</span>
                 </div>
             </div>
         </div>
@@ -367,80 +338,12 @@ function fetchDiscordStatus(id) {
         if (json.success && json.data) {
             status = json.data.discord_status || 'offline';
         }
-        // Show Discord badge
         showDiscordBadge({ status: status });
-        // Show status under nickname as well:
-        let dot = document.getElementById('status-dot');
-        document.getElementById('discord-status').style.display = '';
-        document.getElementById('discord-username').textContent = config.discordUsername;
-        dot.className = 'status-dot status-' + (status==='online'?'online':status==='idle'?'idle':status==='dnd'?'dnd':'offline');
-        dot.title = status.charAt(0).toUpperCase() + status.slice(1);
-    }).catch(()=>{});
+    }).catch(()=>{ showDiscordBadge({status:"offline"}); });
 }
 fetchDiscordStatus(config.discordUserId);
 
-/* --------- ANIMATIONS/ENTRY --------- */
-const overlay = document.getElementById('click-overlay');
-overlay.addEventListener('click', () => {
-    overlay.style.opacity = '0';
-    setTimeout(() => overlay.style.display = 'none', 500);
-    document.getElementById('main-content').classList.add('visible');
-    // Start video & audio
-    let video = document.getElementById('bg-video');
-    let audio = document.getElementById('bg-audio');
-    video.currentTime = 0;
-    video.style.display = "";
-    video.play();
-    if (audio.src) {
-        audio.volume = document.getElementById('volume-slider').value;
-        audio.currentTime = 0;
-        audio.play();
-        document.getElementById('volume-container').style.display = 'flex';
-    }
-    // Typewriter for title
-    typeWriter(document.getElementById('nickname'), config.nickname, 80, ()=>{
-        typeWriter(document.getElementById('bio'), config.bio, 25);
-    });
-});
-
-/* --------- VOLUME SLIDER --------- */
-const audioElem = document.getElementById('bg-audio');
-const slider = document.getElementById('volume-slider');
-slider.addEventListener('input', e=>{
-    audioElem.volume = slider.value;
-});
-/* --------- ADD SOCIAL LINK --------- */
-function showLinkInput() {
-    document.getElementById('link-modal').style.display = 'flex';
-    document.getElementById('link-form').reset();
-    document.getElementById('link-preview').style.display = 'none';
-}
-function hideLinkInput() {
-    document.getElementById('link-modal').style.display = 'none';
-}
-document.getElementById('link-url').oninput = function() {
-    let val = this.value, icon = document.getElementById('link-icon').value;
-    let label = icon.charAt(0).toUpperCase() + icon.slice(1).replace('fa-','');
-    if (val) {
-        document.getElementById('link-preview').style.display = 'inline-flex';
-        document.getElementById('link-preview').innerHTML = `<i class="fab ${icon}"></i> ${label} <span style="margin-left:10px;color:#aaa;font-size:.93em;">${val.replace(/^https?:\/\//,'')}</span>`;
-    } else {
-        document.getElementById('link-preview').style.display = 'none';
-    }
-};
-document.getElementById('link-icon').onchange = document.getElementById('link-url').oninput;
-function addSocialLink() {
-    let url = document.getElementById('link-url').value;
-    let icon = document.getElementById('link-icon').value;
-    if (url && icon) {
-        socials.push({icon, url});
-        renderSocials();
-        hideLinkInput();
-    }
-    return false;
-}
-
-/* --------- SNOW EFFECT --------- */
+// Snow (slower, soft)
 const canvas = document.getElementById('snow-canvas');
 let ctx = canvas.getContext('2d');
 let w = window.innerWidth, h = window.innerHeight;
@@ -460,10 +363,10 @@ function createSnowflakes() {
             x: Math.random()*w,
             y: Math.random()*h,
             r: 1.2 + Math.random()*2.8,
-            d: Math.random()*1.5+0.5,
+            d: Math.random()*0.8+0.2, // much slower!
             op: Math.random()*0.7+0.3,
-            vx: Math.random()*0.9-0.45,
-            vy: Math.random()*1.6+0.6,
+            vx: Math.random()*0.35-0.16,
+            vy: Math.random()*0.5+0.15
         });
     }
 }
@@ -505,11 +408,9 @@ window.addEventListener('resize', ()=>{
     resizeCanvas();
     createSnowflakes();
 });
-
-// On page load, show typewriter for title only
 window.onload = function() {
     typeWriter(document.getElementById('nickname'), config.nickname, 80);
-    document.getElementById('bio').innerHTML = ""; // Empty, reveal on click
+    document.getElementById('bio').innerHTML = "";
 };
 </script>
 </body>
