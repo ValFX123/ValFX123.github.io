@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>ValFX | Custom Profile Landing</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ValFX's profile card with Discord status, animated snow, and custom video background.">
+    <meta name="description" content="My animated, customizable profile page!">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         html, body {
@@ -15,20 +15,21 @@
         }
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
-            background: #101117;
+            background: #0a0a0c;
             min-height: 100vh;
             color: #fff;
             overflow: hidden;
         }
-        #bg-video {
+        #bg-video, #bg-overlay {
             position:fixed; top:0; left:0; width:100vw; height:100vh;
             object-fit:cover;
             z-index:0;
+        }
+        #bg-video {
+            filter: brightness(0.42) blur(1.5px);
             display: none;
-            background: #101117;
         }
         #bg-overlay {
-            position:fixed; top:0; left:0; width:100vw; height:100vh;
             background:rgba(8,12,24,0.38);
             z-index:1;
         }
@@ -83,7 +84,6 @@
             width:120px; height:120px; border-radius:50%; object-fit:cover; background:#222;
             border:4px solid #fff; box-shadow:0 0 18px #b58fff, 0 0 0 6px #715aff55;
             margin-bottom:0;
-            margin-top:0;
         }
         .nickname {
             font-size:2.2rem; font-weight:900;
@@ -105,11 +105,18 @@
             margin-left:2px;
             margin-bottom: 2px;
         }
+        .desc {
+            margin-top: .5rem;
+        }
         .profile-fields {
             display: flex;
             flex-direction: column;
             align-items: center;
             margin-bottom: .2rem;
+        }
+        .typewriter {
+            min-height: 1.9em;
+            display: inline-block;
         }
         .bio {
             margin-top: 1.1rem;
@@ -117,7 +124,6 @@
             font-size: 1.12rem;
             opacity: .95;
             font-weight: 500;
-            min-height: 1.6em;
         }
         .location {
             font-size:1.08rem;
@@ -182,35 +188,15 @@
             color: #fff;
             opacity: .84;
         }
-        /* Sound button */
-        .sound-btn {
-            position:fixed;
-            left:32px; bottom:34px; z-index:99;
-            width:60px; height:40px;
-            background:rgba(30,36,46,0.64);
-            border-radius: 22px;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 6px 32px #0005;
-            backdrop-filter: blur(12px);
-            border:none; outline:none;
-            transition:background .2s;
-            cursor:pointer; user-select:none;
-        }
-        .sound-btn:hover { background: rgba(42,52,70,0.83);}
-        .sound-btn .fa {
-            font-size:1.6rem; color:#fff; opacity:0.90;
-            transition: color .17s;
-        }
         @media (max-width:600px) {
             .profile-card {padding:1rem;}
             .nickname {font-size:1.15rem;}
             .avatar {width:67px;height:67px;}
-            .sound-btn { left:12px; bottom:18px; width:44px; height:35px;}
         }
     </style>
 </head>
 <body>
-<video id="bg-video" autoplay loop muted playsinline poster="" preload="auto">
+<video id="bg-video" autoplay loop muted playsinline>
     <source src="https://files.catbox.moe/3k7o6v.mp4" type="video/mp4">
 </video>
 <div id="bg-overlay"></div>
@@ -237,14 +223,11 @@
         <div class="view-count"><i class="fa fa-eye"></i> <span>227</span></div>
     </div>
 </div>
-<button class="sound-btn" id="sound-btn" title="Toggle Sound" style="display:none;">
-    <i class="fa fa-volume-up"></i>
-</button>
 <script>
 const config = {
     pageTitle: "ValFX | Custom Profile Landing",
-    nickname: "ValFX",
-    bio: "Why you looking",
+    nickname: "ValFX |",
+    bio: "Why you loo|",
     location: "At Fluxy",
     avatar: "https://i.imgur.com/RcN7BL1.png",
     diamondIcon: '<i class="fa-solid fa-gem"></i>',
@@ -257,13 +240,18 @@ const config = {
         { icon: '<img src="https://cryptologos.cc/logos/litecoin-ltc-logo.png" style="width:28px;height:28px;">', url: "#" },
         { icon: '<img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" style="width:28px;height:28px;">', url: "#" },
         { icon: '<img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" style="width:28px;height:28px;">', url: "#" },
-        { icon: '<img src="https://cdn-icons-png.flaticon.com/512/732/732221.png" style="width:28px;height:28px;">', url: "#" },
+        { icon: '<img src="https://cdn-icons-png.flaticon.com/512/732/732221.png" style="width:28px;height:28px;">', url: "#" }, // F icon, replace with your own
         { icon: '<i class="fa-brands fa-paypal"></i>', url: "#" },
         { icon: '<i class="fa-brands fa-discord"></i>', url: "#" }
     ]
 };
+// Page title
 document.title = config.pageTitle;
+
+// Avatar
 document.getElementById('avatar').src = config.avatar;
+
+// Socials (hardcoded, custom icons)
 const socialsDiv = document.getElementById('socials');
 config.socialIcons.forEach(link => {
     const a = document.createElement('a');
@@ -272,74 +260,56 @@ config.socialIcons.forEach(link => {
     a.innerHTML = link.icon;
     socialsDiv.appendChild(a);
 });
-// Looping typewriter for both nickname and bio
-function typeWriterLoop(element, text, speed=80, wait=3000) {
-    let state = "typing"; // typing, waiting, erasing
+
+// Typewriter for nickname and bio
+function typeWriter(element, html, speed, cb) {
+    element.innerHTML = '';
     let i = 0;
-    function loop() {
-        if(state === "typing") {
-            if(i <= text.length) {
-                element.textContent = text.slice(0,i);
+    function typing() {
+        if (i < html.length) {
+            let char = html[i];
+            if (char === '<') {
+                let end = html.indexOf('>', i);
+                element.innerHTML += html.substring(i, end+1);
+                i = end+1;
+            } else {
+                element.innerHTML += char;
                 i++;
-                setTimeout(loop, speed);
-            } else {
-                state = "waiting";
-                setTimeout(loop, wait);
             }
-        } else if(state === "waiting") {
-            state = "erasing";
-            setTimeout(loop, 420);
-        } else if(state === "erasing") {
-            if(i > 0) {
-                i--;
-                element.textContent = text.slice(0,i);
-                setTimeout(loop, 22);
-            } else {
-                state = "typing";
-                setTimeout(loop, 400);
-            }
+            setTimeout(typing, speed);
+        } else if (cb) {
+            cb();
         }
     }
-    loop();
+    typing();
 }
-// Show typewriter title and bio on click (and loop!)
+// Show typewriter title and bio on click
 document.getElementById('click-overlay').addEventListener('click', () => {
     document.getElementById('click-overlay').style.opacity = '0';
     setTimeout(() => document.getElementById('click-overlay').style.display = 'none', 500);
     document.getElementById('main-content').classList.add('visible');
-    // VIDEO
+    // Show video/audio only after click
     let video = document.getElementById('bg-video');
+    let audio = document.getElementById('bg-audio');
     video.currentTime = 0;
     video.style.display = "";
-    video.muted = false;
-    video.play().catch(()=>{});
-    // AUDIO
-    let audio = document.getElementById('bg-audio');
+    video.play();
     if (audio.src) {
         audio.volume = 0.4;
         audio.currentTime = 0;
-        audio.play().catch(()=>{});
-        document.getElementById('sound-btn').style.display = '';
+        audio.play();
     }
-    typeWriterLoop(document.getElementById('nickname'), config.nickname, 90, 3000);
-    typeWriterLoop(document.getElementById('bio'), config.bio, 48, 3000);
+    // Typewriter animation
+    typeWriter(document.getElementById('nickname'), config.nickname, 80, ()=>{
+        typeWriter(document.getElementById('bio'), config.bio, 38);
+    });
 });
-// Sound button
-const audioElem = document.getElementById('bg-audio');
-const soundBtn = document.getElementById('sound-btn');
-soundBtn.addEventListener('click', () => {
-    if(audioElem.muted || audioElem.volume === 0) {
-        audioElem.muted = false;
-        audioElem.volume = 0.4;
-        soundBtn.innerHTML = '<i class="fa fa-volume-up"></i>';
-    } else {
-        audioElem.muted = true;
-        soundBtn.innerHTML = '<i class="fa fa-volume-mute"></i>';
-    }
-});
+
+// Initial state, show diamond, location, but only typewriter nickname and bio
 document.querySelector('.diamond').innerHTML = config.diamondIcon;
-document.getElementById('bio').innerHTML = "";
+document.getElementById('bio').innerHTML = ""; // Will show on click
 document.getElementById('location').innerHTML = '<i class="fa fa-map-marker-alt"></i> ' + config.location;
+
 // Discord badge (shows always, live presence)
 function showDiscordBadge(data) {
     let statusIcon = {
@@ -372,7 +342,8 @@ function fetchDiscordStatus(id) {
     }).catch(()=>{ showDiscordBadge({status:"offline"}); });
 }
 fetchDiscordStatus(config.discordUserId);
-// Snow (slower, soft, star-like)
+
+// Snow (slower, soft)
 const canvas = document.getElementById('snow-canvas');
 let ctx = canvas.getContext('2d');
 let w = window.innerWidth, h = window.innerHeight;
@@ -391,18 +362,18 @@ function createSnowflakes() {
         snowflakes.push({
             x: Math.random()*w,
             y: Math.random()*h,
-            r: 1 + Math.random()*1.9,
-            d: Math.random()*0.7+0.22,
-            op: Math.random()*0.7+0.32,
-            vx: Math.random()*0.24-0.13,
-            vy: Math.random()*0.33+0.12
+            r: 1.2 + Math.random()*2.8,
+            d: Math.random()*0.8+0.2, // much slower!
+            op: Math.random()*0.7+0.3,
+            vx: Math.random()*0.35-0.16,
+            vy: Math.random()*0.5+0.15
         });
     }
 }
 function drawSnowflakes() {
     ctx.clearRect(0,0,w,h);
     ctx.save();
-    ctx.shadowBlur = 9;
+    ctx.shadowBlur = 7;
     ctx.shadowColor = "#fff";
     for(let flake of snowflakes) {
         ctx.globalAlpha = flake.op;
@@ -438,8 +409,8 @@ window.addEventListener('resize', ()=>{
     createSnowflakes();
 });
 window.onload = function() {
-    typeWriterLoop(document.getElementById('nickname'), config.nickname, 90, 3000);
-    typeWriterLoop(document.getElementById('bio'), config.bio, 48, 3000);
+    typeWriter(document.getElementById('nickname'), config.nickname, 80);
+    document.getElementById('bio').innerHTML = "";
 };
 </script>
 </body>
