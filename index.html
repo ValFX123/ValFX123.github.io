@@ -193,6 +193,12 @@
       background: #fff1; border-radius:7px; margin-left:10px; padding:2.3px 7.5px; font-size:.98em; opacity:.87;
       font-weight: 500; color:#f3f3f3; display:inline-block;
     }
+    .discord-activity {
+      display:inline-flex; align-items:center; gap:7px; margin-top:6px; font-size:1.06em;
+      color:#98b3fc; background:rgba(40,40,55,0.23); padding: 2px 13px; border-radius:10px;
+      border:1px solid rgba(130,130,255,0.12);
+      box-shadow:0 1px 7px #0003;
+    }
     .socials {
       display:flex;justify-content:center;gap:1.18rem;margin:1.7rem 0 0.67rem 0;
     }
@@ -347,11 +353,36 @@ function typeWriterLoop(element, text, speed=82, wait=2300) {
   }
   loop();
 }
-// Discord presence badge
+
+// Discord presence badge WITH more info (activity, listening, streaming, custom status)
 function showDiscordBadge(data) {
   let statusIcon = {
     online: "#43b581", idle: "#faa61a", dnd: "#f04747", offline: "#747f8d"
   }[data.status] || "#888";
+  let activitiesHTML = "";
+  if (data.activities && data.activities.length) {
+    data.activities.forEach(act => {
+      // Lanyard returns .type_text for text, or fallbacks for .name (e.g. Spotify)
+      let type = act.type_text || "";
+      let details = "";
+      if(type === "Listening") {
+        details = `<b>Listening:</b> ${act.details ? act.details + " — " : ""}${act.state||""}`;
+      } else if(type === "Playing" || type === "Streaming" || type === "Competing" || type === "Watching") {
+        details = `<b>${type}:</b> ${act.name||""} ${act.details ? "- " + act.details : ""}`;
+      } else if(type === "Custom") {
+        details = `<b>Status:</b> ${act.state||""}`;
+      }
+      if(details)
+        activitiesHTML += `<div class="discord-activity"><i class="fa ${{
+          "Playing":"fa-gamepad",
+          "Streaming":"fa-video",
+          "Listening":"fa-headphones",
+          "Watching":"fa-eye",
+          "Competing":"fa-trophy",
+          "Custom":"fa-pen"
+        }[type]||"fa-asterisk"}"></i> ${details}</div>`;
+    });
+  }
   let badgeHTML = `
     <div class="discord-badge-inner">
       <img src="${config.avatar}" alt="avatar">
@@ -363,6 +394,7 @@ function showDiscordBadge(data) {
           ${data.status[0].toUpperCase() + data.status.slice(1)}
           <span class="discord-badge-vouches"><i class="fa fa-badge-check"></i> ${config.discordVouches}</span>
         </div>
+        ${activitiesHTML}
       </div>
     </div>
   `;
@@ -372,9 +404,13 @@ function fetchDiscordStatus(id) {
   fetch(`https://api.lanyard.rest/v1/users/${id}`)
   .then(r=>r.json()).then(json=>{
     let status = "offline";
-    if (json.success && json.data) status = json.data.discord_status || 'offline';
-    showDiscordBadge({ status: status });
-  }).catch(()=>{ showDiscordBadge({status:"offline"}); });
+    let activities = [];
+    if (json.success && json.data) {
+      status = json.data.discord_status || 'offline';
+      activities = json.data.activities||[];
+    }
+    showDiscordBadge({ status: status, activities: activities });
+  }).catch(()=>{ showDiscordBadge({status:"offline", activities:[]}); });
 }
 fetchDiscordStatus(config.discordUserId);
 
@@ -429,20 +465,20 @@ function snowLoop() {
 resizeCanvas(); createSnowflakes(); snowLoop();
 window.addEventListener('resize', ()=>{resizeCanvas();createSnowflakes();});
 
-// Main click: fade overlay, start video/audio, typewriters, show sound button
+// Main click: fade overlay, start video (always muted), start audio (user's mp3), show sound button, typewriters
 document.getElementById('click-overlay').addEventListener('click', () => {
   document.getElementById('click-overlay').style.opacity = '0';
   setTimeout(() => document.getElementById('click-overlay').style.display = 'none', 500);
   document.getElementById('main-content').classList.add('visible');
-  // Video
+  // Video: always muted (even if sound button toggled)
   let video = document.getElementById('bg-video');
-  video.currentTime = 0; video.style.display = ""; video.muted = false;
+  video.currentTime = 0; video.style.display = ""; video.muted = true;
   video.classList.add('visible');
   video.play().catch(()=>{});
-  // Audio
+  // Audio: mp3 only, user controlled
   let audio = document.getElementById('bg-audio');
   if (audio.src) {
-    audio.volume = 0.4; audio.currentTime = 0;
+    audio.volume = 0.4; audio.currentTime = 0; audio.muted = false;
     audio.play().catch(()=>{});
     document.getElementById('sound-btn').style.display = '';
   }
@@ -450,20 +486,17 @@ document.getElementById('click-overlay').addEventListener('click', () => {
   typeWriterLoop(document.getElementById('nickname'), config.nickname, 85, 3000);
   typeWriterLoop(document.getElementById('bio'), config.bio, 42, 3000);
 });
-// Sound button (controls both video and audio)
+// Sound button (controls only audio)
 const audioElem = document.getElementById('bg-audio');
 const videoElem = document.getElementById('bg-video');
 const soundBtn = document.getElementById('sound-btn');
 soundBtn.addEventListener('click', () => {
-  let muted = audioElem.muted || audioElem.volume === 0;
-  if(muted) {
+  if(audioElem.muted || audioElem.volume === 0) {
     audioElem.muted = false;
-    videoElem.muted = false;
     audioElem.volume = 0.45;
     soundBtn.innerHTML = '<i class="fa fa-volume-up"></i>';
   } else {
     audioElem.muted = true;
-    videoElem.muted = true;
     soundBtn.innerHTML = '<i class="fa fa-volume-mute"></i>';
   }
 });
