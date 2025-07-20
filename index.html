@@ -224,7 +224,7 @@
 const config = {
     pageTitle: "ValFX | Custom Profile Landing",
     nickname: "ValFX",
-    bio: "",
+    bio: "Why you looking",
     location: "At Fluxy",
     avatar: "https://i.imgur.com/RcN7BL1.png",
     diamondIcon: '<i class="fa-solid fa-gem"></i>',
@@ -252,27 +252,39 @@ config.socialIcons.forEach(link => {
     a.innerHTML = link.icon;
     socialsDiv.appendChild(a);
 });
-function typeWriter(element, html, speed, cb) {
-    element.innerHTML = '';
+
+// Looping typewriter
+function typeWriterLoop(element, text, speed=80, wait=3000) {
+    let typing = true;
     let i = 0;
-    function typing() {
-        if (i < html.length) {
-            let char = html[i];
-            if (char === '<') {
-                let end = html.indexOf('>', i);
-                element.innerHTML += html.substring(i, end+1);
-                i = end+1;
-            } else {
-                element.innerHTML += char;
-                i++;
-            }
-            setTimeout(typing, speed);
-        } else if (cb) {
-            cb();
+    function type() {
+        if (typing && i <= text.length) {
+            element.innerHTML = text.slice(0, i);
+            i++;
+            setTimeout(type, speed);
+        } else if (typing) {
+            setTimeout(() => {
+                typing = false;
+                i = text.length;
+                erase();
+            }, wait);
         }
     }
-    typing();
+    function erase() {
+        if (!typing && i >= 0) {
+            element.innerHTML = text.slice(0, i);
+            i--;
+            setTimeout(erase, 32);
+        } else if (!typing) {
+            typing = true;
+            i = 0;
+            setTimeout(type, 340);
+        }
+    }
+    type();
 }
+
+// Show typewriter title and bio on click (and loop!)
 document.getElementById('click-overlay').addEventListener('click', () => {
     document.getElementById('click-overlay').style.opacity = '0';
     setTimeout(() => document.getElementById('click-overlay').style.display = 'none', 500);
@@ -281,17 +293,20 @@ document.getElementById('click-overlay').addEventListener('click', () => {
     let audio = document.getElementById('bg-audio');
     video.currentTime = 0;
     video.style.display = "";
-    video.play();
+    video.muted = false;
+    video.play().catch(()=>{});
     if (audio.src) {
         audio.volume = 0.4;
         audio.currentTime = 0;
-        audio.play();
+        audio.play().catch(()=>{});
     }
-    typeWriter(document.getElementById('nickname'), config.nickname, 80);
+    typeWriterLoop(document.getElementById('nickname'), config.nickname, 85, 3000);
+    typeWriterLoop(document.getElementById('bio'), config.bio, 40, 3000);
 });
 document.querySelector('.diamond').innerHTML = config.diamondIcon;
 document.getElementById('bio').innerHTML = "";
 document.getElementById('location').innerHTML = '<i class="fa fa-map-marker-alt"></i> ' + config.location;
+
 // Discord badge (shows always, live presence)
 function showDiscordBadge(data) {
     let statusIcon = {
@@ -390,8 +405,9 @@ window.addEventListener('resize', ()=>{
     createSnowflakes();
 });
 window.onload = function() {
-    typeWriter(document.getElementById('nickname'), config.nickname, 80);
-    document.getElementById('bio').innerHTML = "";
+    // Typewriter idle preview on page load (optional)
+    typeWriterLoop(document.getElementById('nickname'), config.nickname, 85, 3000);
+    typeWriterLoop(document.getElementById('bio'), config.bio, 40, 3000);
 };
 </script>
 </body>
