@@ -1,510 +1,795 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>ValFX | Custom Profile Landing</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="ValFX's interactive animated profile card with Discord, video, sound, and effects.">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="ValFX's interactive animated profile card with Discord, video, sound, and effects." />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+  />
   <style>
     :root {
       --primary: #715aff;
       --accent: #b197fc;
       --glow: #b58fff;
       --dark-bg: #101117;
-      --badge-bg: rgba(30,30,38,0.89);
+      --badge-bg: rgba(30, 30, 38, 0.89);
       --card-radius: 30px;
       --card-max: 420px;
     }
-    html, body {
+    html,
+    body {
       height: 100%;
-      margin: 0; padding: 0; box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
       background: var(--dark-bg);
       min-height: 100vh;
       color: #fff;
       overflow: hidden;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    #bg-video, #bg-overlay {
-      position:fixed; top:0; left:0; width:100vw; height:100vh;
-      object-fit:cover; z-index:0; background: var(--dark-bg);
+    #bg-video,
+    #bg-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: 0;
+      background: var(--dark-bg);
       pointer-events: none;
     }
     #bg-video {
       filter: brightness(0.44) blur(1.3px);
       display: none;
-      transition: opacity .9s cubic-bezier(.63,0,1,1);
+      transition: opacity 0.9s cubic-bezier(0.63, 0, 1, 1);
+      /* Always muted */
+      mute: true;
     }
-    #bg-video.visible { display: block; opacity:1;}
+    #bg-video.visible {
+      display: block;
+      opacity: 1;
+    }
     #bg-overlay {
-      background:rgba(8,12,24,0.33);
-      z-index:1;
-      pointer-events:none;
+      background: rgba(8, 12, 24, 0.33);
+      z-index: 1;
+      pointer-events: none;
     }
     #snow-canvas {
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      pointer-events: none; z-index: 2;
-      background:transparent;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 2;
+      background: transparent;
     }
     #click-overlay {
-      position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:3;
-      background:rgba(0,0,0,0.87);
-      display:flex;align-items:center;justify-content:center;
-      font-size:2.2rem;font-weight:bold;cursor:pointer;user-select:none;
-      transition:opacity .5s;
-      animation: fadeIn .9s cubic-bezier(.39,1.24,.47,.99);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 3;
+      background: rgba(0, 0, 0, 0.87);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      user-select: none;
+      transition: opacity 0.5s;
+      animation: fadeIn 0.9s cubic-bezier(0.39, 1.24, 0.47, 0.99);
     }
     #main-content {
-      z-index: 4; position:fixed; left:0; top:0; width:100vw; height:100vh;
-      display:flex; align-items:center; justify-content:center;
-      opacity:0; pointer-events:none; transition:opacity 1s;
+      z-index: 4;
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s;
     }
     #main-content.visible {
-      opacity:1; pointer-events:auto;
-      animation: fadeInBg .8s cubic-bezier(.43,1.36,.38,.97);
+      opacity: 1;
+      pointer-events: auto;
+      animation: fadeInBg 0.8s cubic-bezier(0.43, 1.36, 0.38, 0.97);
     }
-    @keyframes fadeIn {0%{opacity:0;} 100%{opacity:1;}}
-    @keyframes fadeInBg {0%{opacity:0;transform:scale(.93);} 100%{opacity:1;transform:scale(1);}}
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    @keyframes fadeInBg {
+      0% {
+        opacity: 0;
+        transform: scale(0.93);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
     @keyframes cardPop {
-      0%{ transform: scale(0.94) translateY(60px); opacity: 0;}
-      70%{ transform: scale(1.05) translateY(-8px);}
-      100%{ transform: scale(1) translateY(0); opacity: 1;}
+      0% {
+        transform: scale(0.94) translateY(60px);
+        opacity: 0;
+      }
+      70% {
+        transform: scale(1.05) translateY(-8px);
+      }
+      100% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+      }
     }
     .profile-card {
       background: transparent;
       border-radius: var(--card-radius);
       padding: 0;
-      text-align:center;
-      min-width:320px; max-width: var(--card-max);
-      position:relative;
-      animation: cardPop .92s cubic-bezier(.49,1.4,.34,1.0);
+      text-align: center;
+      min-width: 320px;
+      max-width: var(--card-max);
+      position: relative;
+      animation: cardPop 0.92s cubic-bezier(0.49, 1.4, 0.34, 1.0);
       border: none;
       margin: 0 auto;
       box-shadow: none;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       justify-content: center;
     }
     .avatar-wrap {
-      position:relative;
-      display:inline-block;
-      margin-bottom:1.1rem;
+      position: relative;
+      display: inline-block;
+      margin-bottom: 1.1rem;
       margin-top: 8px;
-      z-index:1;
+      z-index: 1;
       background: transparent;
     }
     .avatar-border {
       position: absolute;
-      left: 50%; top: 50%;
-      width: 138px; height: 138px;
-      transform: translate(-50%,-50%);
+      left: 50%;
+      top: 50%;
+      width: 138px;
+      height: 138px;
+      transform: translate(-50%, -50%);
       border-radius: 50%;
-      pointer-events:none;
-      z-index:0;
+      pointer-events: none;
+      z-index: 0;
       box-shadow: 0 0 44px 16px var(--glow), 0 0 0 6px var(--primary);
       opacity: 0.56;
       animation: borderGlow 3s infinite alternate;
       filter: blur(1.1px);
     }
     @keyframes borderGlow {
-      0% { box-shadow: 0 0 44px 16px var(--glow), 0 0 0 6px var(--primary);}
-      100% { box-shadow: 0 0 75px 28px var(--primary), 0 0 0 13px var(--glow);}
+      0% {
+        box-shadow: 0 0 44px 16px var(--glow), 0 0 0 6px var(--primary);
+      }
+      100% {
+        box-shadow: 0 0 75px 28px var(--primary), 0 0 0 13px var(--glow);
+      }
     }
     .avatar {
-      width:120px; height:120px; border-radius:50%; object-fit:cover;
-      border:4px solid #fff; box-shadow:0 0 18px var(--glow), 0 0 0 6px var(--primary);
-      position:relative;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #fff;
+      box-shadow: 0 0 18px var(--glow), 0 0 0 6px var(--primary);
+      position: relative;
       background: #222;
-      z-index:1;
-      transition:box-shadow .25s;
+      z-index: 1;
+      transition: box-shadow 0.25s;
     }
-    .avatar:hover { box-shadow:0 0 44px 20px var(--primary);}
+    .avatar:hover {
+      box-shadow: 0 0 44px 20px var(--primary);
+    }
     .nickname {
-      font-size:2.28rem; font-weight:900;
-      letter-spacing: .01em;
+      font-size: 2.28rem;
+      font-weight: 900;
+      letter-spacing: 0.01em;
       min-height: 2.6rem;
       margin-top: 1.1rem;
-      display: flex; align-items: center; justify-content: center; gap: .56rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.56rem;
       text-shadow: 0 4px 28px #0009;
     }
     .nickname .diamond {
-      display:inline-block;
-      background:linear-gradient(145deg, var(--accent) 50%, var(--primary) 100%);
-      color:#fff; border-radius:50%;
-      width:28px;height:28px;line-height:28px;
-      font-size:1.21rem; font-weight:600;
-      box-shadow:0 2px 6px var(--primary);
-      margin-left:2px; margin-bottom: 2px;
-      border:2px solid #fff3;
-      text-align:center;
+      display: inline-block;
+      background: linear-gradient(145deg, var(--accent) 50%, var(--primary) 100%);
+      color: #fff;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      line-height: 28px;
+      font-size: 1.21rem;
+      font-weight: 600;
+      box-shadow: 0 2px 6px var(--primary);
+      margin-left: 2px;
+      margin-bottom: 2px;
+      border: 2px solid #fff3;
+      text-align: center;
       filter: drop-shadow(0 0 9px #7858ffcc);
       animation: borderGlow 2.6s infinite alternate;
     }
     .profile-fields {
-      display: flex; flex-direction: column; align-items: center; margin-bottom: .2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 0.2rem;
     }
     .bio {
       margin-top: 1.08rem;
-      margin-bottom: .72rem;
+      margin-bottom: 0.72rem;
       font-size: 1.16rem;
-      opacity: .95;
+      opacity: 0.95;
       font-weight: 500;
       min-height: 1.65em;
-      letter-spacing: .01em;
-      text-shadow:0 3px 12px #0005;
+      letter-spacing: 0.01em;
+      text-shadow: 0 3px 12px #0005;
     }
     .location {
-      font-size:1.08rem;
-      color:#fff;
-      margin-bottom: .7rem;
-      opacity: .86;
+      font-size: 1.08rem;
+      color: #fff;
+      margin-bottom: 0.7rem;
+      opacity: 0.86;
     }
     .discord-badge-box {
       margin: 1.3rem auto 1rem;
       max-width: 420px;
       width: 100%;
-      display:flex;justify-content:center;
+      display: flex;
+      justify-content: center;
     }
     .discord-badge-inner {
-      display:flex;align-items:center;gap:13px;background:var(--badge-bg);border-radius:17px;padding:10px 21px 10px 13px;box-shadow:0 2px 20px #0005;backdrop-filter:blur(9px);
-      min-width:280px; max-width:420px;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      background: var(--badge-bg);
+      border-radius: 17px;
+      padding: 10px 21px 10px 13px;
+      box-shadow: 0 2px 20px #0005;
+      backdrop-filter: blur(9px);
+      min-width: 280px;
+      max-width: 420px;
       border: 1.5px solid #28244a;
     }
     .discord-badge-inner img {
-      width:46px;height:46px;border-radius:50%;border:2.5px solid #222;object-fit:cover;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: 2.5px solid #222;
+      object-fit: cover;
     }
     .discord-badge-text {
-      flex:1;text-align:left;line-height:1.21;
+      flex: 1;
+      text-align: left;
+      line-height: 1.21;
     }
     .discord-badge-username {
-      font-weight:700;font-size:1.11rem;color:#fff;
-      letter-spacing: .01em;
+      font-weight: 700;
+      font-size: 1.11rem;
+      color: #fff;
+      letter-spacing: 0.01em;
     }
     .discord-badge-icons {
-      display:inline-block;font-size:.97rem;margin-left:3px;
+      display: inline-block;
+      font-size: 0.97rem;
+      margin-left: 3px;
     }
     .discord-badge-status {
-      margin-top:3px;font-size:.99rem;color:#fff;opacity:0.92;display:inline-block;
+      margin-top: 3px;
+      font-size: 0.99rem;
+      color: #fff;
+      opacity: 0.92;
+      display: inline-block;
     }
     .discord-badge-status-dot {
-      display:inline-block;width:15px;height:15px;border-radius:50%;margin-right:5px;vertical-align:middle;
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      margin-right: 5px;
+      vertical-align: middle;
     }
     .discord-badge-vouches {
-      background: #fff1; border-radius:7px; margin-left:10px; padding:2.3px 7.5px; font-size:.98em; opacity:.87;
-      font-weight: 500; color:#f3f3f3; display:inline-block;
-    }
-    .discord-activity {
-      display:inline-flex; align-items:center; gap:7px; margin-top:6px; font-size:1.06em;
-      color:#98b3fc; background:rgba(40,40,55,0.23); padding: 2px 13px; border-radius:10px;
-      border:1px solid rgba(130,130,255,0.12);
-      box-shadow:0 1px 7px #0003;
+      background: #fff1;
+      border-radius: 7px;
+      margin-left: 10px;
+      padding: 2.3px 7.5px;
+      font-size: 0.98em;
+      opacity: 0.87;
+      font-weight: 500;
+      color: #f3f3f3;
+      display: inline-block;
     }
     .socials {
-      display:flex;justify-content:center;gap:1.18rem;margin:1.7rem 0 0.67rem 0;
+      display: flex;
+      justify-content: center;
+      gap: 1.18rem;
+      margin: 1.7rem 0 0.67rem 0;
     }
     .socials a {
-      padding:.64rem; border-radius:50%; background:rgba(90,100,170,0.19);
-      color:#fff; font-size:1.45rem; transition:background .18s, transform .18s, color .18s;
-      display:inline-flex; align-items:center; justify-content:center;
-      border:2px solid rgba(130,130,255,0.09);
-      position:relative;
+      padding: 0.64rem;
+      border-radius: 50%;
+      background: rgba(90, 100, 170, 0.19);
+      color: #fff;
+      font-size: 1.45rem;
+      transition: background 0.18s, transform 0.18s, color 0.18s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid rgba(130, 130, 255, 0.09);
+      position: relative;
       box-shadow: 0 1px 7px #0003;
-      min-width: 42px; min-height: 42px;
+      min-width: 42px;
+      min-height: 42px;
     }
-    .socials a:hover {background:#6c63ffcc; color:#fff; transform:scale(1.15);}
+    .socials a:hover {
+      background: #6c63ffcc;
+      color: #fff;
+      transform: scale(1.15);
+    }
     .view-count {
       font-size: 1.05rem;
-      opacity: .77;
+      opacity: 0.77;
       margin: 10px 0 0 0;
       display: flex;
       align-items: center;
       gap: 7px;
       justify-content: center;
-      letter-spacing: .05em;
+      letter-spacing: 0.05em;
     }
     .fa-eye {
       color: #fff;
-      opacity: .84;
+      opacity: 0.84;
     }
     /* Sound button */
     .sound-btn {
-      position:fixed;
-      left:32px; bottom:34px; z-index:99;
-      width:62px; height:44px;
-      background:rgba(30,36,46,0.67);
+      position: fixed;
+      left: 32px;
+      bottom: 34px;
+      z-index: 9999;
+      width: 62px;
+      height: 44px;
+      background: rgba(30, 36, 46, 0.85);
       border-radius: 22px;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 6px 32px #0005;
-      backdrop-filter: blur(12px);
-      border:none; outline:none;
-      transition:background .2s;
-      cursor:pointer; user-select:none;
-      font-size:1.7rem;
-      animation: fadeInBg .7s .8s backwards;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 32px #0008;
+      backdrop-filter: blur(14px);
+      border: none;
+      outline: none;
+      transition: background 0.25s;
+      cursor: pointer;
+      user-select: none;
+      font-size: 1.7rem;
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      animation: fadeInBg 0.7s 0.8s backwards;
     }
-    .sound-btn:hover { background: rgba(42,52,70,0.83);}
+    .sound-btn:hover {
+      background: rgba(42, 52, 70, 0.95);
+    }
     .sound-btn .fa {
-      font-size:1.7rem; color:#fff; opacity:0.90;
-      transition: color .17s, filter .17s;
+      font-size: 1.7rem;
+      color: #fff;
+      opacity: 0.9;
+      transition: color 0.17s, filter 0.17s;
       filter: drop-shadow(0 2px 12px #0007);
     }
-    .sound-btn .fa-volume-mute {color:#ff9191;}
-    @media (max-width:650px) {
-      .profile-card {padding:1rem;}
-      .nickname {font-size:1.15rem;}
-      .avatar, .avatar-border {width:68px;height:68px;}
-      .sound-btn { left:12px; bottom:18px; width:44px; height:35px;}
-      .discord-badge-inner img {width:32px;height:32px;}
+    .sound-btn .fa-volume-mute {
+      color: #ff9191;
+    }
+    @media (max-width: 650px) {
+      .profile-card {
+        padding: 1rem;
+      }
+      .nickname {
+        font-size: 1.15rem;
+      }
+      .avatar,
+      .avatar-border {
+        width: 68px;
+        height: 68px;
+      }
+      .sound-btn {
+        left: 12px;
+        bottom: 18px;
+        width: 44px;
+        height: 35px;
+      }
+      .discord-badge-inner img {
+        width: 32px;
+        height: 32px;
+      }
     }
   </style>
 </head>
 <body>
-<video id="bg-video" autoplay loop muted playsinline poster="" preload="auto">
-  <source src="https://files.catbox.moe/3k7o6v.mp4" type="video/mp4">
-</video>
-<div id="bg-overlay"></div>
-<canvas id="snow-canvas"></canvas>
-<audio id="bg-audio" loop preload="auto" style="display:none">
-  <source src="https://files.catbox.moe/g3gzxr.mp3" type="audio/mp3">
-</audio>
-<div id="click-overlay">Click Anywhere</div>
-<div id="main-content">
-  <div class="profile-card">
-    <div class="avatar-wrap">
-      <div class="avatar-border"></div>
-      <img src="https://i.imgur.com/RcN7BL1.png" class="avatar" id="avatar" alt="Avatar">
-    </div>
-    <div class="nickname" id="nickname"></div>
-    <div class="desc">
-      <span class="diamond"><i class="fa-solid fa-gem"></i></span>
-    </div>
-    <div class="profile-fields">
-      <div class="bio" id="bio"></div>
-      <div class="location" id="location"><i class="fa fa-map-marker-alt"></i> At Fluxy</div>
-    </div>
-    <div class="discord-badge-box" id="discord-badge"></div>
-    <div class="socials" id="socials"></div>
-    <div class="view-count"><i class="fa fa-eye"></i> <span>227</span></div>
-  </div>
-</div>
-<button class="sound-btn" id="sound-btn" title="Toggle Sound" style="display:none;">
-  <i class="fa fa-volume-up"></i>
-</button>
-<script>
-const config = {
-  pageTitle: "ValFX | Custom Profile Landing",
-  nickname: "ValFX",
-  bio: "Why you looking",
-  location: "At Fluxy",
-  avatar: "https://i.imgur.com/RcN7BL1.png",
-  diamondIcon: '<i class="fa-solid fa-gem"></i>',
-  discordUserId: "867556448338313237",
-  discordUsername: "val0123",
-  discordVouches: "600+ Vouches",
-  bgVideo: "https://files.catbox.moe/3k7o6v.mp4",
-  bgAudio: "https://files.catbox.moe/g3gzxr.mp3",
-  socialIcons: [
-    { icon: '<img src="https://cryptologos.cc/logos/litecoin-ltc-logo.png" style="width:28px;height:28px;">', url: "#" },
-    { icon: '<img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" style="width:28px;height:28px;">', url: "#" },
-    { icon: '<img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" style="width:28px;height:28px;">', url: "#" },
-    { icon: '<img src="https://cdn-icons-png.flaticon.com/512/732/732221.png" style="width:28px;height:28px;">', url: "#" },
-    { icon: '<i class="fa-brands fa-paypal"></i>', url: "#" },
-    { icon: '<i class="fa-brands fa-discord"></i>', url: "#" }
-  ]
-};
-document.title = config.pageTitle;
-document.getElementById('avatar').src = config.avatar;
-document.querySelector('.diamond').innerHTML = config.diamondIcon;
-document.getElementById('location').innerHTML = '<i class="fa fa-map-marker-alt"></i> ' + config.location;
-const socialsDiv = document.getElementById('socials');
-config.socialIcons.forEach(link => {
-  const a = document.createElement('a');
-  a.href = link.url; a.target = "_blank"; a.innerHTML = link.icon;
-  socialsDiv.appendChild(a);
-});
-
-// Typewriter: smooth, no bugs, infinite loop, clean erasing, waits
-function typeWriterLoop(element, text, speed=82, wait=2300) {
-  let state = "typing";
-  let i = 0;
-  function loop() {
-    if(state === "typing") {
-      if(i <= text.length) {
-        element.textContent = text.slice(0,i);
-        i++;
-        setTimeout(loop, speed);
-      } else {
-        state = "waiting";
-        setTimeout(loop, wait);
-      }
-    } else if(state === "waiting") {
-      state = "erasing";
-      setTimeout(loop, 360);
-    } else if(state === "erasing") {
-      if(i > 0) {
-        i--;
-        element.textContent = text.slice(0,i);
-        setTimeout(loop, 24);
-      } else {
-        state = "typing";
-        setTimeout(loop, 300);
-      }
-    }
-  }
-  loop();
-}
-
-// Discord presence badge WITH more info (activity, listening, streaming, custom status)
-function showDiscordBadge(data) {
-  let statusIcon = {
-    online: "#43b581", idle: "#faa61a", dnd: "#f04747", offline: "#747f8d"
-  }[data.status] || "#888";
-  let activitiesHTML = "";
-  if (data.activities && data.activities.length) {
-    data.activities.forEach(act => {
-      // Lanyard returns .type_text for text, or fallbacks for .name (e.g. Spotify)
-      let type = act.type_text || "";
-      let details = "";
-      if(type === "Listening") {
-        details = `<b>Listening:</b> ${act.details ? act.details + " — " : ""}${act.state||""}`;
-      } else if(type === "Playing" || type === "Streaming" || type === "Competing" || type === "Watching") {
-        details = `<b>${type}:</b> ${act.name||""} ${act.details ? "- " + act.details : ""}`;
-      } else if(type === "Custom") {
-        details = `<b>Status:</b> ${act.state||""}`;
-      }
-      if(details)
-        activitiesHTML += `<div class="discord-activity"><i class="fa ${{
-          "Playing":"fa-gamepad",
-          "Streaming":"fa-video",
-          "Listening":"fa-headphones",
-          "Watching":"fa-eye",
-          "Competing":"fa-trophy",
-          "Custom":"fa-pen"
-        }[type]||"fa-asterisk"}"></i> ${details}</div>`;
-    });
-  }
-  let badgeHTML = `
-    <div class="discord-badge-inner">
-      <img src="${config.avatar}" alt="avatar">
-      <div class="discord-badge-text">
-        <span class="discord-badge-username">${config.discordUsername}</span>
-        <span class="discord-badge-icons"><i class="fa fa-check-circle"></i></span>
-        <div class="discord-badge-status">
-          <span class="discord-badge-status-dot" style="background:${statusIcon}"></span>
-          ${data.status[0].toUpperCase() + data.status.slice(1)}
-          <span class="discord-badge-vouches"><i class="fa fa-badge-check"></i> ${config.discordVouches}</span>
-        </div>
-        ${activitiesHTML}
+  <video
+    id="bg-video"
+    autoplay
+    loop
+    muted
+    playsinline
+    poster=""
+    preload="auto"
+  >
+    <source src="https://files.catbox.moe/3k7o6v.mp4" type="video/mp4" />
+  </video>
+  <div id="bg-overlay"></div>
+  <canvas id="snow-canvas"></canvas>
+  <audio
+    id="bg-audio"
+    loop
+    preload="auto"
+    style="display:none"
+  >
+    <source src="https://files.catbox.moe/g3gzxr.mp3" type="audio/mp3" />
+  </audio>
+  <div id="click-overlay">Click Anywhere</div>
+  <div id="main-content">
+    <div class="profile-card">
+      <div class="avatar-wrap">
+        <div class="avatar-border"></div>
+        <img
+          src="https://i.imgur.com/RcN7BL1.png"
+          class="avatar"
+          id="avatar"
+          alt="Avatar"
+        />
       </div>
+      <div class="nickname" id="nickname"></div>
+      <div class="desc">
+        <span class="diamond"><i class="fa-solid fa-gem"></i></span>
+      </div>
+      <div class="profile-fields">
+        <div class="bio" id="bio"></div>
+        <div class="location" id="location">
+          <i class="fa fa-map-marker-alt"></i> At Fluxy
+        </div>
+      </div>
+      <div class="discord-badge-box" id="discord-badge"></div>
+      <div class="socials" id="socials"></div>
+      <div class="view-count"><i class="fa fa-eye"></i> <span>227</span></div>
     </div>
-  `;
-  document.getElementById('discord-badge').innerHTML = badgeHTML;
-}
-function fetchDiscordStatus(id) {
-  fetch(`https://api.lanyard.rest/v1/users/${id}`)
-  .then(r=>r.json()).then(json=>{
-    let status = "offline";
-    let activities = [];
-    if (json.success && json.data) {
-      status = json.data.discord_status || 'offline';
-      activities = json.data.activities||[];
-    }
-    showDiscordBadge({ status: status, activities: activities });
-  }).catch(()=>{ showDiscordBadge({status:"offline", activities:[]}); });
-}
-fetchDiscordStatus(config.discordUserId);
-
-// SNOW/STARS background
-const canvas = document.getElementById('snow-canvas');
-let ctx = canvas.getContext('2d');
-let w = window.innerWidth, h = window.innerHeight;
-let snowflakes = [];
-function resizeCanvas() {
-  w = window.innerWidth; h = window.innerHeight;
-  canvas.width = w; canvas.height = h;
-}
-window.addEventListener('resize', resizeCanvas);
-function createSnowflakes() {
-  let count = Math.floor(w / 14);
-  snowflakes = [];
-  for(let i=0; i<count; i++) {
-    snowflakes.push({
-      x: Math.random()*w,
-      y: Math.random()*h,
-      r: 1 + Math.random()*1.7,
-      op: Math.random()*0.75+0.19,
-      vx: Math.random()*0.24-0.13,
-      vy: Math.random()*0.28+0.10
+  </div>
+  <button class="sound-btn" id="sound-btn" title="Toggle Sound" style="display:none;">
+    <i class="fa fa-volume-up"></i>
+  </button>
+  <script>
+    const config = {
+      pageTitle: 'ValFX | Custom Profile Landing',
+      nickname: 'ValFX',
+      bio: 'Why you looking',
+      location: 'At Fluxy',
+      avatar: 'https://i.imgur.com/RcN7BL1.png',
+      diamondIcon: '<i class="fa-solid fa-gem"></i>',
+      discordUserId: '867556448338313237',
+      discordUsername: 'val0123',
+      discordVouches: '600+ Vouches',
+      bgVideo: 'https://files.catbox.moe/3k7o6v.mp4',
+      bgAudio: 'https://files.catbox.moe/g3gzxr.mp3',
+      socialIcons: [
+        {
+          icon:
+            '<img src="https://cryptologos.cc/logos/litecoin-ltc-logo.png" style="width:28px;height:28px;">',
+          url: '#',
+        },
+        {
+          icon:
+            '<img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" style="width:28px;height:28px;">',
+          url: '#',
+        },
+        {
+          icon:
+            '<img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" style="width:28px;height:28px;">',
+          url: '#',
+        },
+        {
+          icon:
+            '<img src="https://cdn-icons-png.flaticon.com/512/732/732221.png" style="width:28px;height:28px;">',
+          url: '#',
+        },
+        { icon: '<i class="fa-brands fa-paypal"></i>', url: '#' },
+        { icon: '<i class="fa-brands fa-discord"></i>', url: '#' },
+      ],
+    };
+    document.title = config.pageTitle;
+    document.getElementById('avatar').src = config.avatar;
+    document.querySelector('.diamond').innerHTML = config.diamondIcon;
+    document.getElementById('location').innerHTML =
+      '<i class="fa fa-map-marker-alt"></i> ' + config.location;
+    const socialsDiv = document.getElementById('socials');
+    config.socialIcons.forEach((link) => {
+      const a = document.createElement('a');
+      a.href = link.url;
+      a.target = '_blank';
+      a.innerHTML = link.icon;
+      socialsDiv.appendChild(a);
     });
-  }
-}
-function drawSnowflakes() {
-  ctx.clearRect(0,0,w,h);
-  ctx.save(); ctx.shadowBlur = 8; ctx.shadowColor = "#fff";
-  for(let flake of snowflakes) {
-    ctx.globalAlpha = flake.op;
-    ctx.beginPath();
-    ctx.arc(flake.x, flake.y, flake.r, 0, Math.PI*2);
-    ctx.fillStyle = "#fff";
-    ctx.fill();
-  }
-  ctx.restore();
-}
-function moveSnowflakes() {
-  for(let flake of snowflakes) {
-    flake.x += flake.vx;
-    flake.y += flake.vy;
-    if(flake.y > h+5) {flake.x = Math.random()*w; flake.y = -5;}
-    if(flake.x < -5) flake.x = w+5;
-    if(flake.x > w+5) flake.x = -5;
-  }
-}
-function snowLoop() {
-  moveSnowflakes(); drawSnowflakes(); requestAnimationFrame(snowLoop);
-}
-resizeCanvas(); createSnowflakes(); snowLoop();
-window.addEventListener('resize', ()=>{resizeCanvas();createSnowflakes();});
 
-// Main click: fade overlay, start video (always muted), start audio (user's mp3), show sound button, typewriters
-document.getElementById('click-overlay').addEventListener('click', () => {
-  document.getElementById('click-overlay').style.opacity = '0';
-  setTimeout(() => document.getElementById('click-overlay').style.display = 'none', 500);
-  document.getElementById('main-content').classList.add('visible');
-  // Video: always muted (even if sound button toggled)
-  let video = document.getElementById('bg-video');
-  video.currentTime = 0; video.style.display = ""; video.muted = true;
-  video.classList.add('visible');
-  video.play().catch(()=>{});
-  // Audio: mp3 only, user controlled
-  let audio = document.getElementById('bg-audio');
-  if (audio.src) {
-    audio.volume = 0.4; audio.currentTime = 0; audio.muted = false;
-    audio.play().catch(()=>{});
-    document.getElementById('sound-btn').style.display = '';
-  }
-  // Typewriter
-  typeWriterLoop(document.getElementById('nickname'), config.nickname, 85, 3000);
-  typeWriterLoop(document.getElementById('bio'), config.bio, 42, 3000);
-});
-// Sound button (controls only audio)
-const audioElem = document.getElementById('bg-audio');
-const videoElem = document.getElementById('bg-video');
-const soundBtn = document.getElementById('sound-btn');
-soundBtn.addEventListener('click', () => {
-  if(audioElem.muted || audioElem.volume === 0) {
-    audioElem.muted = false;
-    audioElem.volume = 0.45;
-    soundBtn.innerHTML = '<i class="fa fa-volume-up"></i>';
-  } else {
-    audioElem.muted = true;
-    soundBtn.innerHTML = '<i class="fa fa-volume-mute"></i>';
-  }
-});
-// First show: loop previews, but muted
-window.onload = function() {
-  typeWriterLoop(document.getElementById('nickname'), config.nickname, 85, 3000);
-  typeWriterLoop(document.getElementById('bio'), config.bio, 42, 3000);
-};
-</script>
+    // Typewriter: smooth, no bugs, infinite loop, clean erasing, waits
+    function typeWriterLoop(element, text, speed = 82, wait = 2300) {
+      let state = 'typing';
+      let i = 0;
+      function loop() {
+        if (state === 'typing') {
+          if (i <= text.length) {
+            element.textContent = text.slice(0, i);
+            i++;
+            setTimeout(loop, speed);
+          } else {
+            state = 'waiting';
+            setTimeout(loop, wait);
+          }
+        } else if (state === 'waiting') {
+          state = 'erasing';
+          setTimeout(loop, 360);
+        } else if (state === 'erasing') {
+          if (i > 0) {
+            i--;
+            element.textContent = text.slice(0, i);
+            setTimeout(loop, 24);
+          } else {
+            state = 'typing';
+            setTimeout(loop, 300);
+          }
+        }
+      }
+      loop();
+    }
+    // Discord presence badge + activities + roles + custom status
+    function showDiscordBadge(data) {
+      let statusIcon = {
+        online: '#43b581',
+        idle: '#faa61a',
+        dnd: '#f04747',
+        offline: '#747f8d',
+      }[data.discord_status] || '#888';
+
+      let activityText = 'No activity';
+      if (
+        data.activities &&
+        Array.isArray(data.activities) &&
+        data.activities.length
+      ) {
+        let act = data.activities[0];
+        if (act.type === 0) {
+          activityText = act.name + (act.details ? ': ' + act.details : '');
+        } else if (act.type === 4) {
+          activityText = 'Streaming: ' + act.state;
+        } else {
+          activityText = act.name;
+        }
+      }
+
+      let customStatus = '';
+      if (data.activities) {
+        const statusActivity = data.activities.find(
+          (a) => a.type === 4 && a.name === 'Custom Status'
+        );
+        if (statusActivity && statusActivity.state) {
+          customStatus = statusActivity.state;
+        }
+      }
+
+      // Show custom roles badges if any
+      let rolesHTML = '';
+      if (data.roles && data.roles.length) {
+        rolesHTML =
+          '<div style="margin-top:6px; font-size:0.85rem; opacity:0.75; color:#aaa;">' +
+          'Roles: ' +
+          data.roles
+            .map(
+              (r) =>
+                `<span style="margin-left:6px; padding:2px 8px; border-radius:8px; background:#715aff44; font-weight:600;">${r}</span>`
+            )
+            .join(' ') +
+          '</div>';
+      }
+
+      let badgeHTML = `
+        <div class="discord-badge-inner">
+          <img src="${config.avatar}" alt="avatar" />
+          <div class="discord-badge-text">
+            <span class="discord-badge-username">${config.discordUsername}</span>
+            <span class="discord-badge-icons"><i class="fa fa-check-circle"></i></span>
+            <div class="discord-badge-status">
+              <span class="discord-badge-status-dot" style="background:${statusIcon}"></span>
+              ${data.discord_status[0].toUpperCase() + data.discord_status.slice(1)}
+              <span class="discord-badge-vouches"><i class="fa fa-badge-check"></i> ${config.discordVouches}</span>
+            </div>
+            <div style="margin-top: 4px; font-size: 0.9rem; opacity: 0.8; color: #bbb;">
+              Activity: ${activityText}
+            </div>
+            ${
+              customStatus
+                ? `<div style="margin-top: 4px; font-size: 0.85rem; opacity: 0.7; color: #9f7fff; font-style: italic;">
+              Status: ${customStatus}
+            </div>`
+                : ''
+            }
+            ${rolesHTML}
+          </div>
+        </div>
+      `;
+      document.getElementById('discord-badge').innerHTML = badgeHTML;
+    }
+    function fetchDiscordStatus(id) {
+      fetch(`https://api.lanyard.rest/v1/users/${id}`)
+        .then((r) => r.json())
+        .then((json) => {
+          if (json.success && json.data) {
+            showDiscordBadge(json.data);
+          } else {
+            showDiscordBadge({
+              discord_status: 'offline',
+              activities: [],
+              roles: [],
+            });
+          }
+        })
+        .catch(() =>
+          showDiscordBadge({
+            discord_status: 'offline',
+            activities: [],
+            roles: [],
+          })
+        );
+    }
+    fetchDiscordStatus(config.discordUserId);
+
+    // SNOW/STARS background
+    const canvas = document.getElementById('snow-canvas');
+    let ctx = canvas.getContext('2d');
+    let w = window.innerWidth,
+      h = window.innerHeight;
+    let snowflakes = [];
+    function resizeCanvas() {
+      w = window.innerWidth;
+      h = window.innerHeight;
+      canvas.width = w;
+      canvas.height = h;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    function createSnowflakes() {
+      let count = Math.floor(w / 14);
+      snowflakes = [];
+      for (let i = 0; i < count; i++) {
+        snowflakes.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          r: 1 + Math.random() * 1.7,
+          op: Math.random() * 0.75 + 0.19,
+          vx: Math.random() * 0.24 - 0.13,
+          vy: Math.random() * 0.28 + 0.10,
+        });
+      }
+    }
+    function drawSnowflakes() {
+      ctx.clearRect(0, 0, w, h);
+      ctx.save();
+      ctx.shadowBlur = 8;
+      ctx.shadowColor = '#fff';
+      for (let flake of snowflakes) {
+        ctx.globalAlpha = flake.op;
+        ctx.beginPath();
+        ctx.arc(flake.x, flake.y, flake.r, 0, Math.PI * 2);
+        ctx.fillStyle = '#fff';
+        ctx.fill();
+      }
+      ctx.restore();
+    }
+    function moveSnowflakes() {
+      for (let flake of snowflakes) {
+        flake.x += flake.vx;
+        flake.y += flake.vy;
+        if (flake.y > h + 5) {
+          flake.x = Math.random() * w;
+          flake.y = -5;
+        }
+        if (flake.x < -5) flake.x = w + 5;
+        if (flake.x > w + 5) flake.x = -5;
+      }
+    }
+    function snowLoop() {
+      moveSnowflakes();
+      drawSnowflakes();
+      requestAnimationFrame(snowLoop);
+    }
+    resizeCanvas();
+    createSnowflakes();
+    snowLoop();
+    window.addEventListener('resize', () => {
+      resizeCanvas();
+      createSnowflakes();
+    });
+
+    // Main click: fade overlay, start video/audio, typewriters, show sound button
+    document
+      .getElementById('click-overlay')
+      .addEventListener('click', () => {
+        const overlay = document.getElementById('click-overlay');
+        overlay.style.opacity = '0';
+        setTimeout(() => (overlay.style.display = 'none'), 500);
+        const mainContent = document.getElementById('main-content');
+        mainContent.classList.add('visible');
+        // Video - muted always
+        let video = document.getElementById('bg-video');
+        video.currentTime = 0;
+        video.style.display = '';
+        video.muted = true; // force muted
+        video.classList.add('visible');
+        video.play().catch(() => {});
+        // Audio - your MP3 sound
+        let audio = document.getElementById('bg-audio');
+        if (audio.src) {
+          audio.volume = 0.4;
+          audio.currentTime = 0;
+          audio.play().catch(() => {});
+          // Show sound button
+          const soundBtn = document.getElementById('sound-btn');
+          soundBtn.style.display = 'flex';
+          soundBtn.style.opacity = '1';
+          soundBtn.style.pointerEvents = 'auto';
+        }
+        // Typewriter animations for title and bio
+        typeWriterLoop(
+          document.getElementById('nickname'),
+          config.nickname,
+          85,
+          3000
+        );
+        typeWriterLoop(document.getElementById('bio'), config.bio, 42, 3000);
+      });
+
+    // Sound button controls only MP3 audio, toggles mute
+    const audioElem = document.getElementById('bg-audio');
+    const videoElem = document.getElementById('bg-video');
+    const soundBtn = document.getElementById('sound-btn');
+    soundBtn.addEventListener('click', () => {
+      let muted = audioElem.muted || audioElem.volume === 0;
+      if (muted) {
+        audioElem.muted = false;
+        audioElem.volume = 0.45;
+        soundBtn.innerHTML = '<i class="fa fa-volume-up"></i>';
+      } else {
+        audioElem.muted = true;
+        soundBtn.innerHTML = '<i class="fa fa-volume-mute"></i>';
+      }
+    });
+
+    // On load, show typewriter previews (muted, no video or audio)
+    window.onload = function () {
+      typeWriterLoop(
+        document.getElementById('nickname'),
+        config.nickname,
+        85,
+        3000
+      );
+      typeWriterLoop(document.getElementById('bio'), config.bio, 42, 3000);
+    };
+  </script>
 </body>
 </html>
