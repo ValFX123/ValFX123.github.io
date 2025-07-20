@@ -2,17 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title id="page-title">ValFX | Custom Profile Landing</title>
+    <title>ValFX | Custom Profile Landing</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="My animated, customizable profile page!">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
-        html, body {height:100%;margin:0;padding:0;box-sizing:border-box;}
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
-            background: #111;
-            color: #fff;
+            background: #0a0a0c;
             min-height: 100vh;
+            color: #fff;
             overflow: hidden;
         }
         #bg-video, #bg-overlay {
@@ -20,13 +25,16 @@
             object-fit:cover;
             z-index:0;
         }
+        #bg-video {
+            filter: brightness(0.42) blur(1.5px);
+        }
         #bg-overlay {
-            background:rgba(0,0,0,0.55);
+            background:rgba(8,12,24,0.52);
             z-index:1;
         }
         #click-overlay {
             position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:2;
-            background:rgba(0,0,0,0.8);
+            background:rgba(0,0,0,0.84);
             display:flex;align-items:center;justify-content:center;
             font-size:2.2rem;font-weight:bold;cursor:pointer;user-select:none;
             transition:opacity .5s;
@@ -37,80 +45,117 @@
             display:flex; align-items:center; justify-content:center;
             opacity:0; pointer-events:none; transition:opacity 1s;
         }
-        #main-content.visible {opacity:1; pointer-events:auto; animation: fadeInScale .9s cubic-bezier(.45,1.15,.50,1.0);}
+        #main-content.visible {
+            opacity:1; pointer-events:auto;
+            animation: fadeInBg .8s cubic-bezier(.43,1.36,.38,.97);
+        }
         @keyframes fadeIn {0%{opacity:0;} 100%{opacity:1;}}
-        @keyframes fadeInScale {0%{opacity:0;transform:scale(.98);} 100%{opacity:1;transform:scale(1);}}
+        @keyframes fadeInBg {0%{opacity:0;transform:scale(.93);} 100%{opacity:1;transform:scale(1);}}
+        @keyframes cardPop {
+            0%{ transform: scale(0.94) translateY(60px); opacity: 0;}
+            70%{ transform: scale(1.05) translateY(-8px);}
+            100%{ transform: scale(1) translateY(0); opacity: 1;}
+        }
         .profile-card {
-            background: rgba(44, 48, 75, 0.29);
-            border-radius: 28px;
-            padding: 2.5rem 2rem 2rem;
-            box-shadow:0 12px 38px #0009;
+            background: rgba(38, 41, 61, 0.37);
+            border-radius: 30px;
+            padding: 2.3rem 2.3rem 2rem;
+            box-shadow:0 8px 42px #1119,0 0 0 2.5px rgba(95,89,255,0.10);
             text-align:center;
-            min-width:330px;max-width:96vw;
+            min-width:320px;max-width:96vw;
             position:relative;
-            transition:box-shadow .4s;
-            animation: fadeInScale 1.2s .2s backwards;
-            border: 1.5px solid rgba(130,130,255,0.08);
-            backdrop-filter: blur(10px);
+            animation: cardPop .92s cubic-bezier(.49,1.4,.34,1.0);
+            border: 1.5px solid rgba(130,130,255,0.14);
+            backdrop-filter: blur(16px);
+            transition: box-shadow .32s, background .22s;
+            margin-top: 5px;
+        }
+        .profile-card::before {
+            content:'';
+            display:block;
+            position:absolute;
+            inset:0;
+            border-radius:32px;
+            pointer-events:none;
+            box-shadow: 0 1px 36px 0 #715aff77 inset, 0 0px 0 0 transparent;
+            opacity:.22;
+            z-index:0;
         }
         .avatar-wrap {
-            position:relative; display:inline-block; margin-bottom:1.2rem;
+            position:relative; display:inline-block; margin-bottom:1.1rem; z-index:1;
         }
         .avatar {
-            width:110px; height:110px; border-radius:50%; object-fit:cover; background:#222;
-            border:3px solid #715aff; box-shadow:0 4px 18px #000a;
+            width:108px; height:108px; border-radius:50%; object-fit:cover; background:#222;
+            border:3.2px solid #715aff; box-shadow:0 4px 26px #000b;
+            margin-bottom:0;
+            margin-top:-12px;
+            transition:box-shadow .32s, border-color .23s;
         }
+        .avatar:hover { box-shadow:0 0 0 8px #715aff33; }
         .avatar-edit {display:none;}
-        .profile-fields {margin-bottom:1.6rem;}
-        .nickname {font-size:2.2rem; font-weight:900;}
-        .tagline {font-size:1.1rem; color:#adadff;margin-bottom:.3rem;letter-spacing:1px;}
+        .profile-fields {margin-bottom:1.1rem;}
+        .nickname {
+            font-size:2.15rem; font-weight:900;
+            letter-spacing: .01em;
+        }
+        .tagline {
+            font-size:1.07rem; color:#8ea3ff;margin-bottom:.5rem;letter-spacing:1px;
+            margin-top: -.3rem;
+        }
         .status-dot {
-            display:inline-block; width:14px; height:14px; border-radius:50%; margin-right:7px; vertical-align:middle;
-            background:#888;
-            border:2px solid #232344;
+            display:inline-block; width:15px; height:15px; border-radius:50%; margin-right:7px; vertical-align:middle;
+            background:#888; border:2px solid #232344;
             transition:background .3s;
         }
         .status-online {background:#43b581;}
         .status-idle {background:#faa61a;}
         .status-dnd {background:#f04747;}
         .status-offline {background:#747f8d;}
-        .bio, .location {margin-top:.5rem; opacity:.90;}
-        .socials {display:flex;justify-content:center;gap:1.3rem;margin:1.35rem 0;}
+        .bio, .location {
+            margin-top:.5rem; opacity:.91; font-size:1.07rem;
+        }
+        .bio {margin-bottom:.35rem;}
+        .socials {
+            display:flex;justify-content:center;gap:1.25rem;margin:1.33rem 0 1.09rem 0;
+        }
         .socials a {
-            padding:.6rem; border-radius:50%; background:rgba(85,90,140,0.28);
-            color:#fff; font-size:1.4rem; transition:background .18s, transform .18s;
+            padding:.62rem; border-radius:50%; background:rgba(90,100,170,0.19);
+            color:#fff; font-size:1.41rem; transition:background .18s, transform .18s, color .18s;
             display:inline-flex; align-items:center; justify-content:center;
             border:2px solid rgba(130,130,255,0.10);
             position:relative;
+            box-shadow: 0 1px 7px #0003;
         }
-        .socials a:hover {background:#6c63ffcc; transform:scale(1.14);}
+        .socials a:hover {background:#6c63ffcc; color:#fff; transform:scale(1.15);}
         .add-link-btn {
             background:none; border:none; color:#adadff; cursor:pointer;
-            margin:0 0 .7rem 0;
+            margin:0 0 .5rem 0;
             font-size:1rem; font-weight:500;
             letter-spacing:.02em; transition:color .2s;
+            text-shadow: 0 2px 12px #0007;
         }
         .add-link-btn:hover {color:#fff;text-shadow:0 0 8px #6c63ffb8;}
         @media (max-width:600px) {
-            .profile-card {padding:1.1rem;}
-            .nickname {font-size:1.3rem;}
-            .avatar {width:70px;height:70px;}
+            .profile-card {padding:1rem;}
+            .nickname {font-size:1.13rem;}
+            .avatar {width:67px;height:67px;}
         }
     </style>
 </head>
 <body>
+<!-- Replace the src links below with your own CDN URLs if needed -->
 <video id="bg-video" autoplay loop muted playsinline>
-    <source src="/mnt/data/[4K] Breaking Bad「Edit」- (Money Trees) (1).mp4" type="video/mp4">
+    <source src="https://files.catbox.moe/7mef5z.mp4" type="video/mp4">
 </video>
 <div id="bg-overlay"></div>
 <audio id="bg-audio" loop preload="auto" style="display:none">
-    <source src="/mnt/data/Joey Bada$$ - Love Is Only A Feeling (Official Audio).mp3" type="audio/mp3">
+    <source src="https://files.catbox.moe/xk8jgd.mp3" type="audio/mp3">
 </audio>
 <div id="click-overlay">Click Anywhere</div>
 <div id="main-content">
     <div class="profile-card">
         <div class="avatar-wrap">
-            <img src="/mnt/data/0978ccde-6ed6-4532-b8ea-30cdc98939d5.png" class="avatar" id="avatar" alt="Avatar">
+            <img src="https://i.imgur.com/6WvyX4b.jpg" class="avatar" id="avatar" alt="Avatar">
         </div>
         <div class="profile-fields">
             <div class="nickname" id="nickname">ValFX |</div>
@@ -152,7 +197,7 @@
 const config = {
     pageTitle: "ValFX | Custom Profile Landing",
     pageDescription: "My animated, customizable profile page!",
-    avatar: "/mnt/data/0978ccde-6ed6-4532-b8ea-30cdc98939d5.png", // First image you uploaded
+    avatar: "https://i.imgur.com/6WvyX4b.jpg",  // <-- Use your imgur/CDN image here
     nickname: "ValFX |",
     tagline: "@fluxy",
     bio: "Why yo<br>🌟 Fluxy Team <br>🚀 Always Building.",
@@ -164,18 +209,16 @@ const config = {
         { icon: "fa-telegram", url: "https://t.me/youruser" },
         { icon: "fa-github", url: "https://github.com/youruser" }
     ],
-    bgVideo: "/mnt/data/[4K] Breaking Bad「Edit」- (Money Trees) (1).mp4", // Your mp4
-    bgAudio: "/mnt/data/Joey Bada$$ - Love Is Only A Feeling (Official Audio).mp3"  // Your mp3
+    bgVideo: "https://files.catbox.moe/7mef5z.mp4", // <-- Use your CDN/mp4 url here
+    bgAudio: "https://files.catbox.moe/xk8jgd.mp3"  // <-- Use your CDN/mp3 url here
 };
 /* ------------- END CONFIG --------------- */
 document.title = config.pageTitle;
-document.getElementById('page-title').textContent = config.pageTitle;
-document.querySelector('meta[name=description]').setAttribute('content', config.pageDescription);
-document.getElementById('avatar').src = config.avatar;
 document.getElementById('nickname').textContent = config.nickname;
 document.getElementById('tagline').textContent = config.tagline;
 document.getElementById('bio').innerHTML = config.bio;
 document.getElementById('location').innerHTML = '<i class="fa fa-map-marker-alt"></i> ' + config.location;
+document.getElementById('avatar').src = config.avatar;
 document.getElementById('bg-video').src = config.bgVideo;
 if (config.bgAudio) {
     document.getElementById('bg-audio').src = config.bgAudio;
