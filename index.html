@@ -42,12 +42,12 @@
       z-index: 0;
       background: var(--dark-bg);
       pointer-events: none;
+      transition: opacity 0.9s cubic-bezier(0.63, 0, 1, 1);
     }
     #bg-video {
       filter: brightness(0.44) blur(1.3px);
       display: none;
-      transition: opacity 0.9s cubic-bezier(0.63, 0, 1, 1);
-      mute: true;
+      opacity: 0;
     }
     #bg-video.visible {
       display: block;
@@ -144,7 +144,7 @@
       min-width: 320px;
       max-width: var(--card-max);
       position: relative;
-      animation: cardPop 0.92s cubic-bezier(0.49, 1.4, 0.34, 1.0);
+      animation: cardPop 0.92s cubic-bezier(0.49, 1.4, 0.34, 1);
       border: none;
       margin: 0 auto;
       box-shadow: none;
@@ -361,37 +361,37 @@
       color: #fff;
       opacity: 0.84;
     }
-    /* Sound button */
+    /* Sound button fixed top right with styling like screenshot */
     .sound-btn {
       position: fixed;
-      left: 32px;
-      bottom: 34px;
-      z-index: 9999;
-      width: 62px;
+      top: 12px;
+      right: 18px;
+      z-index: 999;
+      width: 64px;
       height: 44px;
-      background: rgba(30, 36, 46, 0.85);
-      border-radius: 22px;
+      background: rgba(30, 36, 46, 0.75);
+      border-radius: 24px;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 6px 32px #0008;
-      backdrop-filter: blur(14px);
+      box-shadow: 0 6px 32px #0005;
+      backdrop-filter: blur(12px);
       border: none;
       outline: none;
-      transition: background 0.25s;
+      transition: background 0.2s;
       cursor: pointer;
       user-select: none;
       font-size: 1.7rem;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.35s ease, pointer-events 0.35s ease;
+      animation: fadeInBg 0.7s 0.8s backwards;
     }
     .sound-btn.visible {
       opacity: 1;
       pointer-events: auto;
     }
     .sound-btn:hover {
-      background: rgba(42, 52, 70, 0.95);
+      background: rgba(42, 52, 70, 0.83);
     }
     .sound-btn .fa {
       font-size: 1.7rem;
@@ -416,8 +416,8 @@
         height: 68px;
       }
       .sound-btn {
-        left: 12px;
-        bottom: 18px;
+        top: 8px;
+        right: 8px;
         width: 44px;
         height: 35px;
       }
@@ -446,7 +446,7 @@
     id="bg-audio"
     loop
     preload="auto"
-    style="display:none"
+    style="display: none"
   >
     <source src="https://files.catbox.moe/g3gzxr.mp3" type="audio/mp3" />
   </audio>
@@ -477,7 +477,12 @@
       <div class="view-count"><i class="fa fa-eye"></i> <span>227</span></div>
     </div>
   </div>
-  <button class="sound-btn" id="sound-btn" title="Toggle Sound">
+  <button
+    class="sound-btn"
+    id="sound-btn"
+    title="Toggle Sound"
+    aria-label="Toggle sound"
+  >
     <i class="fa fa-volume-up"></i>
   </button>
   <script>
@@ -496,22 +501,22 @@
       socialIcons: [
         {
           icon:
-            '<img src="https://cryptologos.cc/logos/litecoin-ltc-logo.png" style="width:28px;height:28px;">',
+            '<img src="https://cryptologos.cc/logos/litecoin-ltc-logo.png" style="width:28px;height:28px;" />',
           url: '#',
         },
         {
           icon:
-            '<img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" style="width:28px;height:28px;">',
+            '<img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" style="width:28px;height:28px;" />',
           url: '#',
         },
         {
           icon:
-            '<img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" style="width:28px;height:28px;">',
+            '<img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" style="width:28px;height:28px;" />',
           url: '#',
         },
         {
           icon:
-            '<img src="https://cdn-icons-png.flaticon.com/512/732/732221.png" style="width:28px;height:28px;">',
+            '<img src="https://cdn-icons-png.flaticon.com/512/732/732221.png" style="width:28px;height:28px;" />',
           url: '#',
         },
         { icon: '<i class="fa-brands fa-paypal"></i>', url: '#' },
@@ -562,104 +567,47 @@
       }
       loop();
     }
-    // Discord presence badge + activities + roles + custom status
+
+    // Discord presence badge
     function showDiscordBadge(data) {
       let statusIcon = {
         online: '#43b581',
         idle: '#faa61a',
         dnd: '#f04747',
         offline: '#747f8d',
-      }[data.discord_status] || '#888';
-
-      let activityText = 'No activity';
-      if (
-        data.activities &&
-        Array.isArray(data.activities) &&
-        data.activities.length
-      ) {
-        let act = data.activities[0];
-        if (act.type === 0) {
-          activityText = act.name + (act.details ? ': ' + act.details : '');
-        } else if (act.type === 4) {
-          activityText = 'Streaming: ' + act.state;
-        } else {
-          activityText = act.name;
-        }
-      }
-
-      let customStatus = '';
-      if (data.activities) {
-        const statusActivity = data.activities.find(
-          (a) => a.type === 4 && a.name === 'Custom Status'
-        );
-        if (statusActivity && statusActivity.state) {
-          customStatus = statusActivity.state;
-        }
-      }
-
-      // Show custom roles badges if any
-      let rolesHTML = '';
-      if (data.roles && data.roles.length) {
-        rolesHTML =
-          '<div style="margin-top:6px; font-size:0.85rem; opacity:0.75; color:#aaa;">' +
-          'Roles: ' +
-          data.roles
-            .map(
-              (r) =>
-                `<span style="margin-left:6px; padding:2px 8px; border-radius:8px; background:#715aff44; font-weight:600;">${r}</span>`
-            )
-            .join(' ') +
-          '</div>';
-      }
-
+      }[data.status] || '#888';
       let badgeHTML = `
-        <div class="discord-badge-inner">
-          <img src="${config.avatar}" alt="avatar" />
-          <div class="discord-badge-text">
-            <span class="discord-badge-username">${config.discordUsername}</span>
-            <span class="discord-badge-icons"><i class="fa fa-check-circle"></i></span>
-            <div class="discord-badge-status">
-              <span class="discord-badge-status-dot" style="background:${statusIcon}"></span>
-              ${data.discord_status[0].toUpperCase() + data.discord_status.slice(1)}
-              <span class="discord-badge-vouches"><i class="fa fa-badge-check"></i> ${config.discordVouches}</span>
-            </div>
-            <div style="margin-top: 4px; font-size: 0.9rem; opacity: 0.8; color: #bbb;">
-              Activity: ${activityText}
-            </div>
-            ${
-              customStatus
-                ? `<div style="margin-top: 4px; font-size: 0.85rem; opacity: 0.7; color: #9f7fff; font-style: italic;">
-              Status: ${customStatus}
-            </div>`
-                : ''
-            }
-            ${rolesHTML}
-          </div>
+    <div class="discord-badge-inner">
+      <img src="${config.avatar}" alt="avatar" />
+      <div class="discord-badge-text">
+        <span class="discord-badge-username">${config.discordUsername}</span>
+        <span class="discord-badge-icons"><i class="fa fa-check-circle"></i></span>
+        <div class="discord-badge-status">
+          <span class="discord-badge-status-dot" style="background:${statusIcon}"></span>
+          ${
+            data.status[0].toUpperCase() + data.status.slice(1)
+          }
+          <span class="discord-badge-vouches"><i class="fa fa-badge-check"></i> ${
+            config.discordVouches
+          }</span>
         </div>
-      `;
+      </div>
+    </div>
+    `;
       document.getElementById('discord-badge').innerHTML = badgeHTML;
     }
     function fetchDiscordStatus(id) {
       fetch(`https://api.lanyard.rest/v1/users/${id}`)
         .then((r) => r.json())
         .then((json) => {
-          if (json.success && json.data) {
-            showDiscordBadge(json.data);
-          } else {
-            showDiscordBadge({
-              discord_status: 'offline',
-              activities: [],
-              roles: [],
-            });
-          }
+          let status = 'offline';
+          if (json.success && json.data)
+            status = json.data.discord_status || 'offline';
+          showDiscordBadge({ status: status });
         })
-        .catch(() =>
-          showDiscordBadge({
-            discord_status: 'offline',
-            activities: [],
-            roles: [],
-          })
-        );
+        .catch(() => {
+          showDiscordBadge({ status: 'offline' });
+        });
     }
     fetchDiscordStatus(config.discordUserId);
 
@@ -730,39 +678,49 @@
     });
 
     // Main click: fade overlay, start video/audio, typewriters, show sound button
-    document.getElementById('click-overlay').addEventListener('click', () => {
-      const overlay = document.getElementById('click-overlay');
-      overlay.style.opacity = '0';
-      setTimeout(() => (overlay.style.display = 'none'), 500);
-      const mainContent = document.getElementById('main-content');
-      mainContent.classList.add('visible');
-      // Video - muted always
-      let video = document.getElementById('bg-video');
-      video.currentTime = 0;
-      video.style.display = '';
-      video.muted = true; // force muted
-      video.classList.add('visible');
-      video.play().catch(() => {});
-      // Audio - your MP3 sound
-      let audio = document.getElementById('bg-audio');
-      if (audio.src) {
-        audio.volume = 0.4;
-        audio.currentTime = 0;
-        audio.play().catch(() => {});
-        // Show sound button
-        const soundBtn = document.getElementById('sound-btn');
-        soundBtn.classList.add('visible');
-      }
-      // Typewriter animations for title and bio
-      typeWriterLoop(document.getElementById('nickname'), config.nickname, 85, 3000);
-      typeWriterLoop(document.getElementById('bio'), config.bio, 42, 3000);
-    });
+    document
+      .getElementById('click-overlay')
+      .addEventListener('click', () => {
+        const overlay = document.getElementById('click-overlay');
+        overlay.style.opacity = '0';
+        setTimeout(() => (overlay.style.display = 'none'), 500);
 
-    // Sound button controls only MP3 audio, toggles mute
+        const mainContent = document.getElementById('main-content');
+        mainContent.classList.add('visible');
+
+        // Video (muted)
+        const video = document.getElementById('bg-video');
+        video.currentTime = 0;
+        video.style.display = '';
+        video.muted = true;
+        video.classList.add('visible');
+        video.play().catch(() => {});
+
+        // Audio (unmuted)
+        const audio = document.getElementById('bg-audio');
+        if (audio.src) {
+          audio.volume = 0.4;
+          audio.currentTime = 0;
+          audio.play().catch(() => {});
+          const soundBtn = document.getElementById('sound-btn');
+          soundBtn.classList.add('visible');
+        }
+
+        // Typewriter animations
+        typeWriterLoop(
+          document.getElementById('nickname'),
+          config.nickname,
+          85,
+          3000
+        );
+        typeWriterLoop(document.getElementById('bio'), config.bio, 42, 3000);
+      });
+
+    // Sound button toggles audio muted state only (video stays muted)
     const audioElem = document.getElementById('bg-audio');
     const soundBtn = document.getElementById('sound-btn');
     soundBtn.addEventListener('click', () => {
-      let muted = audioElem.muted || audioElem.volume === 0;
+      const muted = audioElem.muted || audioElem.volume === 0;
       if (muted) {
         audioElem.muted = false;
         audioElem.volume = 0.45;
@@ -773,7 +731,7 @@
       }
     });
 
-    // On load, show typewriter previews (muted, no video or audio)
+    // First show: loop previews, muted initially
     window.onload = function () {
       typeWriterLoop(document.getElementById('nickname'), config.nickname, 85, 3000);
       typeWriterLoop(document.getElementById('bio'), config.bio, 42, 3000);
