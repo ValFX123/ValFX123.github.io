@@ -47,7 +47,6 @@
       filter: brightness(0.44) blur(1.3px);
       display: none;
       transition: opacity 0.9s cubic-bezier(0.63, 0, 1, 1);
-      /* Always muted */
       mute: true;
     }
     #bg-video.visible {
@@ -383,9 +382,13 @@
       cursor: pointer;
       user-select: none;
       font-size: 1.7rem;
-      opacity: 1 !important;
-      pointer-events: auto !important;
-      animation: fadeInBg 0.7s 0.8s backwards;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease, pointer-events 0.35s ease;
+    }
+    .sound-btn.visible {
+      opacity: 1;
+      pointer-events: auto;
     }
     .sound-btn:hover {
       background: rgba(42, 52, 70, 0.95);
@@ -474,7 +477,7 @@
       <div class="view-count"><i class="fa fa-eye"></i> <span>227</span></div>
     </div>
   </div>
-  <button class="sound-btn" id="sound-btn" title="Toggle Sound" style="display:none;">
+  <button class="sound-btn" id="sound-btn" title="Toggle Sound">
     <i class="fa fa-volume-up"></i>
   </button>
   <script>
@@ -683,7 +686,7 @@
           r: 1 + Math.random() * 1.7,
           op: Math.random() * 0.75 + 0.19,
           vx: Math.random() * 0.24 - 0.13,
-          vy: Math.random() * 0.28 + 0.10,
+          vy: Math.random() * 0.28 + 0.1,
         });
       }
     }
@@ -727,46 +730,36 @@
     });
 
     // Main click: fade overlay, start video/audio, typewriters, show sound button
-    document
-      .getElementById('click-overlay')
-      .addEventListener('click', () => {
-        const overlay = document.getElementById('click-overlay');
-        overlay.style.opacity = '0';
-        setTimeout(() => (overlay.style.display = 'none'), 500);
-        const mainContent = document.getElementById('main-content');
-        mainContent.classList.add('visible');
-        // Video - muted always
-        let video = document.getElementById('bg-video');
-        video.currentTime = 0;
-        video.style.display = '';
-        video.muted = true; // force muted
-        video.classList.add('visible');
-        video.play().catch(() => {});
-        // Audio - your MP3 sound
-        let audio = document.getElementById('bg-audio');
-        if (audio.src) {
-          audio.volume = 0.4;
-          audio.currentTime = 0;
-          audio.play().catch(() => {});
-          // Show sound button
-          const soundBtn = document.getElementById('sound-btn');
-          soundBtn.style.display = 'flex';
-          soundBtn.style.opacity = '1';
-          soundBtn.style.pointerEvents = 'auto';
-        }
-        // Typewriter animations for title and bio
-        typeWriterLoop(
-          document.getElementById('nickname'),
-          config.nickname,
-          85,
-          3000
-        );
-        typeWriterLoop(document.getElementById('bio'), config.bio, 42, 3000);
-      });
+    document.getElementById('click-overlay').addEventListener('click', () => {
+      const overlay = document.getElementById('click-overlay');
+      overlay.style.opacity = '0';
+      setTimeout(() => (overlay.style.display = 'none'), 500);
+      const mainContent = document.getElementById('main-content');
+      mainContent.classList.add('visible');
+      // Video - muted always
+      let video = document.getElementById('bg-video');
+      video.currentTime = 0;
+      video.style.display = '';
+      video.muted = true; // force muted
+      video.classList.add('visible');
+      video.play().catch(() => {});
+      // Audio - your MP3 sound
+      let audio = document.getElementById('bg-audio');
+      if (audio.src) {
+        audio.volume = 0.4;
+        audio.currentTime = 0;
+        audio.play().catch(() => {});
+        // Show sound button
+        const soundBtn = document.getElementById('sound-btn');
+        soundBtn.classList.add('visible');
+      }
+      // Typewriter animations for title and bio
+      typeWriterLoop(document.getElementById('nickname'), config.nickname, 85, 3000);
+      typeWriterLoop(document.getElementById('bio'), config.bio, 42, 3000);
+    });
 
     // Sound button controls only MP3 audio, toggles mute
     const audioElem = document.getElementById('bg-audio');
-    const videoElem = document.getElementById('bg-video');
     const soundBtn = document.getElementById('sound-btn');
     soundBtn.addEventListener('click', () => {
       let muted = audioElem.muted || audioElem.volume === 0;
@@ -782,12 +775,7 @@
 
     // On load, show typewriter previews (muted, no video or audio)
     window.onload = function () {
-      typeWriterLoop(
-        document.getElementById('nickname'),
-        config.nickname,
-        85,
-        3000
-      );
+      typeWriterLoop(document.getElementById('nickname'), config.nickname, 85, 3000);
       typeWriterLoop(document.getElementById('bio'), config.bio, 42, 3000);
     };
   </script>
