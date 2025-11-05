@@ -6,7 +6,7 @@
     <title>ValFX - Developer & Seller</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
-        /* ===== CUSTOMIZABLE VARIABLES ===== */
+
         :root {
             --primary-red: #dc143c;
             --dark-red: #8b0000;
@@ -24,7 +24,6 @@
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* ===== RESET & BASE ===== */
         * {
             margin: 0;
             padding: 0;
@@ -63,7 +62,6 @@
             50% { opacity: 1; }
         }
 
-        /* ===== HEADER & NAVIGATION ===== */
         header {
             position: fixed;
             top: 0;
@@ -267,7 +265,6 @@
             margin-bottom: 4rem;
         }
 
-        /* ===== ABOUT SECTION ===== */
         .about-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -315,7 +312,7 @@
             font-size: 1.5rem;
         }
 
-        /* ===== STATISTICS SECTION ===== */
+
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -356,7 +353,7 @@
             font-weight: 600;
         }
 
-        /* ===== TECH STACK ===== */
+
         .tech-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -393,7 +390,7 @@
             font-size: 1rem;
         }
 
-        /* ===== SERVICES SECTION ===== */
+
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -463,7 +460,6 @@
             font-weight: bold;
         }
 
-        /* ===== PROJECTS GRID ===== */
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -528,7 +524,7 @@
             border: 1px solid var(--border-color);
         }
 
-        /* ===== TESTIMONIALS ===== */
+
         .testimonials-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -579,7 +575,6 @@
             font-size: 0.9rem;
         }
 
-        /* ===== CONTACT SECTION ===== */
         .contact-content-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -703,7 +698,6 @@
             margin-top: 3rem;
         }
 
-        /* ===== FOOTER ===== */
         footer {
             background: var(--black);
             border-top: 1px solid var(--border-color);
@@ -734,7 +728,6 @@
             transform: scale(1.2);
         }
 
-        /* ===== SCROLL TO TOP ===== */
         .scroll-top {
             position: fixed;
             bottom: 2rem;
@@ -766,7 +759,6 @@
             box-shadow: var(--shadow-hover);
         }
 
-        /* ===== ANIMATIONS ===== */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -778,7 +770,6 @@
             }
         }
 
-        /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             .nav-links {
                 position: fixed;
@@ -851,7 +842,7 @@
     </style>
 </head>
 <body>
-    <!-- HEADER -->
+
     <header id="header">
         <nav>
             <div class="logo">ValFX</div>
@@ -868,7 +859,6 @@
         </nav>
     </header>
 
-    <!-- HERO SECTION -->
     <section class="hero" id="home">
         <div class="hero-content">
             <img src="https://via.placeholder.com/180" alt="ValFX" class="profile-image">
@@ -889,7 +879,6 @@
         </div>
     </section>
 
-    <!-- ABOUT SECTION -->
     <section id="about">
         <h2 class="section-title">About Me</h2>
         <p class="section-subtitle">Get to know more about what I do and how I can help</p>
@@ -934,7 +923,6 @@
         </div>
     </section>
 
-    <!-- STATISTICS SECTION -->
     <section id="stats" style="background: var(--darker-bg); padding: 4rem 2rem;">
         <div style="max-width: 1400px; margin: 0 auto;">
             <div class="stats-grid">
@@ -962,7 +950,6 @@
         </div>
     </section>
 
-<!-- TECH STACK SECTION -->
     <section id="tech-stack">
         <h2 class="section-title">Tech Stack</h2>
         <p class="section-subtitle">Technologies and tools I work with</p>
@@ -1010,7 +997,6 @@
         </div>
     </section>
     
- <!-- SERVICES SECTION -->
 <section id="services">
     <h2 class="section-title">Services</h2>
     <p class="section-subtitle">What I can do for you</p>
@@ -1057,13 +1043,11 @@
     </div>
 </section>
     
-  <!-- PROJECTS SECTION -->
 <section id="projects">
     <h2 class="section-title">Featured Projects</h2>
     <p class="section-subtitle">Take a look at some of my recent work and achievements</p>
     <div class="projects-grid">
 
-        <!-- Project 1 -->
         <div class="project-card">
             <img src="https://raw.githubusercontent.com/ValFX123/ValFX123.github.io/main/discord_bot.png" alt="Advanced All-In-One Bot" class="project-image">
             <div class="project-content">
@@ -1080,7 +1064,6 @@
             </div>
         </div>
 
-        <!-- Project 2 -->
         <div class="project-card">
             <img src="https://raw.githubusercontent.com/ValFX123/ValFX123.github.io/main/sourmarket.png" alt="SourMarket All-In-One Bundle" class="project-image">
             <div class="project-content">
@@ -1097,7 +1080,6 @@
             </div>
         </div>
 
-        <!-- Project 3 -->
         <div class="project-card">
             <img src="https://raw.githubusercontent.com/ValFX123/ValFX123.github.io/main/ValFX-logo.png" alt="Portfolio Website" class="project-image">
             <div class="project-content">
@@ -1118,7 +1100,6 @@
 </section>
 
 
-    <!-- TESTIMONIALS SECTION -->
     <section id="testimonials" style="background: var(--darker-bg);">
         <h2 class="section-title">Testimonials</h2>
         <p class="section-subtitle">What clients/people say about my work</p>
@@ -1180,7 +1161,6 @@
         </div>
     </section>
 
-    <!-- CONTACT SECTION -->
     <section id="contact">
         <h2 class="section-title">Get In Touch</h2>
         <p class="section-subtitle">If you need me for anything let me know!</p>
@@ -1243,7 +1223,6 @@
         </div>
     </section>
 
-    <!-- FOOTER -->
     <footer>
         <div class="footer-content">
             <div class="social-links">
@@ -1272,7 +1251,6 @@
     </div>
 
     <script>
-        // ===== MOBILE MENU =====
         const mobileMenuToggle = document.getElementById('mobileMenuToggle');
         const navLinks = document.getElementById('navLinks');
 
@@ -1292,7 +1270,6 @@
             });
         });
 
-        // ===== HEADER SCROLL EFFECT =====
         const header = document.getElementById('header');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 100) {
@@ -1302,7 +1279,6 @@
             }
         });
 
-        // ===== SCROLL TO TOP BUTTON =====
         const scrollTop = document.getElementById('scrollTop');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 500) {
@@ -1319,7 +1295,6 @@
             });
         });
 
-        // ===== SMOOTH SCROLL =====
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -1333,7 +1308,6 @@
             });
         });
 
-        // ===== INTERSECTION OBSERVER FOR ANIMATIONS =====
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -100px 0px'
@@ -1353,7 +1327,6 @@
             observer.observe(card);
         });
 
-        // ===== PARALLAX EFFECT =====
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
             const hero = document.querySelector('.hero-content');
@@ -1363,7 +1336,6 @@
             }
         });
 
-        // ===== ANIMATED COUNTERS =====
         const animateCounter = (element) => {
             const target = parseInt(element.getAttribute('data-target'));
             const duration = 2000;
@@ -1398,7 +1370,6 @@
             statsObserver.observe(statsSection);
         }
 
-        // ===== CONTACT FORM HANDLING =====
         const contactForm = document.getElementById('contactForm');
         const formSuccess = document.getElementById('formSuccess');
 
@@ -1406,11 +1377,11 @@
             contactForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 
-                // Simulate form submission
+                
                 contactForm.style.display = 'none';
                 formSuccess.style.display = 'block';
 
-                // Reset form after 5 seconds
+                
                 setTimeout(() => {
                     contactForm.reset();
                     contactForm.style.display = 'flex';
@@ -1419,7 +1390,6 @@
             });
         }
 
-        // ===== TYPING ANIMATION FOR SUBTITLE =====
         const subtitle = document.querySelector('.hero .subtitle');
         if (subtitle) {
             const text = subtitle.textContent;
@@ -1437,7 +1407,6 @@
             setTimeout(typeWriter, 500);
         }
 
-        // ===== CONSOLE MESSAGE =====
         console.log('%c Welcome to ValFX Portfolio! ', 'background: #dc143c; color: #fff; font-size: 20px; padding: 10px; border-radius: 5px;');
     </script>
 </body>
