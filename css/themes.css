@@ -1,0 +1,83 @@
+/* Theme Variables & Color System - ValFX Red Theme */
+
+:root {
+    /* ValFX Brand Colors - Red Theme */
+    --primary-red: #dc143c;
+    --dark-red: #8b0000;
+    --accent-red: #ff4757;
+    
+    /* Base Colors */
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #151515;
+    --bg-tertiary: #1a1a1a;
+    --black: #000000;
+    
+    /* Card Backgrounds */
+    --card-bg: #1f1f1f;
+    --card-hover: #252525;
+    
+    /* Text Colors */
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --text-tertiary: #888888;
+    --text-muted: #666666;
+    
+    /* Border Colors */
+    --border-color: rgba(220, 20, 60, 0.3);
+    --border-color-hover: rgba(220, 20, 60, 0.5);
+    --border-color-active: rgba(220, 20, 60, 0.7);
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, #dc143c, #8b0000);
+    --gradient-secondary: linear-gradient(135deg, #ff4757, #dc143c);
+    --gradient-accent: linear-gradient(135deg, #dc143c 0%, #ff4757 100%);
+    --gradient-text: linear-gradient(135deg, #ffffff, #dc143c);
+    
+    /* Shadows */
+    --shadow-sm: 0 2px 10px rgba(220, 20, 60, 0.2);
+    --shadow-md: 0 5px 20px rgba(220, 20, 60, 0.3);
+    --shadow-lg: 0 10px 30px rgba(220, 20, 60, 0.4);
+    --shadow-xl: 0 15px 60px rgba(220, 20, 60, 0.5);
+    --shadow-intense: 0 10px 40px rgba(220, 20, 60, 0.3);
+    --shadow-hover: 0 15px 60px rgba(220, 20, 60, 0.5);
+    
+    /* Spacing Scale (8px grid) */
+    --space-xs: 0.5rem;   /* 8px */
+    --space-sm: 1rem;      /* 16px */
+    --space-md: 1.5rem;    /* 24px */
+    --space-lg: 2rem;      /* 32px */
+    --space-xl: 3rem;      /* 48px */
+    --space-2xl: 4rem;     /* 64px */
+    --space-3xl: 6rem;     /* 96px */
+    
+    /* Border Radius */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 15px;
+    --radius-xl: 20px;
+    --radius-full: 9999px;
+    
+    /* Transitions */
+    --transition-fast: 0.15s ease;
+    --transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Typography */
+    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-heading: 'Poppins', 'Segoe UI', sans-serif;
+    --font-mono: 'Courier New', monospace;
+    
+    /* Z-index layers */
+    --z-base: 1;
+    --z-content: 10;
+    --z-sticky: 100;
+    --z-header: 1000;
+    --z-modal: 10000;
+}
+
+/* Theme Transition */
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color var(--transition-slow), color var(--transition-slow);
+}
