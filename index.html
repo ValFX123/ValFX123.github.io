@@ -3,602 +3,1412 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ValFX - Professional Seller, Developer & Creator specializing in Discord bots, web development, and digital services.">
-    <meta name="keywords" content="ValFX, Developer, Seller, Creator, Discord Bots, Web Development, Digital Services">
-    <meta name="author" content="ValFX">
-    
-    <title>ValFX - Seller | Developer | Creator</title>
+    <title>ValFX - Developer & Seller</title>
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/ValFX123/ValFX123.github.io/main/ValFX-logo.png">
-    
-    <!-- CSS Files -->
-    <link rel="stylesheet" href="css/themes.css">
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/animations.css">
-    <link rel="stylesheet" href="css/navigation.css">
-    <link rel="stylesheet" href="css/hero.css">
-    <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/sections.css">
-    <link rel="stylesheet" href="css/footer.css">
-    <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+
+        :root {
+            --primary-red: #dc143c;
+            --dark-red: #8b0000;
+            --accent-red: #ff4757;
+            --black: #0a0a0a;
+            --dark-bg: #151515;
+            --darker-bg: #1a1a1a;
+            --card-bg: #1f1f1f;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --border-color: rgba(220, 20, 60, 0.3);
+            
+            --shadow-intense: 0 10px 40px rgba(220, 20, 60, 0.3);
+            --shadow-hover: 0 15px 60px rgba(220, 20, 60, 0.5);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--black) 0%, var(--dark-bg) 50%, var(--darker-bg) 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(220, 20, 60, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(139, 0, 0, 0.15) 0%, transparent 50%);
+            animation: backgroundPulse 15s ease-in-out infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes backgroundPulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.2rem 2rem;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            box-shadow: var(--shadow-intense);
+            background: rgba(10, 10, 10, 0.98);
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-red), var(--accent-red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-red);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-red);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            text-align: center;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .profile-image {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 4px solid var(--primary-red);
+            box-shadow: 0 0 40px rgba(220, 20, 60, 0.6);
+            margin: 0 auto 2rem;
+            object-fit: cover;
+            animation: pulseGlow 3s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 40px rgba(220, 20, 60, 0.6); }
+            50% { box-shadow: 0 0 60px rgba(220, 20, 60, 0.9); }
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--primary-red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            min-height: 2rem;
+        }
+
+        .hero .description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+            color: var(--text-primary);
+            box-shadow: var(--shadow-intense);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--primary-red);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-red);
+            transform: translateY(-3px);
+        }
+
+        /* ===== SECTIONS ===== */
+        section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--primary-red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 4rem;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-red);
+        }
+
+        .about-text p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .skill-item {
+            background: var(--card-bg);
+            padding: 1rem;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            transition: var(--transition);
+        }
+
+        .skill-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-intense);
+            border-color: var(--primary-red);
+        }
+
+        .skill-item i {
+            color: var(--primary-red);
+            font-size: 1.5rem;
+        }
+
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 2.5rem 2rem;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary-red);
+        }
+
+        .stat-card i {
+            font-size: 3rem;
+            color: var(--primary-red);
+            margin-bottom: 1rem;
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .tech-item {
+            background: var(--card-bg);
+            padding: 2rem 1rem;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            transition: var(--transition);
+        }
+
+        .tech-item:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-intense);
+            border-color: var(--primary-red);
+        }
+
+        .tech-item i {
+            font-size: 3rem;
+            color: var(--primary-red);
+        }
+
+        .tech-item span {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .service-card {
+            background: var(--card-bg);
+            padding: 3rem 2.5rem;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary-red);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(220, 20, 60, 0.1);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .service-icon i {
+            font-size: 2.5rem;
+            color: var(--primary-red);
+        }
+
+        .service-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .service-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .service-features {
+            list-style: none;
+            padding: 0;
+        }
+
+        .service-features li {
+            color: var(--text-secondary);
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .service-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary-red);
+            font-weight: bold;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary-red);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.1);
+        }
+
+        .project-content {
+            padding: 2rem;
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            background: rgba(220, 20, 60, 0.2);
+            color: var(--primary-red);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid var(--border-color);
+        }
+
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .testimonial-card {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary-red);
+        }
+
+        .testimonial-stars {
+            color: var(--primary-red);
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-text {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-info h4 {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .author-info p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .contact-content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+            margin-top: 3rem;
+        }
+
+        .contact-form-container h3,
+        .contact-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-red);
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            background: var(--darker-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1rem;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-red);
+            box-shadow: 0 0 0 3px rgba(220, 20, 60, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-success {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            color: #22c55e;
+        }
+
+        .form-success i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-success p {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .contact-info {
+            position: sticky;
+            top: 100px;
+        }
+
+        .contact-info-text {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .contact-methods {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.2rem 2rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        .contact-link:hover {
+            background: var(--primary-red);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .contact-link i {
+            font-size: 1.5rem;
+        }
+
+        .resume-download {
+            margin-top: 3rem;
+        }
+
+        footer {
+            background: var(--black);
+            border-top: 1px solid var(--border-color);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-link {
+            color: var(--text-secondary);
+            font-size: 1.8rem;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            color: var(--primary-red);
+            transform: scale(1.2);
+        }
+
+        .scroll-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--primary-red);
+            color: var(--text-primary);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            box-shadow: var(--shadow-intense);
+            z-index: 999;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                flex-direction: column;
+                background: rgba(10, 10, 10, 0.98);
+                width: 100%;
+                padding: 2rem;
+                gap: 1.5rem;
+                transition: left 0.3s ease;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .tech-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-info {
+                position: static;
+            }
+        }
+    </style>
 </head>
 <body>
-    <a href="#main-content" class="skip-to-content">Skip to content</a>
-    
+
     <header id="header">
         <nav>
             <div class="logo">ValFX</div>
             <ul class="nav-links" id="navLinks">
-                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#services">Services</a></li>
                 <li><a href="#projects">Projects</a></li>
-                <li><a href="#testimonials">Testimonials</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
-            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle mobile menu">
-                <span></span>
-                <span></span>
-                <span></span>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <i class="fas fa-bars"></i>
             </button>
         </nav>
     </header>
 
-    <main id="main-content">
-        <section id="home" class="hero">
-            <div class="hero-content">
-                <div class="profile-section">
-                    <div class="hero-badge">
-                        <i class="fas fa-code"></i>
-                        <span>Seller | Developer | Creator</span>
-                    </div>
-                    
-                    <div class="profile-image-container">
-                        <img src="https://raw.githubusercontent.com/ValFX123/ValFX123.github.io/main/ValFX-logo.png" alt="ValFX Logo" class="profile-image">
-                        <div class="profile-ring"></div>
-                        <div class="profile-ring-2"></div>
-                    </div>
-                    
-                    <h1 class="hero-title">
-                        <span class="title-main">ValFX</span>
-                        <span class="title-cursor">|</span>
-                    </h1>
-                    
-                    <div class="hero-description">
-                        <p class="hero-text-animated typing-text" data-text="Building scalable solutions and creating amazing digital experiences">Building scalable solutions and creating amazing digital experiences</p>
-                    </div>
-                
-                    <div class="hero-stats-mini">
-                        <div class="stat-mini">
-                            <span class="stat-mini-number">300+</span>
-                            <span class="stat-mini-label">Projects</span>
-                        </div>
-                        <div class="stat-mini">
-                            <span class="stat-mini-number">6</span>
-                            <span class="stat-mini-label">Years</span>
-                        </div>
-                        <div class="stat-mini">
-                            <span class="stat-mini-number">2K+</span>
-                            <span class="stat-mini-label">Clients</span>
-                        </div>
-                    </div>
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <img src="https://raw.githubusercontent.com/ValFX123/ValFX123.github.io/main/ValFX-logo.png" alt="ValFX" class="profile-image">
+            <h1>ValFX</h1>
+            <p class="subtitle">Seller | Developer | Creator </p>
+            <p class="description">
+                I’m a seller, developer, and creator who loves turning ideas into real projects. 
+                I build websites, design digital experiences, and always focus on making things high-quality and effective.
+            </p>
+            <div class="cta-buttons">
+                <a href="#projects" class="btn btn-primary">
+                    <i class="fas fa-rocket"></i> View My Work
+                </a>
+                <a href="#contact" class="btn btn-secondary">
+                    <i class="fas fa-envelope"></i> Get In Touch
+                </a>
+            </div>
+        </div>
+    </section>
 
-                    <div class="hero-buttons">
-                        <a href="#projects" class="btn btn-primary" aria-label="View my projects">
-                            <i class="fas fa-rocket"></i>
-                            <span>View My Work</span>
-                        </a>
-                        <a href="#contact" class="btn btn-secondary" aria-label="Contact me">
-                            <i class="fas fa-envelope"></i>
-                            <span>Get In Touch</span>
-                        </a>
+    <section id="about">
+        <h2 class="section-title">About Me</h2>
+        <p class="section-subtitle">Get to know more about what I do and how I can help</p>
+        <div class="about-content">
+            <div class="about-text">
+                <h3>Who I Am</h3>
+                <p>
+                    I’m ValFX, a passionate developer, seller, and creator who loves making great digital experiences. 
+                    With years of experience in all three areas, I turn ideas into real projects using the right tools and creativity.
+                </p>
+                <p>
+                    I focus on working fast, delivering good quality, and staying positive. 
+                    I always try to solve every problem and believe that technology can help businesses grow and make life better for everyone.
+                </p>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-item">
+                    <i class="fas fa-code"></i>
+                    <span>Own Development</span>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-palette"></i>
+                    <span>Custom Design</span>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-mobile-alt"></i>
+                    <span>Fast Reply</span>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-database"></i>
+                    <span>Creative</span>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Great Performance</span>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-users"></i>
+                    <span>Client Collaboration</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="stats" style="background: var(--darker-bg); padding: 4rem 2rem;">
+        <div style="max-width: 1400px; margin: 0 auto;">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-calendar-alt"></i>
+                    <div class="stat-number" data-target="6">0</div>
+                    <div class="stat-label">Years Experience</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-project-diagram"></i>
+                    <div class="stat-number" data-target="300+">0</div>
+                    <div class="stat-label">Projects Completed</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-smile"></i>
+                    <div class="stat-number" data-target="2000+">0</div>
+                    <div class="stat-label">Happy Clients</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-code-branch"></i>
+                    <div class="stat-number" data-target="6">0</div>
+                    <div class="stat-label">Collaborations</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tech-stack">
+        <h2 class="section-title">Tech Stack</h2>
+        <p class="section-subtitle">Technologies and tools I work with</p>
+        <div class="tech-grid">
+            <div class="tech-item">
+                <i class="fab fa-node"></i>
+                <span>Node.js</span>
+            </div>
+            <div class="tech-item">
+                <i class="fab fa-python"></i>
+                <span>Python</span>
+            </div>
+            <div class="tech-item">
+                <i class="fab fa-js"></i>
+                <span>JavaScript</span>
+            </div>
+            <div class="tech-item">
+                <i class="fab fa-git-alt"></i>
+                <span>Git</span>
+            </div>
+            <div class="tech-item">
+                <i class="fab fa-html5"></i>
+                <span>HTML</span>
+            </div>
+            <div class="tech-item">
+                <i class="fas fa-hashtag"></i>
+                <span>C#</span>
+            </div>
+            <div class="tech-item">
+                <i class="fas fa-code"></i>
+                <span>C++</span>
+            </div>
+            <div class="tech-item">
+                <i class="fas fa-music"></i>
+                <span>FL Studio</span>
+            </div>
+            <div class="tech-item">
+                <i class="fas fa-layer-group"></i>
+                <span>Adobe Softwares</span>
+            </div>
+            <div class="tech-item">
+                <i class="fab fa-discord"></i>
+                <span>Discord</span>
+            </div>
+        </div>
+    </section>
+    
+<section id="services">
+    <h2 class="section-title">Services</h2>
+    <p class="section-subtitle">What I can do for you</p>
+    <div class="services-grid">
+        <div class="service-card">
+            <div class="service-icon">
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+            <h3>Selling</h3>
+            <p>I offer a wide range of products and services, including Discord Nitro, custom bots, designs, accounts, and more.</p>
+            <ul class="service-features">
+                <li>Quick</li>
+                <li>Guided</li>
+                <li>Cheap Prices</li>
+                <li>Always helpful</li>
+            </ul>
+        </div>
+        <div class="service-card">
+            <div class="service-icon">
+                <i class="fas fa-code"></i>
+            </div>
+            <h3>Development</h3>
+            <p>I develop all kinds of projects like Discord bots and websites, and also help people with their games and other work..</p>
+            <ul class="service-features">
+                <li>Web Development</li>
+                <li>Client Support</li>
+                <li>Project Assistence</li>
+                <li>Custom Solutions</li>
+            </ul>
+        </div>
+        <div class="service-card">
+            <div class="service-icon">
+                <i class="fas fa-palette"></i>
+            </div>
+            <h3>Creation</h3>
+            <p>I create unique visuals, music, and other creative content made to match any style or purpose</p>
+            <ul class="service-features">
+                <li>Designs</li>
+                <li>Music Production</li>
+                <li>Video Editing</li>
+                <li>Content Creation</li>
+            </ul>
+        </div>
+    </div>
+</section>
+    
+<section id="projects">
+    <h2 class="section-title">Featured Projects</h2>
+    <p class="section-subtitle">Take a look at some of my recent work and achievements</p>
+    <div class="projects-grid">
+
+        <div class="project-card">
+            <img src="https://raw.githubusercontent.com/ValFX123/ValFX123.github.io/main/discord_bot.png" alt="Advanced All-In-One Bot" class="project-image">
+            <div class="project-content">
+                <h3 class="project-title">Advanced All-In-One Bot</h3>
+                <p class="project-description">
+                    A powerful Discord bot with multiple features such as moderation, music, economy, and fun commands — 
+                    all in one system.
+                </p>
+                <div class="project-tags">
+                    <span class="tag">JavaScript</span>
+                    <span class="tag">Discord.js</span>
+                    <span class="tag">API Integration</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <img src="https://raw.githubusercontent.com/ValFX123/ValFX123.github.io/main/sourmarket.png" alt="SourMarket All-In-One Bundle" class="project-image">
+            <div class="project-content">
+                <h3 class="project-title">SourMarket All-In-One Bundle</h3>
+                <p class="project-description">
+                    A custom Roblox-related shop package that includes a full-featured website 
+                    and a Discord bot for managing sales, users, and automation.          
+                </p>
+                <div class="project-tags">
+                    <span class="tag">HTML</span>
+                    <span class="tag">CSS</span>
+                    <span class="tag">Stripe</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <img src="https://raw.githubusercontent.com/ValFX123/ValFX123.github.io/main/ValFX-logo.png" alt="Portfolio Website" class="project-image">
+            <div class="project-content">
+                <h3 class="project-title">Portfolio Website</h3>
+                <p class="project-description">
+                    Stunning portfolio website with smooth animations, modern design, and 
+                    optimized performance for showcasing creative work.
+                </p>
+                <div class="project-tags">
+                    <span class="tag">HTML/CSS</span>
+                    <span class="tag">JavaScript</span>
+                    <span class="tag">Animation</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+    <section id="testimonials" style="background: var(--darker-bg);">
+        <h2 class="section-title">Testimonials</h2>
+        <p class="section-subtitle">What clients/people say about my work</p>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p class="testimonial-text">
+                    "ValFX is incredibly skilled and very helpful. He really knows what he’s doing and explained everything clearly. I learned a lot of useful and important things from him that made the whole process easier and better."
+                </p>
+                <div class="testimonial-author">
+                    <div class="author-info">
+                        <h4>Emir.DAM</h4>
+                        <p>CEO, Fluxy©</p>
                     </div>
-                    
-                    <div class="hero-social-minimal">
-                        <a href="https://discord.gg/PMWJcVmmqF" target="_blank" rel="noopener noreferrer" title="Discord" aria-label="Join Discord">
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p class="testimonial-text">
+                    "Bought from them quite a while ago and all I can say is good things, even with a timezone difference they were quick to respond and the items for sale were listed at reasonable or below market price."
+                </p>
+                <div class="testimonial-author">
+                    <div class="author-info">
+                        <h4>PoppinPercs</h4>
+                        <p>TrustPilot Review</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p class="testimonial-text">
+                    "Tickets are handled well and quickly, and everything always arrives as expected. I’ve bought here several times and have never been disappointed."
+                </p>
+                <div class="testimonial-author">
+                    <div class="author-info">
+                        <h4>Customer Fluxy</h4>
+                        <p>Fluxy Reviews</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2 class="section-title">Get In Touch</h2>
+        <p class="section-subtitle">If you need me for anything let me know!</p>
+        <div class="contact-content">
+            <div class="contact-content-grid">
+                <div class="contact-form-container">
+                    <h3>Send a Message</h3>
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </button>
+                    </form>
+                    <div class="form-success" id="formSuccess" style="display: none;">
+                        <i class="fas fa-check-circle"></i>
+                        <p>Thank you! Your message has been sent successfully.</p>
+                    </div>
+                </div>
+                <div class="contact-info">
+                    <h3>Other Ways to Connect</h3>
+                    <p class="contact-info-text">
+                        Prefer to reach out directly? Feel free to connect with me through any of these platforms.
+                    </p>
+                    <div class="contact-methods" style="flex-direction: column; align-items: stretch; gap: 1rem;">
+                        <a href="https://discord.gg/PMWJcVmmqF" class="contact-link" target="_blank">
                             <i class="fab fa-discord"></i>
+                            <span>Join my Discord</span>
                         </a>
-                        <a href="https://github.com/valfx" target="_blank" rel="noopener noreferrer" title="GitHub" aria-label="GitHub profile">
+                        <a href="mailto:valfx@example.com" class="contact-link">
+                            <i class="fas fa-envelope"></i>
+                            <span>fluxy@valfx.com</span>
+                        </a>
+                        <a href="https://github.com/valfx" class="contact-link" target="_blank">
                             <i class="fab fa-github"></i>
-                        </a>
-                        <a href="https://twitter.com/valfx" target="_blank" rel="noopener noreferrer" title="Twitter" aria-label="Twitter profile">
-                            <i class="fab fa-twitter"></i>
+                            <span>GitHub Profile</span>
                         </a>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="about" class="about section-reveal">
-            <div class="container">
-                <h2>About Me</h2>
-                <div class="about-content">
-                    <div class="about-text">
-                        <h3>Who I Am</h3>
-                        <p>I'm ValFX, a passionate developer, seller, and creator who loves making great digital experiences. With years of experience in all three areas, I turn ideas into real projects using the right tools and creativity.</p>
-                        <p>I focus on working fast, delivering good quality, and staying positive. I always try to solve every problem and believe that technology can help businesses grow and make life better for everyone.</p>
-                    </div>
-                    
-                    <div class="skills-container">
-                        <h3>Skills & Expertise</h3>
-                        <div class="skills-list">
-                            <div class="skill-item stagger-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">Own Development</span>
-                                    <span class="skill-level">Expert</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 95%"></div>
-                                </div>
-                            </div>
-                            
-                            <div class="skill-item stagger-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">Custom Design</span>
-                                    <span class="skill-level">Expert</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 90%"></div>
-                                </div>
-                            </div>
-                            
-                            <div class="skill-item stagger-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">Fast Reply</span>
-                                    <span class="skill-level">Advanced</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 98%"></div>
-                                </div>
-                            </div>
-                            
-                            <div class="skill-item stagger-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">Creative Solutions</span>
-                                    <span class="skill-level">Expert</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 92%"></div>
-                                </div>
-                            </div>
-                            
-                            <div class="skill-item stagger-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">Great Performance</span>
-                                    <span class="skill-level">Advanced</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 88%"></div>
-                                </div>
-                            </div>
-                            
-                            <div class="skill-item stagger-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">Client Collaboration</span>
-                                    <span class="skill-level">Expert</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 94%"></div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="resume-download">
+                        <a href="#" class="btn btn-secondary" style="width: 100%; justify-content: center;">
+                            <i class="fas fa-download"></i> Download Resume
+                        </a>
                     </div>
                 </div>
             </div>
-        </section>
-
-        <section id="stats" class="stats section-reveal">
-            <div class="container">
-                <h2>Professional Track Record</h2>
-                <div class="stats-grid">
-                    <div class="stat-card stagger-item">
-                        <div class="stat-icon">
-                            <i class="fas fa-calendar-alt"></i>
-                        </div>
-                        <div class="stat-number" data-target="6">0</div>
-                        <div class="stat-label">Years Experience</div>
-                    </div>
-                    <div class="stat-card stagger-item">
-                        <div class="stat-icon">
-                            <i class="fas fa-project-diagram"></i>
-                        </div>
-                        <div class="stat-number" data-target="300">0</div>
-                        <div class="stat-label">Projects Completed</div>
-                    </div>
-                    <div class="stat-card stagger-item">
-                        <div class="stat-icon">
-                            <i class="fas fa-smile"></i>
-                        </div>
-                        <div class="stat-number" data-target="2000">0</div>
-                        <div class="stat-label">Happy Clients</div>
-                    </div>
-                    <div class="stat-card stagger-item">
-                        <div class="stat-icon">
-                            <i class="fas fa-code-branch"></i>
-                        </div>
-                        <div class="stat-number" data-target="6">0</div>
-                        <div class="stat-label">Collaborations</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="tech-stack" class="tech-stack section-reveal">
-            <div class="container">
-                <h2>Tech Stack</h2>
-                <p class="section-intro">Technologies and tools I work with</p>
-                <div class="tech-grid">
-                    <div class="tech-item stagger-item">
-                        <i class="fab fa-node"></i>
-                        <span>Node.js</span>
-                    </div>
-                    <div class="tech-item stagger-item">
-                        <i class="fab fa-python"></i>
-                        <span>Python</span>
-                    </div>
-                    <div class="tech-item stagger-item">
-                        <i class="fab fa-js"></i>
-                        <span>JavaScript</span>
-                    </div>
-                    <div class="tech-item stagger-item">
-                        <i class="fab fa-git-alt"></i>
-                        <span>Git</span>
-                    </div>
-                    <div class="tech-item stagger-item">
-                        <i class="fab fa-html5"></i>
-                        <span>HTML</span>
-                    </div>
-                    <div class="tech-item stagger-item">
-                        <i class="fas fa-hashtag"></i>
-                        <span>C#</span>
-                    </div>
-                    <div class="tech-item stagger-item">
-                        <i class="fas fa-code"></i>
-                        <span>C++</span>
-                    </div>
-                    <div class="tech-item stagger-item">
-                        <i class="fas fa-music"></i>
-                        <span>FL Studio</span>
-                    </div>
-                    <div class="tech-item stagger-item">
-                        <i class="fas fa-layer-group"></i>
-                        <span>Adobe Softwares</span>
-                    </div>
-                    <div class="tech-item stagger-item">
-                        <i class="fab fa-discord"></i>
-                        <span>Discord</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="services" class="services section-reveal">
-            <div class="container">
-                <h2>Services</h2>
-                <p class="section-intro">What I can do for you</p>
-                <div class="services-grid">
-                    <div class="service-card stagger-item">
-                        <div class="service-icon">
-                            <i class="fas fa-shopping-cart"></i>
-                        </div>
-                        <h3>Selling</h3>
-                        <p>I offer a wide range of products and services, including Discord Nitro, custom bots, designs, accounts, and more.</p>
-                        <ul class="service-features">
-                            <li><i class="fas fa-check"></i> Quick</li>
-                            <li><i class="fas fa-check"></i> Guided</li>
-                            <li><i class="fas fa-check"></i> Cheap Prices</li>
-                            <li><i class="fas fa-check"></i> Always helpful</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="service-card featured stagger-item">
-                        <div class="featured-badge">Most Popular</div>
-                        <div class="service-icon">
-                            <i class="fas fa-code"></i>
-                        </div>
-                        <h3>Development</h3>
-                        <p>I develop all kinds of projects like Discord bots and websites, and also help people with their games and other work.</p>
-                        <ul class="service-features">
-                            <li><i class="fas fa-check"></i> Web Development</li>
-                            <li><i class="fas fa-check"></i> Client Support</li>
-                            <li><i class="fas fa-check"></i> Project Assistance</li>
-                            <li><i class="fas fa-check"></i> Custom Solutions</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="service-card stagger-item">
-                        <div class="service-icon">
-                            <i class="fas fa-palette"></i>
-                        </div>
-                        <h3>Creation</h3>
-                        <p>I create unique visuals, music, and other creative content made to match any style or purpose</p>
-                        <ul class="service-features">
-                            <li><i class="fas fa-check"></i> Designs</li>
-                            <li><i class="fas fa-check"></i> Music Production</li>
-                            <li><i class="fas fa-check"></i> Video Editing</li>
-                            <li><i class="fas fa-check"></i> Content Creation</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="projects" class="projects section-reveal">
-            <div class="container">
-                <h2>Featured Projects</h2>
-                <p class="section-intro">Take a look at some of my recent work and achievements</p>
-                
-                <div class="projects-grid stagger-container">
-                    <div class="project-card stagger-item">
-                        <div class="project-image-container">
-                            <img src="https://raw.githubusercontent.com/ValFX123/ValFX123.github.io/main/discord_bot.png" alt="Advanced All-In-One Bot" class="project-image">
-                        </div>
-                        <div class="project-content">
-                            <h3 class="project-title">Advanced All-In-One Bot</h3>
-                            <p class="project-description">A powerful Discord bot with multiple features such as moderation, music, economy, and fun commands — all in one system.</p>
-                            <div class="project-tags">
-                                <span class="project-tag">JavaScript</span>
-                                <span class="project-tag">Discord.js</span>
-                                <span class="project-tag">API Integration</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="project-card stagger-item">
-                        <div class="project-image-container">
-                            <img src="https://raw.githubusercontent.com/ValFX123/ValFX123.github.io/main/sourmarket.png" alt="SourMarket All-In-One Bundle" class="project-image">
-                        </div>
-                        <div class="project-content">
-                            <h3 class="project-title">SourMarket All-In-One Bundle</h3>
-                            <p class="project-description">A custom Roblox-related shop package that includes a full-featured website and a Discord bot for managing sales, users, and automation.</p>
-                            <div class="project-tags">
-                                <span class="project-tag">HTML</span>
-                                <span class="project-tag">CSS</span>
-                                <span class="project-tag">Stripe</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="project-card stagger-item">
-                        <div class="project-image-container">
-                            <img src="https://raw.githubusercontent.com/ValFX123/ValFX123.github.io/main/ValFX-logo.png" alt="Portfolio Website" class="project-image">
-                        </div>
-                        <div class="project-content">
-                            <h3 class="project-title">Portfolio Website</h3>
-                            <p class="project-description">Stunning portfolio website with smooth animations, modern design, and optimized performance for showcasing creative work.</p>
-                            <div class="project-tags">
-                                <span class="project-tag">HTML/CSS</span>
-                                <span class="project-tag">JavaScript</span>
-                                <span class="project-tag">Animation</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="testimonials" class="testimonials section-reveal">
-            <div class="container">
-                <h2>Testimonials</h2>
-                <p class="section-intro">What clients and people say about my work</p>
-                
-                <div class="testimonial-carousel">
-                    <div class="carousel-track">
-                        <div class="testimonial-slide">
-                            <div class="testimonial-card">
-                                <div class="testimonial-header">
-                                    <div class="testimonial-avatar">
-                                        <i class="fas fa-user"></i>
-                                    </div>
-                                    <div class="testimonial-info">
-                                        <h4>Emir.DAM</h4>
-                                        <p class="testimonial-role">CEO, Fluxy©</p>
-                                        <span class="testimonial-badge">Discord Bot</span>
-                                    </div>
-                                </div>
-                                <div class="testimonial-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                </div>
-                                <p class="testimonial-text">"ValFX is incredibly skilled and very helpful. He really knows what he's doing and explained everything clearly. I learned a lot of useful and important things from him that made the whole process easier and better."</p>
-                                <div class="testimonial-verified">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Verified Client</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="testimonial-slide">
-                            <div class="testimonial-card">
-                                <div class="testimonial-header">
-                                    <div class="testimonial-avatar">
-                                        <i class="fas fa-user"></i>
-                                    </div>
-                                    <div class="testimonial-info">
-                                        <h4>PoppinPercs</h4>
-                                        <p class="testimonial-role">TrustPilot Review</p>
-                                        <span class="testimonial-badge">Customer</span>
-                                    </div>
-                                </div>
-                                <div class="testimonial-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                </div>
-                                <p class="testimonial-text">"Bought from them quite a while ago and all I can say is good things, even with a timezone difference they were quick to respond and the items for sale were listed at reasonable or below market price."</p>
-                                <div class="testimonial-verified">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Verified Client</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="testimonial-slide">
-                            <div class="testimonial-card">
-                                <div class="testimonial-header">
-                                    <div class="testimonial-avatar">
-                                        <i class="fas fa-user"></i>
-                                    </div>
-                                    <div class="testimonial-info">
-                                        <h4>Customer Fluxy</h4>
-                                        <p class="testimonial-role">Fluxy Reviews</p>
-                                        <span class="testimonial-badge">Verified</span>
-                                    </div>
-                                </div>
-                                <div class="testimonial-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                </div>
-                                <p class="testimonial-text">"Tickets are handled well and quickly, and everything always arrives as expected. I've bought here several times and have never been disappointed."</p>
-                                <div class="testimonial-verified">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Verified Client</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="contact" class="contact section-reveal">
-            <div class="container">
-                <h2>Get In Touch</h2>
-                <p class="contact-subtitle">If you need me for anything let me know!</p>
-                
-                <div class="contact-content">
-                    <div class="contact-info">
-                        <div class="contact-card stagger-item">
-                            <div class="contact-card-icon">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <h3>Email</h3>
-                            <a href="mailto:fluxy@valfx.com">fluxy@valfx.com</a>
-                            <p>Response within 24 hours</p>
-                        </div>
-                        
-                        <div class="contact-card stagger-item">
-                            <div class="contact-card-icon">
-                                <i class="fab fa-discord"></i>
-                            </div>
-                            <h3>Discord</h3>
-                            <a href="https://discord.gg/PMWJcVmmqF" target="_blank" rel="noopener noreferrer">Join my Discord</a>
-                            <p>Quick responses</p>
-                        </div>
-                        
-                        <div class="contact-card stagger-item">
-                            <div class="contact-card-icon">
-                                <i class="fab fa-github"></i>
-                            </div>
-                            <h3>GitHub</h3>
-                            <a href="https://github.com/valfx" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
-                            <p>Check out my code</p>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-form-container">
-                        <h3>Send Me a Message</h3>
-                        <form class="contact-form" id="contactForm">
-                            <div class="form-group">
-                                <label for="name">Name *</label>
-                                <input type="text" id="name" name="name" required placeholder="Your name">
-                                <span class="form-error"></span>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="email">Email *</label>
-                                <input type="email" id="email" name="email" required placeholder="your@email.com">
-                                <span class="form-error"></span>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="subject">Subject *</label>
-                                <input type="text" id="subject" name="subject" required placeholder="What's this about?">
-                                <span class="form-error"></span>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="message">Message *</label>
-                                <textarea id="message" name="message" rows="5" required placeholder="Tell me about your project..."></textarea>
-                                <span class="form-error"></span>
-                            </div>
-                            
-                            <button type="submit" class="form-submit-btn">
-                                <i class="fas fa-paper-plane"></i>
-                                <span>Send Message</span>
-                            </button>
-                            
-                            <div class="form-success" style="display: none;">
-                                <i class="fas fa-check-circle"></i>
-                                <p>Thank you! Your message has been sent successfully.</p>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
+        </div>
+    </section>
 
     <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>ValFX</h3>
-                    <p>Seller, Developer & Creator creating innovative solutions for communities and businesses.</p>
-                    <div class="footer-social">
-                        <a href="https://discord.gg/PMWJcVmmqF" target="_blank" title="Discord">
-                            <i class="fab fa-discord"></i>
-                        </a>
-                        <a href="https://github.com/valfx" target="_blank" title="GitHub">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="https://twitter.com/valfx" target="_blank" title="Twitter">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="mailto:fluxy@valfx.com" title="Email">
-                            <i class="fas fa-envelope"></i>
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="footer-section">
-                    <h3>Quick Links</h3>
-                    <ul class="footer-links">
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#about">About Me</a></li>
-                        <li><a href="#projects">Projects</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h3>Services</h3>
-                    <ul class="footer-links">
-                        <li><a href="#services">Selling</a></li>
-                        <li><a href="#services">Development</a></li>
-                        <li><a href="#services">Creation</a></li>
-                        <li><a href="#services">Custom Solutions</a></li>
-                    </ul>
-                </div>
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="https://discord.gg/yourserver" class="social-link" target="_blank">
+                    <i class="fab fa-discord"></i>
+                </a>
+                <a href="https://github.com/valfx" class="social-link" target="_blank">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://twitter.com/valfx" class="social-link" target="_blank">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="mailto:valfx@example.com" class="social-link">
+                    <i class="fas fa-envelope"></i>
+                </a>
             </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2025 ValFX. All rights reserved.</p>
-                <p class="footer-credit">Designed & Built with <i class="fas fa-heart"></i> by ValFX</p>
-            </div>
+            <p style="color: var(--text-secondary);">
+                © 2025 ValFX. All rights reserved.
+            </p>
         </div>
     </footer>
 
-    <script src="js/animations.js"></script>
-    <script src="js/carousel.js"></script>
-    <script src="js/script.js"></script>
+    <!-- SCROLL TO TOP -->
+    <div class="scroll-top" id="scrollTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        mobileMenuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const icon = mobileMenuToggle.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                const icon = mobileMenuToggle.querySelector('i');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times');
+            });
+        });
+
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        const scrollTop = document.getElementById('scrollTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                scrollTop.classList.add('visible');
+            } else {
+                scrollTop.classList.remove('visible');
+            }
+        });
+
+        scrollTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '0';
+                    entry.target.style.animation = 'fadeInUp 0.8s ease-out forwards';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.project-card, .skill-item, .service-card, .testimonial-card, .tech-item').forEach(card => {
+            observer.observe(card);
+        });
+
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero-content');
+            if (hero && scrolled < window.innerHeight) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+                hero.style.opacity = 1 - (scrolled / 700);
+            }
+        });
+
+        const animateCounter = (element) => {
+            const target = parseInt(element.getAttribute('data-target'));
+            const duration = 2000;
+            const increment = target / (duration / 16);
+            let current = 0;
+
+            const updateCounter = () => {
+                current += increment;
+                if (current < target) {
+                    element.textContent = Math.floor(current);
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    element.textContent = target;
+                }
+            };
+
+            updateCounter();
+        };
+
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumbers = entry.target.querySelectorAll('.stat-number');
+                    statNumbers.forEach(num => animateCounter(num));
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        const statsSection = document.getElementById('stats');
+        if (statsSection) {
+            statsObserver.observe(statsSection);
+        }
+
+        const contactForm = document.getElementById('contactForm');
+        const formSuccess = document.getElementById('formSuccess');
+
+        if (contactForm) {
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                
+                contactForm.style.display = 'none';
+                formSuccess.style.display = 'block';
+
+                
+                setTimeout(() => {
+                    contactForm.reset();
+                    contactForm.style.display = 'flex';
+                    formSuccess.style.display = 'none';
+                }, 5000);
+            });
+        }
+
+        const subtitle = document.querySelector('.hero .subtitle');
+        if (subtitle) {
+            const text = subtitle.textContent;
+            subtitle.textContent = '';
+            let i = 0;
+
+            const typeWriter = () => {
+                if (i < text.length) {
+                    subtitle.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 100);
+                }
+            };
+
+            setTimeout(typeWriter, 500);
+        }
+
+        console.log('%c Welcome to ValFX Portfolio! ', 'background: #dc143c; color: #fff; font-size: 20px; padding: 10px; border-radius: 5px;');
+    </script>
 </body>
 </html>
