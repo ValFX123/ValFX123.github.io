@@ -525,6 +525,69 @@
             border: 1px solid var(--border-color);
         }
 
+        .servers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .server-card {
+            background: var(--card-bg);
+            padding: 3rem 2.5rem;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .server-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary-red);
+        }
+
+        .server-icon {
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .server-icon img {
+            width: 80px;
+            height: 80px;
+            border-radius: 15px;
+            border: 2px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .server-card:hover .server-icon img {
+            border-color: var(--primary-red);
+            box-shadow: 0 0 20px rgba(220, 20, 60, 0.5);
+        }
+
+        .server-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .server-card p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .server-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .server-buttons .btn {
+            width: 100%;
+            justify-content: center;
+        }
 
         .testimonials-grid {
             display: grid;
@@ -695,10 +758,6 @@
             font-size: 1.5rem;
         }
 
-        .resume-download {
-            margin-top: 3rem;
-        }
-
         footer {
             background: var(--black);
             border-top: 1px solid var(--border-color);
@@ -832,6 +891,10 @@
                 grid-template-columns: 1fr;
             }
 
+            .servers-grid {
+                grid-template-columns: 1fr;
+            }
+
             .testimonials-grid {
                 grid-template-columns: 1fr;
             }
@@ -852,6 +915,7 @@
                 <li><a href="#about">About</a></li>
                 <li><a href="#services">Services</a></li>
                 <li><a href="#projects">Projects</a></li>
+                <li><a href="#servers">Servers</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
             <button class="mobile-menu-toggle" id="mobileMenuToggle">
@@ -866,7 +930,7 @@
             <h1>ValFX</h1>
             <p class="subtitle">Seller | Developer | Creator </p>
             <p class="description">
-                I’m a seller, developer, and creator who loves turning ideas into real projects. 
+                I'm a seller, developer, and creator who loves turning ideas into real projects. 
                 I build websites, design digital experiences, and always focus on making things high-quality and effective.
             </p>
             <div class="cta-buttons">
@@ -887,7 +951,7 @@
             <div class="about-text">
                 <h3>Who I Am</h3>
                 <p>
-                    I’m ValFX, a passionate developer, seller, and creator who loves making great digital experiences. 
+                    I'm ValFX, a passionate developer, seller, and creator who loves making great digital experiences. 
                     With years of experience in all three areas, I turn ideas into real projects using the right tools and creativity.
                 </p>
                 <p>
@@ -934,12 +998,12 @@
                 </div>
                 <div class="stat-card">
                     <i class="fas fa-project-diagram"></i>
-                    <div class="stat-number" data-target="300+">0</div>
+                    <div class="stat-number" data-target="300">0</div>
                     <div class="stat-label">Projects Completed</div>
                 </div>
                 <div class="stat-card">
                     <i class="fas fa-smile"></i>
-                    <div class="stat-number" data-target="2000+">0</div>
+                    <div class="stat-number" data-target="2000">0</div>
                     <div class="stat-label">Happy Clients</div>
                 </div>
                 <div class="stat-card">
@@ -998,108 +1062,151 @@
         </div>
     </section>
     
-<section id="services">
-    <h2 class="section-title">Services</h2>
-    <p class="section-subtitle">What I can do for you</p>
-    <div class="services-grid">
-        <div class="service-card">
-            <div class="service-icon">
-                <i class="fas fa-shopping-cart"></i>
+    <section id="services">
+        <h2 class="section-title">Services</h2>
+        <p class="section-subtitle">What I can do for you</p>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <h3>Selling</h3>
+                <p>I offer a wide range of products and services, including Discord Nitro, custom bots, designs, accounts, and more.</p>
+                <ul class="service-features">
+                    <li>Quick</li>
+                    <li>Guided</li>
+                    <li>Cheap Prices</li>
+                    <li>Always helpful</li>
+                </ul>
             </div>
-            <h3>Selling</h3>
-            <p>I offer a wide range of products and services, including Discord Nitro, custom bots, designs, accounts, and more.</p>
-            <ul class="service-features">
-                <li>Quick</li>
-                <li>Guided</li>
-                <li>Cheap Prices</li>
-                <li>Always helpful</li>
-            </ul>
-        </div>
-        <div class="service-card">
-            <div class="service-icon">
-                <i class="fas fa-code"></i>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3>Development</h3>
+                <p>I develop all kinds of projects like Discord bots and websites, and also help people with their games and other work..</p>
+                <ul class="service-features">
+                    <li>Web Development</li>
+                    <li>Client Support</li>
+                    <li>Project Assistence</li>
+                    <li>Custom Solutions</li>
+                </ul>
             </div>
-            <h3>Development</h3>
-            <p>I develop all kinds of projects like Discord bots and websites, and also help people with their games and other work..</p>
-            <ul class="service-features">
-                <li>Web Development</li>
-                <li>Client Support</li>
-                <li>Project Assistence</li>
-                <li>Custom Solutions</li>
-            </ul>
-        </div>
-        <div class="service-card">
-            <div class="service-icon">
-                <i class="fas fa-palette"></i>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <h3>Creation</h3>
+                <p>I create unique visuals, music, and other creative content made to match any style or purpose</p>
+                <ul class="service-features">
+                    <li>Designs</li>
+                    <li>Music Production</li>
+                    <li>Video Editing</li>
+                    <li>Content Creation</li>
+                </ul>
             </div>
-            <h3>Creation</h3>
-            <p>I create unique visuals, music, and other creative content made to match any style or purpose</p>
-            <ul class="service-features">
-                <li>Designs</li>
-                <li>Music Production</li>
-                <li>Video Editing</li>
-                <li>Content Creation</li>
-            </ul>
         </div>
-    </div>
-</section>
+    </section>
     
-<section id="projects">
-    <h2 class="section-title">Featured Projects</h2>
-    <p class="section-subtitle">Take a look at some of my recent work and achievements</p>
-    <div class="projects-grid">
+    <section id="projects">
+        <h2 class="section-title">Featured Projects</h2>
+        <p class="section-subtitle">Take a look at some of my recent work and achievements</p>
+        <div class="projects-grid">
+            <div class="project-card">
+                <img src="https://raw.githubusercontent.com/ValFX123/ValFX123.github.io/main/discord_bot.png" alt="Advanced All-In-One Bot" class="project-image">
+                <div class="project-content">
+                    <h3 class="project-title">Advanced All-In-One Bot</h3>
+                    <p class="project-description">
+                        A powerful Discord bot with multiple features such as moderation, music, economy, and fun commands — 
+                        all in one system.
+                    </p>
+                    <div class="project-tags">
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">Discord.js</span>
+                        <span class="tag">API Integration</span>
+                    </div>
+                </div>
+            </div>
 
-        <div class="project-card">
-            <img src="https://raw.githubusercontent.com/ValFX123/ValFX123.github.io/main/discord_bot.png" alt="Advanced All-In-One Bot" class="project-image">
-            <div class="project-content">
-                <h3 class="project-title">Advanced All-In-One Bot</h3>
-                <p class="project-description">
-                    A powerful Discord bot with multiple features such as moderation, music, economy, and fun commands — 
-                    all in one system.
-                </p>
-                <div class="project-tags">
-                    <span class="tag">JavaScript</span>
-                    <span class="tag">Discord.js</span>
-                    <span class="tag">API Integration</span>
+            <div class="project-card">
+                <img src="https://raw.githubusercontent.com/ValFX123/ValFX123.github.io/main/sourmarket.png" alt="SourMarket All-In-One Bundle" class="project-image">
+                <div class="project-content">
+                    <h3 class="project-title">SourMarket All-In-One Bundle</h3>
+                    <p class="project-description">
+                        A custom Roblox-related shop package that includes a full-featured website 
+                        and a Discord bot for managing sales, users, and automation.          
+                    </p>
+                    <div class="project-tags">
+                        <span class="tag">HTML</span>
+                        <span class="tag">CSS</span>
+                        <span class="tag">Stripe</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <img src="https://raw.githubusercontent.com/ValFX123/ValFX123.github.io/main/ValFX-logo.png" alt="Portfolio Website" class="project-image">
+                <div class="project-content">
+                    <h3 class="project-title">Portfolio Website</h3>
+                    <p class="project-description">
+                        Stunning portfolio website with smooth animations, modern design, and 
+                        optimized performance for showcasing creative work.
+                    </p>
+                    <div class="project-tags">
+                        <span class="tag">HTML/CSS</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">Animation</span>
+                    </div>
                 </div>
             </div>
         </div>
+    </section>
 
-        <div class="project-card">
-            <img src="https://raw.githubusercontent.com/ValFX123/ValFX123.github.io/main/sourmarket.png" alt="SourMarket All-In-One Bundle" class="project-image">
-            <div class="project-content">
-                <h3 class="project-title">SourMarket All-In-One Bundle</h3>
-                <p class="project-description">
-                    A custom Roblox-related shop package that includes a full-featured website 
-                    and a Discord bot for managing sales, users, and automation.          
-                </p>
-                <div class="project-tags">
-                    <span class="tag">HTML</span>
-                    <span class="tag">CSS</span>
-                    <span class="tag">Stripe</span>
+    <section id="servers">
+        <h2 class="section-title">My Servers</h2>
+        <p class="section-subtitle">I own and operate multiple successful platforms including a FiveM server and development service shop</p>
+        <div class="servers-grid">
+            <div class="server-card">
+                <div class="server-icon">
+                    <img src="https://raw.githubusercontent.com/ValFX123/ValFX123.github.io/main/damsko-icon.png" alt="Damsko Roleplay">
+                </div>
+                <h3>Damsko Roleplay</h3>
+                <p>High-quality FiveM roleplay server with custom scripts and active community</p>
+                <div class="server-buttons">
+                    <a href="https://discord.gg/damsko" class="btn btn-primary" target="_blank">
+                        <i class="fab fa-discord"></i> Join Discord
+                    </a>
+                </div>
+            </div>
+            <div class="server-card">
+                <div class="server-icon">
+                    <img src="https://raw.githubusercontent.com/ValFX123/ValFX123.github.io/main/fluxy-icon.png" alt="Fluxy Service">
+                </div>
+                <h3>Fluxy Service</h3>
+                <p>Professional development services including custom Discord bots and web applications</p>
+                <div class="server-buttons">
+                    <a href="https://discord.gg/fluxy" class="btn btn-primary" target="_blank">
+                        <i class="fab fa-discord"></i> Join Discord
+                    </a>
+                    <a href="https://fluxy.com" class="btn btn-secondary" target="_blank">
+                        <i class="fas fa-globe"></i> Visit Website
+                    </a>
+                </div>
+            </div>
+            <div class="server-card">
+                <div class="server-icon">
+                    <img src="https://raw.githubusercontent.com/ValFX123/ValFX123.github.io/main/emir-icon.png" alt="Emir's Server">
+                </div>
+                <h3>Emir's Server</h3>
+                <p>Collaborative community server with exclusive content and resources</p>
+                <div class="server-buttons">
+                    <a href="https://discord.gg/emir" class="btn btn-primary" target="_blank">
+                        <i class="fab fa-discord"></i> Join Discord
+                    </a>
                 </div>
             </div>
         </div>
-
-        <div class="project-card">
-            <img src="https://raw.githubusercontent.com/ValFX123/ValFX123.github.io/main/ValFX-logo.png" alt="Portfolio Website" class="project-image">
-            <div class="project-content">
-                <h3 class="project-title">Portfolio Website</h3>
-                <p class="project-description">
-                    Stunning portfolio website with smooth animations, modern design, and 
-                    optimized performance for showcasing creative work.
-                </p>
-                <div class="project-tags">
-                    <span class="tag">HTML/CSS</span>
-                    <span class="tag">JavaScript</span>
-                    <span class="tag">Animation</span>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</section>
-
+    </section>
 
     <section id="testimonials" style="background: var(--darker-bg);">
         <h2 class="section-title">Testimonials</h2>
@@ -1114,7 +1221,7 @@
                     <i class="fas fa-star"></i>
                 </div>
                 <p class="testimonial-text">
-                    "ValFX is incredibly skilled and very helpful. He really knows what he’s doing and explained everything clearly. I learned a lot of useful and important things from him that made the whole process easier and better."
+                    "ValFX is incredibly skilled and very helpful. He really knows what he's doing and explained everything clearly. I learned a lot of useful and important things from him that made the whole process easier and better."
                 </p>
                 <div class="testimonial-author">
                     <div class="author-info">
@@ -1150,7 +1257,7 @@
                     <i class="fas fa-star"></i>
                 </div>
                 <p class="testimonial-text">
-                    "Tickets are handled well and quickly, and everything always arrives as expected. I’ve bought here several times and have never been disappointed."
+                    "Tickets are handled well and quickly, and everything always arrives as expected. I've bought here several times and have never been disappointed."
                 </p>
                 <div class="testimonial-author">
                     <div class="author-info">
@@ -1205,18 +1312,13 @@
                             <i class="fab fa-discord"></i>
                             <span>Join my Discord</span>
                         </a>
-                        <a href="mailto:valfx@example.com" class="contact-link">
+                        <a href="mailto:fluxy@valfx.com" class="contact-link">
                             <i class="fas fa-envelope"></i>
                             <span>fluxy@valfx.com</span>
                         </a>
                         <a href="https://github.com/valfx" class="contact-link" target="_blank">
                             <i class="fab fa-github"></i>
                             <span>GitHub Profile</span>
-                        </a>
-                    </div>
-                    <div class="resume-download">
-                        <a href="#" class="btn btn-secondary" style="width: 100%; justify-content: center;">
-                            <i class="fas fa-download"></i> Download Resume
                         </a>
                     </div>
                 </div>
@@ -1246,7 +1348,6 @@
         </div>
     </footer>
 
-    <!-- SCROLL TO TOP -->
     <div class="scroll-top" id="scrollTop">
         <i class="fas fa-arrow-up"></i>
     </div>
@@ -1324,7 +1425,7 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.project-card, .skill-item, .service-card, .testimonial-card, .tech-item').forEach(card => {
+        document.querySelectorAll('.project-card, .skill-item, .service-card, .testimonial-card, .tech-item, .server-card').forEach(card => {
             observer.observe(card);
         });
 
@@ -1338,15 +1439,17 @@
         });
 
         const animateCounter = (element) => {
-            const target = parseInt(element.getAttribute('data-target'));
+            const target = element.getAttribute('data-target');
+            const isPlus = target.includes('+');
+            const numericTarget = parseInt(target);
             const duration = 2000;
-            const increment = target / (duration / 16);
+            const increment = numericTarget / (duration / 16);
             let current = 0;
 
             const updateCounter = () => {
                 current += increment;
-                if (current < target) {
-                    element.textContent = Math.floor(current);
+                if (current < numericTarget) {
+                    element.textContent = Math.floor(current) + (isPlus ? '+' : '');
                     requestAnimationFrame(updateCounter);
                 } else {
                     element.textContent = target;
@@ -1378,11 +1481,9 @@
             contactForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 
-                
                 contactForm.style.display = 'none';
                 formSuccess.style.display = 'block';
 
-                
                 setTimeout(() => {
                     contactForm.reset();
                     contactForm.style.display = 'flex';
