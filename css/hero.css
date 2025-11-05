@@ -1,0 +1,383 @@
+/* Hero Section */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8rem 2rem 4rem;
+    position: relative;
+    background: #000000;
+    overflow: hidden;
+}
+
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.code-rain {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.code-line {
+    position: absolute;
+    top: -50px;
+    color: rgba(255, 255, 255, 0.3);
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    animation: codeRainFall 10s linear infinite;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.2rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    margin-bottom: 2rem;
+    animation: fadeInDown 1s ease-out;
+}
+
+.hero-badge i {
+    color: #ffffff;
+    font-size: 1rem;
+}
+
+.hero-badge span {
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.hero-content {
+    text-align: center;
+    max-width: 900px;
+    width: 100%;
+    position: relative;
+    z-index: 10;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-section {
+    animation: fadeInUp 1s ease-out;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-image-container {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 2rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.profile-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
+    transition: all 0.4s ease;
+    position: relative;
+    z-index: 2;
+    object-fit: cover;
+}
+
+.profile-ring {
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    right: -15px;
+    bottom: -15px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    /* animation removed */
+}
+
+.profile-ring-2 {
+    position: absolute;
+    top: -25px;
+    left: -25px;
+    right: -25px;
+    bottom: -25px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    /* animation removed */
+}
+
+/* Hover effects removed */
+
+.hero-title {
+    font-size: 4.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    position: relative;
+    animation: fadeInUp 1s ease-out 0.2s both;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    width: 100%;
+}
+
+.title-main {
+    background: linear-gradient(135deg, #ffffff, #e0e0e0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.title-cursor {
+    color: #ffffff;
+    animation: cursorBlink 1s infinite;
+    font-weight: 300;
+}
+
+.hero-text-animated {
+    animation: fadeInUp 1s ease-out 0.4s both;
+}
+
+.hero-description {
+    margin-bottom: 2.5rem;
+    animation: fadeInUp 1s ease-out 0.5s both;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-description p {
+    font-size: 1.2rem;
+    color: #aaaaaa;
+    font-weight: 300;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.hero-stats-mini {
+    display: flex;
+    gap: 3rem;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    animation: fadeInUp 1s ease-out 0.6s both;
+    width: 100%;
+}
+
+.stat-mini {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.stat-mini-number {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #ffffff, #cccccc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.stat-mini-label {
+    font-size: 0.85rem;
+    color: #888888;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.hero-status {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+    animation: fadeInUp 1s ease-out 0.7s both;
+    width: 100%;
+}
+
+.status-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.8rem 2rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.status-badge.available {
+    border-color: rgba(76, 175, 80, 0.4);
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.15) 0%, rgba(76, 175, 80, 0.05) 100%);
+}
+
+.status-badge.available i {
+    color: #4caf50;
+    font-size: 0.7rem;
+    animation: statusPulse 2s ease-in-out infinite;
+}
+
+.status-badge span {
+    font-size: 1rem;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.status-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.2);
+    border-color: rgba(76, 175, 80, 0.6);
+}
+
+.hero-social-minimal {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    animation: fadeInUp 1s ease-out 0.9s both;
+    width: 100%;
+}
+
+.hero-social-minimal a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.hero-social-minimal a:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.scroll-indicator {
+    position: fixed;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    animation: fadeInUp 1s ease-out 1s both;
+    z-index: 15;
+    width: auto;
+    margin: 0;
+}
+
+.mouse {
+    width: 24px;
+    height: 40px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    position: relative;
+}
+
+.wheel {
+    width: 3px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 2px;
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: scrollWheel 2s infinite;
+}
+
+.scroll-indicator p {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    animation: fadeInUp 1s ease-out 0.8s both;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.hero-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    animation: particleFloat 8s linear infinite;
+}
+
+.particle:nth-child(1) {
+    left: 10%;
+    animation-delay: 0s;
+    animation-duration: 6s;
+}
+
+.particle:nth-child(2) {
+    left: 20%;
+    animation-delay: 2s;
+    animation-duration: 8s;
+}
+
+.particle:nth-child(3) {
+    left: 70%;
+    animation-delay: 4s;
+    animation-duration: 7s;
+}
+
+.particle:nth-child(4) {
+    left: 80%;
+    animation-delay: 1s;
+    animation-duration: 9s;
+}
+
+.particle:nth-child(5) {
+    left: 50%;
+    animation-delay: 3s;
+    animation-duration: 5s;
+}
+
